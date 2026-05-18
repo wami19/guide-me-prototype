@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>GUIDE-Me · VSU Isabel | Secure Login</title>
+  <!-- Google Fonts & simple reset -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, sans-serif;
+      background-color: #000000;  /* darkGreen brand base */
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    /* main container replicating KeyboardAvoidingView + ScrollView feel */
+    .login-container {
+      width: 100%;
+      max-width: 430px;
+	  height: 932px;
+      background-color: #1B5E20;
+      border-radius: 32px;
+      box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+    }
+
+    .scroll-area {
+	  flex: 1;
+	  overflow-y: auto;
+	  padding-bottom: 24px;
+	  scroll-behavior: smooth;
+	}
+
+    /* hide scrollbar for cleaner look but keep functionality */
+    .scroll-view::-webkit-scrollbar {
+      width: 5px;
+    }
+    .scroll-view::-webkit-scrollbar-track {
+      background: #2E7D32;
+      border-radius: 10px;
+    }
+    .scroll-view::-webkit-scrollbar-thumb {
+      background: #F9A825;
+      border-radius: 10px;
+    }
+
+    /* header section */
+    .logo-section {
+      text-align: center;
+      padding-top: 48px;
+      padding-bottom: 24px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+    .logo-icon {
+      width: 100px;
+      height: 100px;
+      background: #F9A825;
+      border-radius: 32px;
+      margin: 0 auto 16px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+    }
+    .logo-icon svg {
+      width: 70px;
+      height: 70px;
+    }
+    .logo-placeholder {
+      font-size: 48px;
+      font-weight: 800;
+      color: #1B5E20;
+      letter-spacing: 2px;
+    }
+    .header-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-top: 8px;
+      letter-spacing: -0.3px;
+    }
+    .header-sub {
+      font-size: 14px;
+      color: #A5D6A7;
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    /* card styling (exactly like RN paper) */
+    .card {
+      background-color: #FFFFFF;
+      margin: 8px 16px 20px 16px;
+      border-radius: 24px;
+      padding: 28px 24px 32px 24px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+    }
+
+    /* field wrapper */
+    .field-group {
+      margin-bottom: 20px;
+    }
+    .label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+    .field-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1B5E20;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .forgot-link {
+      font-size: 12px;
+      font-weight: 600;
+      color: #2E7D32;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .forgot-link:hover {
+      opacity: 0.8;
+      text-decoration: underline;
+    }
+    .input-field {
+      width: 100%;
+      background-color: #F9FBF9;
+      border: 1.5px solid #A5D6A7;
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-size: 15px;
+      font-family: 'Inter', monospace;
+      color: #1A1A1A;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+    .input-field:focus {
+      border-color: #F9A825;
+      box-shadow: 0 0 0 2px rgba(249,168,37,0.2);
+      background-color: #FFFFFF;
+    }
+    .input-error {
+      border-color: #C62828;
+      background-color: #FFEBEE;
+    }
+    .error-msg {
+      font-size: 11px;
+      color: #C62828;
+      margin-top: 6px;
+      font-style: italic;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* login button */
+    .login-btn {
+      background-color: #F9A825;
+      border-radius: 40px;
+      padding: 16px 20px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 12px;
+      margin-bottom: 24px;
+      border: none;
+      width: 100%;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .login-btn:hover:not(:disabled) {
+      background-color: #f5bc42;
+      transform: scale(0.98);
+    }
+    .login-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+    .login-btn-text {
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: 2px;
+      color: #1B5E20;
+    }
+    .spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #1B5E20;
+      border-top-color: #F9A825;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* signup row */
+    .signup-row {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      margin-top: 8px;
+    }
+    .signup-text {
+      font-size: 13px;
+      color: #777777;
+    }
+    .signup-link {
+      font-size: 13px;
+      font-weight: 700;
+      color: #2E7D32;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .signup-link:hover {
+      color: #1B5E20;
+      text-decoration: underline;
+    }
+
+    /* privacy footer */
+    .privacy-footer {
+      text-align: center;
+      margin-top: 20px;
+      padding-bottom: 24px;
+    }
+    .privacy-text {
+      font-size: 11px;
+      color: #A5D6A7;
+      font-style: italic;
+      background: rgba(0,0,0,0.2);
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 40px;
+    }
+
+    /* custom alert simulation using modal (instead of window.alert for better UX) 
+       we'll use a toast-like modal to match RN Alert but cross-platform friendly */
+    .custom-alert-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(3px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.2s ease, visibility 0s linear 0.2s;
+    }
+    .custom-alert-overlay.active {
+      visibility: visible;
+      opacity: 1;
+      transition: opacity 0.2s ease, visibility 0s linear 0s;
+    }
+    .alert-modal {
+      background: white;
+      width: 280px;
+      border-radius: 28px;
+      padding: 24px 20px 20px 20px;
+      text-align: center;
+      box-shadow: 0 20px 35px rgba(0,0,0,0.3);
+    }
+    .alert-title {
+      font-weight: 700;
+      font-size: 18px;
+      color: #1B5E20;
+      margin-bottom: 8px;
+    }
+    .alert-message {
+      font-size: 14px;
+      color: #333;
+      margin: 16px 0;
+      line-height: 1.4;
+    }
+    .alert-btn {
+      background: #F9A825;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-weight: bold;
+      margin-top: 8px;
+      cursor: pointer;
+      color: #1B5E20;
+      font-size: 14px;
+    }
+    .flex-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    button {
+      background: none;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+<div class="login-container">
+  <div class="scroll-view">
+    <!-- header section with SVG logo replica -->
+    <div class="logo-section">
+		<img src="../assets/guide_me_logo_icon_v2.png"
+				 alt="Guide Me Logo"
+				 width="120"
+				 height="120"
+				 style="object-fit: contain;">
+      <!-- custom SVG icon similar to GUIDE-Me logo 
+		<div class="logo-icon">        
+			<svg width="70" height="70" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+			  <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#1B5E20" stroke-width="1.2" fill="#F9A825" />
+			  <path d="M2 17L12 22L22 17" stroke="#1B5E20" stroke-width="1.2" fill="none" />
+			  <path d="M2 12L12 17L22 12" stroke="#1B5E20" stroke-width="1.2" fill="none" />
+			  <circle cx="12" cy="12" r="2" fill="#1B5E20" />
+			  <path d="M12 7L12 12L16 14" stroke="#1B5E20" stroke-width="1.2" fill="none" />
+			</svg>		
+		</div>
+		-->				
+      <div class="header-title">Welcome Back</div>
+      <div class="header-sub">GUIDE-Me · VSU Isabel</div>
+    </div>
+
+    <!-- Card (form) -->
+    <div class="card">
+      <!-- Email Field -->
+      <div class="field-group">
+        <div class="label-row">
+          <label class="field-label">Email Address</label>
+        </div>
+        <input type="email" id="emailInput" class="input-field" placeholder="e.g. juan@vsu.edu.ph" autocomplete="email" value="">
+        <div id="emailError" class="error-msg" style="display: none;"></div>
+      </div>
+
+      <!-- Password Field + Forgot Row -->
+      <div class="field-group">
+        <div class="label-row">
+          <label class="field-label">Password</label>
+          <button id="forgotBtn" class="forgot-link" type="button">Forgot Password?</button>
+        </div>
+        <input type="password" id="passwordInput" class="input-field" placeholder="Enter your password" autocomplete="current-password">
+        <div id="passwordError" class="error-msg" style="display: none;"></div>
+      </div>
+
+      <!-- Login Button -->
+      <button id="loginBtn" class="login-btn">
+        <span id="loginBtnText" class="login-btn-text">Log In</span>
+        <span id="loginSpinner" style="display: none;" class="spinner"></span>
+      </button>
+
+      <!-- Signup row -->
+      <div class="signup-row">
+        <span class="signup-text">No account? </span>
+        <button id="signupLinkBtn" class="signup-link">Sign Up</button>
+      </div>
+    </div>
+
+    <!-- Privacy footer -->
+    <div class="privacy-footer">
+      <div class="privacy-text">🔒 Your data is protected under RA 10173.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Custom Alert Overlay (cross-platform simulation) -->
+<div id="alertOverlay" class="custom-alert-overlay">
+  <div class="alert-modal">
+    <div class="alert-title" id="alertTitle">Alert</div>
+    <div class="alert-message" id="alertMsg">Message</div>
+    <button id="alertConfirmBtn" class="alert-btn">OK</button>
+  </div>
+</div>
+
+<script>
+  // ------------------------------
+  //  GUIDE-Me Web Client (Zero-Trust simulation)
+  //  Fully mimics React Native login flow:
+  //  - validation, Firebase auth simulation, approval logic
+  //  - For demo purposes, we simulate Firebase & Firestore behavior
+  //  - No actual backend keys required, but logic replicates the exact
+  //    behavior: email/password + status approval check.
+  //  - In a real scenario, replace mock functions with Firebase web SDK.
+  // ------------------------------
+
+  // DOM elements
+  const emailInput = document.getElementById('emailInput');
+  const passwordInput = document.getElementById('passwordInput');
+  const emailErrorDiv = document.getElementById('emailError');
+  const passwordErrorDiv = document.getElementById('passwordError');
+  const loginBtn = document.getElementById('loginBtn');
+  const loginBtnTextSpan = document.getElementById('loginBtnText');
+  const loginSpinner = document.getElementById('loginSpinner');
+  const forgotBtn = document.getElementById('forgotBtn');
+  const signupLinkBtn = document.getElementById('signupLinkBtn');
+
+  // Alert overlay components
+  const alertOverlay = document.getElementById('alertOverlay');
+  const alertTitleSpan = document.getElementById('alertTitle');
+  const alertMsgSpan = document.getElementById('alertMsg');
+  const alertConfirmBtn = document.getElementById('alertConfirmBtn');
+
+  // Helper cross-platform alert (matches original showAlert)
+  function showAlert(title, message) {
+    alertTitleSpan.innerText = title;
+    alertMsgSpan.innerText = message;
+    alertOverlay.classList.add('active');
+  }
+
+  function closeAlert() {
+    alertOverlay.classList.remove('active');
+  }
+
+  alertConfirmBtn.addEventListener('click', closeAlert);
+  // also clicking on overlay background can close (optional)
+  alertOverlay.addEventListener('click', (e) => {
+    if (e.target === alertOverlay) closeAlert();
+  });
+
+  // ------------------------- Mock Firebase Backend (simulates Firestore users & auth)
+  // For demo purposes we store an "approved" and "pending" user to replicate zero-trust.
+  // This matches login.tsx logic where after signIn, we check doc status === 'approved'
+  // In real production, integrate with Firebase v9+ web: auth, firestore.
+  // The mock state ensures the same behaviour: email/password validation, approval check.
+
+  // User database (simulated Firestore users collection)
+  // passwords are stored in plain for demo, but auth is simulated via signInWithEmailAndPassword mock
+  const MOCK_USERS = {
+    "approved@vsu.edu.ph": {
+      uid: "user-xyz-approved",
+      email: "approved@vsu.edu.ph",
+      password: "Pass123!",      // actual demo pass
+      status: "approved",
+      name: "Juan Dela Cruz"
+    },
+    "pending@vsu.edu.ph": {
+      uid: "user-pending-456",
+      email: "pending@vsu.edu.ph",
+      password: "pending123",
+      status: "pending",
+      name: "Pending User"
+    },
+    "blocked@vsu.edu.ph": {
+      uid: "user-blocked",
+      email: "blocked@vsu.edu.ph",
+      password: "blockme",
+      status: "rejected",
+      name: "Blocked"
+    }
+  };
+
+  // mock function for signInWithEmailAndPassword (async)
+  async function mockSignIn(email, password) {
+    // normalize email
+    const normalizedEmail = email.trim().toLowerCase();
+    const userRecord = MOCK_USERS[normalizedEmail];
+    if (!userRecord) {
+      const err = new Error("user not found");
+      err.code = "auth/user-not-found";
+      throw err;
+    }
+    if (userRecord.password !== password) {
+      const err = new Error("wrong password");
+      err.code = "auth/wrong-password";
+      throw err;
+    }
+    // success - return credential-like object
+    return { user: { uid: userRecord.uid, email: normalizedEmail } };
+  }
+
+  // mock getDoc from firestore (users collection)
+  async function mockGetUserDoc(uid) {
+    // find user by uid mapping (simple)
+    let foundUser = null;
+    for (let key in MOCK_USERS) {
+      if (MOCK_USERS[key].uid === uid) {
+        foundUser = MOCK_USERS[key];
+        break;
+      }
+    }
+    if (foundUser) {
+      return {
+        exists: () => true,
+        data: () => ({ status: foundUser.status, email: foundUser.email })
+      };
+    } else {
+      return { exists: () => false };
+    }
+  }
+
+  // mock sendPasswordResetEmail (forgot password)
+  async function mockSendResetEmail(email) {
+    const normalized = email.trim().toLowerCase();
+    if (!MOCK_USERS[normalized]) {
+      // we still simulate success but for UI we could show error anyway, but original sends error toast.
+      // but we mimic: if user not exist, still "Could not send reset email" as per original? Actually original catches and shows error.
+      // we'll follow the logic: if fails, throw.
+      if (!MOCK_USERS[normalized]) {
+        throw new Error("email not registered");
+      }
+    }
+    // success: mock reset link
+    console.log(`Reset link sent to ${normalized}`);
+    return true;
+  }
+
+  // ------------------------------
+  // validation (exactly from original)
+  function validateForm() {
+    const email = emailInput.value;
+    const password = passwordInput.value;
+    let errors = {};
+
+    if (!email.trim()) {
+      errors.email = "Email address is required.";
+    } else if (!/\S+@\S+\.\S+/.test(email.trim())) {
+      errors.email = "Enter a valid email.";
+    }
+    if (!password) {
+      errors.password = "Password is required.";
+    }
+
+    // display UI errors
+    if (errors.email) {
+      emailErrorDiv.innerText = errors.email;
+      emailErrorDiv.style.display = "flex";
+      emailInput.classList.add("input-error");
+    } else {
+      emailErrorDiv.style.display = "none";
+      emailInput.classList.remove("input-error");
+    }
+
+    if (errors.password) {
+      passwordErrorDiv.innerText = errors.password;
+      passwordErrorDiv.style.display = "flex";
+      passwordInput.classList.add("input-error");
+    } else {
+      passwordErrorDiv.style.display = "none";
+      passwordInput.classList.remove("input-error");
+    }
+    return Object.keys(errors).length === 0;
+  }
+
+  // clear errors when typing (optional UX)
+  emailInput.addEventListener('input', () => {
+    emailErrorDiv.style.display = "none";
+    emailInput.classList.remove("input-error");
+  });
+  passwordInput.addEventListener('input', () => {
+    passwordErrorDiv.style.display = "none";
+    passwordInput.classList.remove("input-error");
+  });
+
+  // loading state management
+  function setLoading(loading) {
+    if (loading) {
+      loginBtn.disabled = true;
+      loginBtnTextSpan.style.display = "none";
+      loginSpinner.style.display = "inline-block";
+    } else {
+      loginBtn.disabled = false;
+      loginBtnTextSpan.style.display = "inline";
+      loginSpinner.style.display = "none";
+    }
+  }
+
+  // ---------- HANDLE LOGIN (full zero-trust flow) ----------
+  async function handleLogin() {
+    if (!validateForm()) return;
+
+    setLoading(true);
+    const emailRaw = emailInput.value;
+    const passwordRaw = passwordInput.value;
+    const normalizedEmail = emailRaw.trim().toLowerCase();
+
+    try {
+      // Step 1: sign in with email/password (mock Firebase auth)
+      const credential = await mockSignIn(normalizedEmail, passwordRaw);
+      // Step 2: fetch user document from Firestore
+      const userDocSnap = await mockGetUserDoc(credential.user.uid);
+
+      if (!userDocSnap.exists()) {
+        showAlert("Account Not Found", "Your account record is missing.");
+        setLoading(false);
+        return;
+      }
+
+      const userData = userDocSnap.data();
+      // Step 3: Zero-trust status check (must be 'approved')
+      if (userData.status !== "approved") {
+        showAlert("Access Denied", "Your account is pending admin approval.");
+        // sign out locally: just show message, no actual session persists in mock
+        setLoading(false);
+        return;
+      }
+
+      // ✅ Success
+      showAlert("Login Successful ✅", "Redirecting to your dashboard...");
+      // simulate redirect (router.replace('/')): in browser we can go to a placeholder dashboard
+      setTimeout(() => {
+        // For demo: redirect to a mock dashboard page (or you can replace with '#')
+        // According to the original flow, router.replace goes to index (dashboard)
+        window.location.href = "index.html";
+      }, 1200);
+    } catch (err) {
+      let message = "Incorrect email or password.";
+      if (err.code === "auth/user-not-found") message = "No account found with this email.";
+      else if (err.code === "auth/wrong-password") message = "Incorrect password.";
+      else if (err.code === "auth/too-many-requests") message = "Too many attempts. Please wait.";
+      else {
+        // fallback for any mock error
+        if (err.message === "user not found") message = "No account found with this email.";
+        else if (err.message === "wrong password") message = "Incorrect password.";
+      }
+      showAlert("Login Failed", message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // Forgot password logic (sends reset email using current email field)
+  async function handleForgotPassword() {
+    const emailVal = emailInput.value.trim();
+    if (!emailVal) {
+      showAlert("Enter Email", "Please type your email address first.");
+      return;
+    }
+    if (!/\S+@\S+\.\S+/.test(emailVal)) {
+      showAlert("Invalid Email", "Please enter a valid email address before requesting reset.");
+      return;
+    }
+    try {
+      await mockSendResetEmail(emailVal);
+      showAlert("📧 Reset Link Sent", "Check your inbox to reset your password.");
+    } catch (error) {
+      showAlert("Error", "Could not send reset email. Email may not be registered.");
+    }
+  }
+
+  // Sign Up navigation (router.push('/signup'))
+  function handleSignUp() {
+    window.location.href = "signup.html";
+    console.log("Navigate to signup");
+    // For deeper simulation, we can open a new page or alert.
+  }
+
+  // Event listeners
+  loginBtn.addEventListener('click', handleLogin);
+  forgotBtn.addEventListener('click', handleForgotPassword);
+  signupLinkBtn.addEventListener('click', handleSignUp);
+
+  // allow Enter key submit
+  function onEnterPress(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleLogin();
+    }
+  }
+  emailInput.addEventListener('keypress', onEnterPress);
+  passwordInput.addEventListener('keypress', onEnterPress);
+
+  // Additional small notes: provide demo approved user as hint
+  // show subtle note for tester (but not invasive)
+  const helperInfo = document.createElement('div');
+  helperInfo.style.backgroundColor = '#E8F5E9';
+  helperInfo.style.margin = '0 16px 16px 16px';
+  helperInfo.style.padding = '8px 12px';
+  helperInfo.style.borderRadius = '60px';
+  helperInfo.style.fontSize = '12px';
+  helperInfo.style.color = '#1B5E20';
+  helperInfo.style.textAlign = 'center';
+  helperInfo.innerHTML = '✨ Demo: approved@vsu.edu.ph / Pass123!  |  pending@vsu.edu.ph / pending123 (access denied)';
+  document.querySelector('.card').after(helperInfo);
+</script>
+</body>
+</html>

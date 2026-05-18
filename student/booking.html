@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>GUIDE-Me · Book Appointment | VSU Isabel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #000000;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .phone-frame {
+      width: 100%;
+      max-width: 430px;
+      height: 932px;
+      margin: 0 auto;
+      background-color: #F5F5F5;
+      border-radius: 44px;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .main-content::-webkit-scrollbar {
+      width: 4px;
+    }
+    .main-content::-webkit-scrollbar-track {
+      background: #E8F5E9;
+      border-radius: 4px;
+    }
+    .main-content::-webkit-scrollbar-thumb {
+      background: #F9A825;
+      border-radius: 4px;
+    }
+
+    /* Green Header */
+    .green-header {
+      background-color: #1B5E20;
+      padding: 16px 20px 20px 20px;
+      border-top-left-radius: 44px;
+      border-top-right-radius: 44px;
+      position: relative;
+    }
+
+    .header-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .back-button {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    .back-arrow { color: white; font-size: 16px; font-weight: bold; }
+    .back-text { color: white; font-size: 13px; font-weight: 500; }
+    .student-badge {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+    }
+    .student-badge-text { color: white; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; }
+    .student-badge-icon { color: white; font-size: 16px; }
+
+    /* Profile Dropdown */
+    .profile-dropdown {
+      position: absolute;
+      top: 50px;
+      right: 20px;
+      background: white;
+      width: 240px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      z-index: 100;
+      display: none;
+      overflow: hidden;
+      animation: slideDown 0.2s ease;
+    }
+    .profile-dropdown.active { display: block; }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .dropdown-header { background: #F9A825; padding: 16px; text-align: center; }
+    .dropdown-header h4 { color: #1B5E20; font-size: 14px; font-weight: bold; }
+    .dropdown-header p { color: #1B5E20; font-size: 11px; opacity: 0.8; }
+    .dropdown-item { padding: 14px 16px; border-bottom: 1px solid #F0F0F0; cursor: pointer; display: flex; align-items: center; gap: 12px; }
+    .dropdown-item:hover { background: #F5F5F5; }
+    .dropdown-text { font-size: 14px; color: #333; flex: 1; }
+    .logout-text { color: #C62828; font-weight: 600; }
+
+    /* Page Header */
+    .page-header {
+      background-color: #1B5E20;
+      padding: 24px;
+      text-align: center;
+    }
+    .page-header h1 { color: white; font-size: 20px; font-weight: bold; }
+    .page-header p { color: #A5D6A7; font-size: 11px; margin-top: 4px; }
+
+    /* Form Container */
+    .form-container { padding: 20px; padding-bottom: 100px; }
+    .section-header { font-size: 14px; font-weight: bold; color: #1B5E20; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; }
+
+    /* Provider Cards */
+    .provider-row { display: flex; gap: 12px; margin-bottom: 24px; }
+    .provider-card {
+      flex: 1;
+      background: white;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1.5px solid #A5D6A7;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .provider-card.active { background: #1B5E20; border-color: #1B5E20; }
+    .provider-emoji { font-size: 28px; margin-bottom: 8px; }
+    .provider-title { font-size: 14px; font-weight: bold; color: #1B5E20; margin-bottom: 4px; }
+    .provider-card.active .provider-title { color: white; }
+    .provider-sub { font-size: 10px; color: #777; }
+    .provider-card.active .provider-sub { color: #A5D6A7; }
+
+    /* Chips */
+    .chip-group { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .chip {
+      padding: 10px 18px;
+      border-radius: 20px;
+      border: 1px solid #A5D6A7;
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .chip.active { background: #2E7D32; border-color: #2E7D32; }
+    .chip-text { font-size: 13px; font-weight: 600; color: #2E7D32; }
+    .chip.active .chip-text { color: white; }
+    .sub-chip {
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: white;
+      border: 1px solid #E0E0E0;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sub-chip.active { background: #F9A825; border-color: #F9A825; }
+    .sub-chip-text { font-size: 12px; color: #555; }
+    .sub-chip.active .sub-chip-text { color: #1B5E20; font-weight: 600; }
+
+    /* Slot Grid */
+    .slot-grid { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+    .slot-card {
+      width: calc(50% - 5px);
+      padding: 14px;
+      border-radius: 12px;
+      background: white;
+      border: 1px solid #A5D6A7;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .slot-card.active { background: #1B5E20; border-color: #1B5E20; }
+    .slot-date { font-size: 12px; color: #777; font-weight: bold; margin-bottom: 4px; }
+    .slot-card.active .slot-date { color: #A5D6A7; }
+    .slot-time { font-size: 15px; font-weight: bold; color: #1B5E20; }
+    .slot-card.active .slot-time { color: white; }
+    .empty-slots { padding: 20px; background: #E8F5E9; border-radius: 12px; text-align: center; border: 1px solid #A5D6A7; }
+    .empty-slots p { color: #1B5E20; font-size: 13px; }
+
+    /* Submit Button */
+    .submit-btn {
+      margin-top: 32px;
+      padding: 16px;
+      border-radius: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .submit-btn.enabled { background: #F9A825; }
+    .submit-btn.disabled { background: #CCC; cursor: not-allowed; }
+    .submit-btn span { color: #1B5E20; font-weight: bold; font-size: 15px; }
+    .submit-btn.disabled span { color: #999; }
+
+    /* Bottom Tabs */
+    .bottom-tabs {
+      background: white;
+      border-top: 1px solid #E0E0E0;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 8px 16px 12px;
+      height: 70px;
+    }
+    .tab-item { align-items: center; cursor: pointer; flex: 1; display: flex; flex-direction: column; }
+    .tab-icon { font-size: 22px; color: #777; margin-bottom: 4px; }
+    .tab-label { font-size: 11px; color: #777; font-weight: 500; }
+
+    /* More Menu */
+    .more-menu-overlay {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1001;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .more-menu-overlay.active { display: flex; }
+    .more-menu-panel {
+      background: white;
+      width: 100%;
+      max-width: 430px;
+      border-top-left-radius: 28px;
+      border-top-right-radius: 28px;
+      padding: 24px;
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .more-menu-title { font-size: 18px; font-weight: bold; color: #1B5E20; margin-bottom: 20px; }
+    .more-menu-item { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid #F0F0F0; cursor: pointer; }
+  </style>
+</head>
+<body>
+<div class="phone-frame">
+  <div class="green-header">
+    <div class="header-top-row">
+      <div class="back-button" id="backButton"><span class="back-arrow">←</span><span class="back-text">Back</span></div>
+      <div class="student-badge" id="profileBtn"><span class="student-badge-text">Maria</span><span class="student-badge-icon">▼</span></div>
+    </div>
+    <div id="profileDropdown" class="profile-dropdown">
+      <div class="dropdown-header"><h4>GUIDE-Me · Account Menu</h4><p>Student · VSU Isabel</p></div>
+      <div class="dropdown-item" id="editProfileItem"><span class="dropdown-icon">✏️</span><span class="dropdown-text">Edit Profile</span></div>
+      <div class="dropdown-item" id="logoutItem"><span class="dropdown-icon">🚪</span><span class="dropdown-text logout-text">Logout</span></div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="page-header"><h1>Book Appointment</h1><p>VSU Isabel · Secure & Confidential Support</p></div>
+
+    <div class="form-container">
+      <!-- Step 1: Select Support Level -->
+      <div class="section-header">1. Select Support Level</div>
+      <div class="provider-row">
+        <div class="provider-card" data-provider="dbgf">
+          <div class="provider-emoji">🏫</div>
+          <div class="provider-title">Dept. Facilitator</div>
+          <div class="provider-sub">Academic advice & basic triage</div>
+        </div>
+        <div class="provider-card" data-provider="counselor">
+          <div class="provider-emoji">🩺</div>
+          <div class="provider-title">Guidance Counselor</div>
+          <div class="provider-sub">In-depth counseling & crisis</div>
+        </div>
+      </div>
+
+      <!-- Dynamic Content - Will be shown after provider selection -->
+      <div id="dynamicContent" style="display: none;">
+        <!-- Step 2: Category Selection -->
+        <div class="section-header" style="margin-top: 8px;">2. Guidance Category</div>
+        <div id="categoriesContainer" class="chip-group"></div>
+
+        <!-- Step 3: Specific Service -->
+        <div id="servicesSection" style="display: none;">
+          <div class="section-header" style="margin-top: 8px;">3. Specific Service</div>
+          <div id="servicesContainer" class="chip-group"></div>
+        </div>
+
+        <!-- Step 4: Available Schedules -->
+        <div id="slotsSection" style="display: none;">
+          <div class="section-header" style="margin-top: 8px;">4. Available Schedules</div>
+          <div id="slotsContainer" class="slot-grid"></div>
+        </div>
+
+        <!-- Submit Button -->
+        <div id="submitSection" style="display: none;">
+          <div id="submitBtn" class="submit-btn disabled"><span>Submit Appointment Request</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-tabs">
+    <div class="tab-item" data-tab="dashboard"><div class="tab-icon">🏠</div><div class="tab-label">Home</div></div>
+    <div class="tab-item" data-tab="appointments"><div class="tab-icon">📅</div><div class="tab-label">Appts</div></div>
+    <div class="tab-item" data-tab="services"><div class="tab-icon">🗂️</div><div class="tab-label">Services</div></div>
+    <div class="tab-item" id="moreBtn"><div class="tab-icon">☰</div><div class="tab-label">More</div></div>
+  </div>
+</div>
+
+<div id="moreMenuOverlay" class="more-menu-overlay">
+  <div class="more-menu-panel">
+    <div class="more-menu-title">GUIDE-Me Menu</div>
+    <div class="more-menu-item" id="personnelItem"><span class="more-menu-icon">👥</span><span class="more-menu-text">Personnel</span></div>
+    <div class="more-menu-item" id="aboutItem"><span class="more-menu-icon">ℹ️</span><span class="more-menu-text">About GUIDE-Me</span></div>
+  </div>
+</div>
+
+<script>
+  // ============================================================
+  // GUIDE-Me Booking Page | Full Filtering Functionality
+  // Services filter based on selected provider (DBGF vs Counselor)
+  // ============================================================
+
+  // Service definitions based on provider type
+  const COUNSELOR_SERVICES = {
+    'Counseling': ['Self-awareness', 'Overcoming Grief', 'Goal-Setting', 'Managing Worries'],
+    'Consultation': ['Career Options', 'Program Shifting', 'Academic Monitoring', 'Study Strategies'],
+    'Crisis': ['Suicide Attempt', 'Traumatic Event', 'Sudden Death of Loved One']
+  };
+
+  const DBGF_SERVICES = {
+    'Consultation': ['Academic Monitoring', 'Study Strategies', 'Program Shifting', 'Peer Relations']
+  };
+
+  // Generate mock time slots for the next 14 days (Monday-Friday, 8 AM - 5 PM, hourly)
+  function generateMockSlots() {
+    const slots = [];
+    const today = new Date();
+    
+    for (let i = 1; i <= 7; i++) {
+      const date = new Date(today);
+      date.setDate(today.getDate() + i);
+      const dayOfWeek = date.getDay();
+      
+      // Monday through Friday (1-5)
+      if (dayOfWeek >= 2 && dayOfWeek <= 4) {
+        // Generate slots from 8 AM to 4 PM
+        for (let hour = 10; hour <= 11; hour++) {
+          const slotTime = new Date(date);
+          slotTime.setHours(hour, 0, 0, 0);
+          
+          if (slotTime > new Date()) {
+            slots.push(slotTime);
+          }
+        }
+      }
+    }
+    
+    return slots.sort((a, b) => a.getTime() - b.getTime());
+  }
+
+  let availableSlots = generateMockSlots();
+  let selectedProvider = null;
+  let selectedCategory = null;
+  let selectedService = null;
+  let selectedSlot = null;
+
+  // DOM Elements
+  const dynamicContent = document.getElementById('dynamicContent');
+  const categoriesContainer = document.getElementById('categoriesContainer');
+  const servicesSection = document.getElementById('servicesSection');
+  const servicesContainer = document.getElementById('servicesContainer');
+  const slotsSection = document.getElementById('slotsSection');
+  const slotsContainer = document.getElementById('slotsContainer');
+  const submitSection = document.getElementById('submitSection');
+  const submitBtn = document.getElementById('submitBtn');
+
+  // Helper: Show popup explanation
+  function showPopup(title, message) {
+    alert(`${title}\n\n${message}`);
+  }
+
+  // Get current service object based on selected provider
+  function getCurrentServices() {
+    return selectedProvider === 'dbgf' ? DBGF_SERVICES : COUNSELOR_SERVICES;
+  }
+
+  // Render categories based on selected provider
+  function renderCategories() {
+    const services = getCurrentServices();
+    const categories = Object.keys(services);
+    
+    categoriesContainer.innerHTML = '';
+    categories.forEach(cat => {
+      const chip = document.createElement('div');
+      chip.className = 'chip';
+      chip.innerHTML = `<span class="chip-text">${cat}</span>`;
+      chip.onclick = () => {
+        document.querySelectorAll('#categoriesContainer .chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        selectedCategory = cat;
+        selectedService = null;
+        renderServices(cat);
+      };
+      categoriesContainer.appendChild(chip);
+    });
+  }
+
+  // Render specific services based on selected category
+  function renderServices(category) {
+    const services = getCurrentServices();
+    const serviceList = services[category] || [];
+    
+    servicesContainer.innerHTML = '';
+    if (serviceList.length === 0) {
+      servicesContainer.innerHTML = '<div style="padding: 20px; text-align: center; color: #777;">No services available for this category.</div>';
+    } else {
+      serviceList.forEach(service => {
+        const chip = document.createElement('div');
+        chip.className = 'sub-chip';
+        chip.innerHTML = `<span class="sub-chip-text">${service}</span>`;
+        chip.onclick = () => {
+          document.querySelectorAll('#servicesContainer .sub-chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          selectedService = service;
+          renderSlots();
+        };
+        servicesContainer.appendChild(chip);
+      });
+    }
+    
+    servicesSection.style.display = 'block';
+    slotsSection.style.display = 'none';
+    submitSection.style.display = 'none';
+  }
+
+  // Render time slots
+  function renderSlots() {
+    slotsContainer.innerHTML = '';
+    if (availableSlots.length === 0) {
+      slotsContainer.innerHTML = '<div class="empty-slots"><p>No available schedules for the next 14 days.</p></div>';
+    } else {
+      availableSlots.forEach(slot => {
+        const slotCard = document.createElement('div');
+        slotCard.className = 'slot-card';
+        const dateStr = slot.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+        const timeStr = slot.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+        slotCard.innerHTML = `
+          <div class="slot-date">${dateStr}</div>
+          <div class="slot-time">${timeStr}</div>
+        `;
+        slotCard.onclick = () => {
+          document.querySelectorAll('.slot-card').forEach(c => c.classList.remove('active'));
+          slotCard.classList.add('active');
+          selectedSlot = slot;
+          submitBtn.classList.remove('disabled');
+          submitBtn.classList.add('enabled');
+        };
+        slotsContainer.appendChild(slotCard);
+      });
+    }
+    
+    slotsSection.style.display = 'block';
+    submitSection.style.display = 'block';
+    submitBtn.classList.remove('enabled');
+    submitBtn.classList.add('disabled');
+  }
+
+  // Provider selection handler
+  document.querySelectorAll('.provider-card').forEach(card => {
+    card.onclick = () => {
+      const provider = card.getAttribute('data-provider');
+      document.querySelectorAll('.provider-card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      selectedProvider = provider;
+      selectedCategory = null;
+      selectedService = null;
+      selectedSlot = null;
+      
+      dynamicContent.style.display = 'block';
+      renderCategories();
+      servicesSection.style.display = 'none';
+      slotsSection.style.display = 'none';
+      submitSection.style.display = 'none';
+      
+      if (categoriesContainer) {
+        document.querySelectorAll('#categoriesContainer .chip').forEach(c => c.classList.remove('active'));
+      }
+    };
+  });
+
+  // Submit booking
+  submitBtn.onclick = () => {
+    if (!selectedProvider || !selectedCategory || !selectedService || !selectedSlot) {
+      showPopup('Incomplete Selection', 
+        'Please complete all steps:\n✓ Select Support Level\n✓ Choose a Category\n✓ Pick a Service\n✓ Select Date & Time');
+      return;
+    }
+    
+    const providerName = selectedProvider === 'dbgf' ? 'Department Facilitator' : 'Guidance Counselor';
+    const dateStr = selectedSlot.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    const timeStr = selectedSlot.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    
+    showPopup('Confirm Appointment ✓', 
+      `Appointment Details:\n\n` +
+      `Provider: ${providerName}\n` +
+      `Service: ${selectedService}\n` +
+      `Category: ${selectedCategory}\n` +
+      `Date: ${dateStr}\n` +
+      `Time: ${timeStr}\n\n` +
+      `✓ Request sent to ${providerName}\n` +
+      `✓ Pending approval\n\n` +
+      `(Prototype demonstration - to be integrated later)`);
+  };
+
+  // ========== NAVIGATION INTEGRATION ==========
+
+  // Profile dropdown handlers
+  const profileDropdown = document.getElementById('profileDropdown');
+  const profileBtn = document.getElementById('profileBtn');
+  const backButton = document.getElementById('backButton');
+  const moreMenuOverlay = document.getElementById('moreMenuOverlay');
+  const moreBtn = document.getElementById('moreBtn');
+
+  function toggleProfileDropdown() { profileDropdown.classList.toggle('active'); }
+  function closeProfileDropdown() { profileDropdown.classList.remove('active'); }
+  
+  profileBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleProfileDropdown(); moreMenuOverlay.classList.remove('active'); });
+  document.addEventListener('click', (e) => { if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) closeProfileDropdown(); });
+
+  // Tab navigation
+  document.querySelectorAll('.tab-item[data-tab]').forEach(item => {
+    item.addEventListener('click', () => {
+      const tab = item.getAttribute('data-tab');
+      if (tab === 'dashboard') {
+        window.location.href = "index.html";
+      } else if (tab === 'appointments') {
+        window.location.href = "appointments.html";
+      } else if (tab === 'services') {
+        window.location.href = "services.html";
+      }
+      closeProfileDropdown();
+      moreMenuOverlay.classList.remove('active');
+    });
+  });
+
+  // Edit Profile action
+  document.getElementById('editProfileItem').addEventListener('click', () => {
+    closeProfileDropdown();
+    window.location.href = "edit-profile.html";
+  });
+
+  // Logout action
+  document.getElementById('logoutItem').addEventListener('click', () => {
+    closeProfileDropdown();
+    window.location.href = "login.html";
+  });
+
+  // Back button handler
+  backButton.addEventListener('click', () => {
+    window.location.href = "index.html";
+  });
+
+  // More menu handlers
+  moreBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    moreMenuOverlay.classList.toggle('active');
+    closeProfileDropdown();
+  });
+
+  moreMenuOverlay.addEventListener('click', (e) => {
+    if (e.target === moreMenuOverlay) {
+      moreMenuOverlay.classList.remove('active');
+    }
+  });
+
+  // Personnel menu item
+  document.getElementById('personnelItem').addEventListener('click', () => {
+    moreMenuOverlay.classList.remove('active');
+    window.location.href = "personnel.html";
+  });
+
+  // About menu item
+  document.getElementById('aboutItem').addEventListener('click', () => {
+    moreMenuOverlay.classList.remove('active');
+    window.location.href = "about.html";
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeProfileDropdown();
+      moreMenuOverlay.classList.remove('active');
+    }
+  });
+
+  console.log('✅ Booking page loaded | Navigation fully integrated | FULL filtering active');
+</script>
+</body>
+</html>
