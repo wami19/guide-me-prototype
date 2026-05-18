@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>GUIDE-Me · Student Dashboard | VSU Isabel</title>
+  <title>GUIDE-Me · Counselor Dashboard | VSU Isabel</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * {
@@ -22,7 +22,7 @@
       padding: 20px;
     }
 
-    /* iPhone 15 Pro Max frame */
+    /* iPhone 15 Pro Max frame (same as student view) */
     .phone-frame {
       width: 100%;
       max-width: 430px;
@@ -65,7 +65,7 @@
       position: relative;
     }
 
-    /* Top row: Home label on left, STUDENT badge on right */
+    /* Top row: Home label on left, COUNSELOR badge on right */
     .header-top-row {
       display: flex;
       justify-content: space-between;
@@ -78,7 +78,7 @@
       font-weight: 600;
       letter-spacing: 0.5px;
     }
-    .student-badge {
+    .counselor-badge {
       background: rgba(255, 255, 255, 0.2);
       padding: 6px 14px;
       border-radius: 20px;
@@ -89,16 +89,16 @@
       gap: 8px;
       position: relative;
     }
-    .student-badge:hover {
+    .counselor-badge:hover {
       background: rgba(255, 255, 255, 0.3);
     }
-    .student-badge-text {
+    .counselor-badge-text {
       color: white;
       font-size: 12px;
       font-weight: 600;
       letter-spacing: 0.5px;
     }
-    .student-badge-icon {
+    .counselor-badge-icon {
       color: white;
       font-size: 16px;
     }
@@ -199,19 +199,19 @@
       color: white;
       margin-bottom: 4px;
     }
-    .hello-student {
+    .hello-counselor {
       font-size: 14px;
       color: #F9A825;
       font-weight: 600;
       margin-bottom: 6px;
     }
-    .student-role {
+    .counselor-role-badge {
       background: #E8F5E9;
       padding: 4px 12px;
       border-radius: 20px;
       display: inline-block;
     }
-    .student-role span {
+    .counselor-role-badge span {
       font-size: 11px;
       font-weight: 600;
       color: #1B5E20;
@@ -222,113 +222,136 @@
       padding: 20px;
     }
 
-    /* GAIA AI Card */
-    .gaia-card {
-      background: #1B5E20;
-      border-radius: 20px;
-      padding: 24px;
-      margin-bottom: 16px;
-      box-shadow: 0 4px 12px rgba(27, 94, 32, 0.3);
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .gaia-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(27, 94, 32, 0.4);
-    }
-    .ai-badge {
-      background: rgba(249, 168, 37, 0.2);
-      border: 1px solid rgba(249, 168, 37, 0.5);
-      border-radius: 20px;
-      padding: 4px 12px;
-      display: inline-block;
-      margin-bottom: 12px;
-    }
-    .ai-badge span {
-      font-size: 10px;
-      color: #F9A825;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-    .gaia-title {
-      font-size: 22px;
-      font-weight: bold;
-      color: white;
-      margin-bottom: 8px;
-    }
-    .gaia-description {
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.85);
-      line-height: 1.5;
-      margin-bottom: 20px;
-    }
-    .gaia-cta {
-      background: #F9A825;
-      border-radius: 12px;
-      padding: 14px;
-      text-align: center;
-    }
-    .gaia-cta span {
-      font-size: 14px;
-      font-weight: bold;
-      color: #1B5E20;
-    }
-
-    /* Dignity Warning */
-    .dignity-box {
-      background: #E8F5E9;
-      border-left: 4px solid #2E7D32;
-      border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 28px;
-    }
-    .dignity-text {
-      font-size: 12px;
-      color: #2E7D32;
-      line-height: 1.5;
-    }
-
     /* Section Header */
     .section-header {
       font-size: 18px;
       font-weight: bold;
       color: #1B5E20;
       margin-bottom: 16px;
+      letter-spacing: -0.2px;
     }
 
-    /* Action Grid */
-    .action-grid {
+    /* Stats Row - 3 cards (Pending, Ongoing, AI Chat Triage) */
+    .stats-row {
       display: flex;
       gap: 12px;
       margin-bottom: 28px;
+      flex-wrap: wrap;
     }
-    .action-card {
+    .stat-card {
       flex: 1;
       background: white;
       border: 1px solid #A5D6A7;
-      border-radius: 16px;
-      padding: 16px;
+      border-radius: 20px;
+      padding: 16px 8px;
+      text-align: center;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.02);
     }
-    .action-card:hover {
+    .stat-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
     }
-    .action-icon {
-      font-size: 32px;
-      margin-bottom: 12px;
+    /* Alert state for Pending card (gold background when count > 0) */
+    .stat-card.alert-card {
+      background-color: #F9A825;
+      border: none;
     }
-    .action-label {
-      font-size: 14px;
-      font-weight: 600;
+    .stat-card.alert-card .stat-value,
+    .stat-card.alert-card .stat-label {
+      color: white;
+    }
+    .stat-card.alert-card .icon-wrapper {
+      background-color: rgba(255,255,255,0.25);
+    }
+    .icon-wrapper {
+      width: 48px;
+      height: 48px;
+      background-color: #E8F5E9;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 12px auto;
+    }
+    .stat-icon {
+      font-size: 26px;
+    }
+    .stat-value {
+      font-size: 28px;
+      font-weight: 800;
       color: #1B5E20;
-      margin-bottom: 6px;
+      line-height: 1.2;
     }
-    .action-desc {
-      font-size: 11px;
+    .stat-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: #555;
+      margin-top: 6px;
+    }
+    /* Special styling for AI Chat Triage card */
+    .triage-card {
+      background: linear-gradient(145deg, #FEF9E6, #FFF7E8);
+      border-left: 3px solid #F9A825;
+    }
+    .triage-card .icon-wrapper {
+      background-color: #FDEBB3;
+    }
+
+    /* Tools Grid (2 tiles) */
+    .tools-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+    .tool-tile {
+      background: white;
+      border: 1px solid #E8F5E9;
+      border-radius: 18px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .tool-tile:hover {
+      transform: translateX(4px);
+      border-color: #A5D6A7;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+    .tile-icon-bg {
+      width: 52px;
+      height: 52px;
+      background-color: #E8F5E9;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .tile-icon-bg i {
+      font-size: 26px;
+      color: #1B5E20;
+    }
+    .tile-text {
+      flex: 1;
+    }
+    .tile-label {
+      font-weight: 700;
+      font-size: 16px;
+      color: #1B5E20;
+    }
+    .tile-sub {
+      font-size: 12px;
       color: #777;
-      line-height: 1.4;
+      margin-top: 4px;
+    }
+    .chevron {
+      color: #9aa899;
+      font-size: 16px;
     }
 
     /* Footer Sections */
@@ -354,7 +377,7 @@
       color: #999;
     }
 
-    /* ========== BOTTOM TABS ========== */
+    /* ========== BOTTOM TABS (same as student view) ========== */
     .bottom-tabs {
       background: white;
       border-top: 1px solid #E0E0E0;
@@ -363,10 +386,10 @@
       align-items: center;
       padding: 8px 16px 12px;
       height: 70px;
-	  position: sticky;
-	  bottom: 0;
-	  width: 100%;
-	  z-index: 10;
+      position: sticky;
+      bottom: 0;
+      width: 100%;
+      z-index: 10;
     }
     .tab-item {
       align-items: center;
@@ -456,8 +479,24 @@
       font-weight: 500;
     }
 
-    .hidden {
-      display: none;
+    /* Toast message for demo */
+    .toast-msg {
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #1B5E20;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-size: 13px;
+      font-weight: 500;
+      z-index: 2000;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
   </style>
 </head>
@@ -465,12 +504,12 @@
 <div class="phone-frame">
   <!-- Green Header - bleeds to sides -->
   <div class="green-header">
-    <!-- Top row: Home + STUDENT badge -->
+    <!-- Top row: Home + COUNSELOR badge -->
     <div class="header-top-row">
       <div class="home-label">Home</div>
-      <div class="student-badge" id="profileBtn">
-        <span class="student-badge-text">Maria</span>
-        <span class="student-badge-icon">▼</span>
+      <div class="counselor-badge" id="profileBtn">
+        <span class="counselor-badge-text">Joebren</span>
+        <span class="counselor-badge-icon">▼</span>
       </div>
     </div>
     
@@ -478,7 +517,7 @@
     <div id="profileDropdown" class="profile-dropdown">
       <div class="dropdown-header">
         <h4>GUIDE-Me · Account Menu</h4>
-        <p>Student</p>
+        <p>Guidance Counselor</p>
       </div>
       <div class="dropdown-item" id="editProfileItem">
         <span class="dropdown-icon">✏️</span>
@@ -490,8 +529,14 @@
       </div>
     </div>
     
-    <!-- Welcome section with logo -->
+    <!-- Welcome section with logo (matches student view style) -->
     <div class="welcome-section">
+      <img src="../assets/guide_me_logo_icon_v2.png"
+        alt="Guide Me Logo"
+        width="70"
+        height="70"
+        style="object-fit: contain;">
+      <!-- Logo image placeholder (using inline SVG to match style) -->
       <!-- <div class="logo-wrapper">
         <svg width="45" height="45" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#1B5E20" stroke-width="1.2" fill="#F9A825"/>
@@ -500,19 +545,12 @@
           <circle cx="12" cy="12" r="2" fill="#1B5E20"/>
           <path d="M12 7L12 12L16 14" stroke="#1B5E20" stroke-width="1.2" fill="none"/>
         </svg>
-      </div> -->
-	  
-	  <img src="../assets/guide_me_logo_icon_v2.png"
-      alt="Guide Me Logo"
-      width="70"
-      height="70"
-      style="object-fit: contain;">
-      
-	  <div class="welcome-text">
+      </div>  -->
+      <div class="welcome-text">
         <div class="guide-me-title">GUIDE-Me</div>
-        <div class="hello-student">Hello, Maria Clara!</div>
-        <div class="student-role">
-          <span>Student</span>
+        <div class="hello-counselor">Hello, Joebren Herrera!</div>
+        <div class="counselor-role-badge">
+          <span>Guidance Counselor</span>
         </div>
       </div>
     </div>
@@ -521,43 +559,65 @@
   <!-- Main Scrollable Content -->
   <div class="main-content">
     <div class="dashboard-scroll">
-      <!-- GAIA AI Card -->
-      <div class="gaia-card" id="gaiaCard">
-        <div class="ai-badge">
-          <span>🤖 AI-POWERED</span>
+      <!-- Counselor Dashboard · Case Management Section -->
+      <div class="section-header">Counselor Dashboard · Case Management</div>
+      
+      <!-- Stats Row: Pending Requests | Ongoing Cases | AI Chat Triage (NEW) -->
+      <div class="stats-row">
+        <!-- Pending Requests card (alert style dynamic) -->
+        <div class="stat-card" id="pendingCard">
+          <div class="icon-wrapper">
+            <span class="stat-icon">📋</span>
+          </div>
+          <div class="stat-value" id="pendingCount">0</div>
+          <div class="stat-label">Pending Requests</div>
         </div>
-        <div class="gaia-title">Talk to GAIA</div>
-        <div class="gaia-description">
-          Your private AI companion. Share what's on your mind — no judgment, no records.
+        <!-- Ongoing Cases card -->
+        <div class="stat-card" id="ongoingCard">
+          <div class="icon-wrapper">
+            <span class="stat-icon">🩺</span>
+          </div>
+          <div class="stat-value" id="ongoingCount">0</div>
+          <div class="stat-label">Ongoing Cases</div>
         </div>
-        <div class="gaia-cta">
-          <span>Start a Private Chat →</span>
-        </div>
-      </div>
-
-      <!-- Dignity Warning with heart -->
-      <div class="dignity-box">
-        <div class="dignity-text">
-          💚 GAIA is a bridge, not a replacement. A real counselor is always here for you.
-        </div>
-      </div>
-
-      <!-- Other Services -->
-      <div class="section-header">Other Services</div>
-      <div class="action-grid">
-        <div class="action-card" id="bookAppointmentBtn">
-          <div class="action-icon">📅</div>
-          <div class="action-label">Book Appointment</div>
-          <div class="action-desc">Schedule with a counselor or DBGF</div>
-        </div>
-        <div class="action-card" id="exploreServicesBtn">
-          <div class="action-icon">🗂️</div>
-          <div class="action-label">Explore Services</div>
-          <div class="action-desc">See what guidance offers you</div>
+        <!-- AI Chat Triage card (distinctive) -->
+        <div class="stat-card triage-card" id="aiTriageCard">
+          <div class="icon-wrapper">
+            <span class="stat-icon">🤖✨</span>
+          </div>
+          <div class="stat-value" style="font-size: 22px; margin-top: 6px;">Triage</div>
+          <div class="stat-label">AI Chat Triage</div>
         </div>
       </div>
 
-      <!-- Footer -->
+      <!-- Counselor Tools · Office Schedule -->
+      <div class="section-header">Counselor Tools · Office Schedule</div>
+      <div class="tools-grid">
+        <!-- Set Availability tile -->
+        <div class="tool-tile" id="availabilityTile">
+          <div class="tile-icon-bg">
+            <span style="font-size: 26px;">📅</span>
+          </div>
+          <div class="tile-text">
+            <div class="tile-label">Set Availability</div>
+            <div class="tile-sub">Define your available hours</div>
+          </div>
+          <div class="chevron">→</div>
+        </div>
+        <!-- Support Services tile -->
+        <div class="tool-tile" id="supportServicesTile">
+          <div class="tile-icon-bg">
+            <span style="font-size: 26px;">🗂️</span>
+          </div>
+          <div class="tile-text">
+            <div class="tile-label">Support Services</div>
+            <div class="tile-sub">Explore support programs</div>
+          </div>
+          <div class="chevron">→</div>
+        </div>
+      </div>
+
+      <!-- Footer (same as student view) -->
       <div class="privacy-footer">
         <p>⚠️ Protected under the <strong>Data Privacy Act (RA 10173)</strong>.</p>
       </div>
@@ -567,7 +627,7 @@
     </div>
   </div>
 
-  <!-- Bottom Tabs -->
+  <!-- Bottom Tabs (identical to student view for consistency) -->
   <div class="bottom-tabs">
     <div class="tab-item" data-tab="dashboard">
       <div class="tab-icon active" id="dashboardIcon">🏠</div>
@@ -603,9 +663,14 @@
   </div>
 </div>
 
+<!-- Toast message for demo interactions -->
+<div id="toastMsg" class="toast-msg">✨ Demo interaction</div>
+
 <script>
   // ============================================================
-  // GUIDE-Me Student Dashboard | Mobile-style dropdown inside frame
+  // GUIDE-Me Counselor Dashboard | Harmonized with Student UI
+  // Features: pending/ongoing live counters, AI Chat Triage card,
+  // alert styling, dropdown menu, bottom tabs, tool tiles.
   // ============================================================
 
   // DOM Elements
@@ -614,37 +679,94 @@
   const moreMenuOverlay = document.getElementById('moreMenuOverlay');
   const moreBtn = document.getElementById('moreBtn');
   const mainContent = document.querySelector('.main-content');
+  const pendingCountEl = document.getElementById('pendingCount');
+  const ongoingCountEl = document.getElementById('ongoingCount');
+  const pendingCard = document.getElementById('pendingCard');
+  const ongoingCard = document.getElementById('ongoingCard');
+  const aiTriageCard = document.getElementById('aiTriageCard');
+  const availabilityTile = document.getElementById('availabilityTile');
+  const supportServicesTile = document.getElementById('supportServicesTile');
+  const toastMsg = document.getElementById('toastMsg');
 
-  // Toggle profile dropdown (stays inside phone frame)
+  // Helper: show temporary toast message
+  function showMessage(msg) {
+    toastMsg.textContent = msg;
+    toastMsg.style.opacity = '1';
+    setTimeout(() => {
+      toastMsg.style.opacity = '0';
+    }, 1800);
+  }
+
+  // Update alert styling on pending card based on count > 0
+  function updatePendingAlert() {
+    const pendingVal = parseInt(pendingCountEl.innerText, 10) || 0;
+    if (pendingVal > 0) {
+      if (!pendingCard.classList.contains('alert-card')) {
+        pendingCard.classList.add('alert-card');
+      }
+    } else {
+      pendingCard.classList.remove('alert-card');
+    }
+  }
+
+  // Simulate live Firestore counts (pending and ongoing)
+  let pendingRequests = 3;   // starting with 3 to show gold alert (Von Restorff effect)
+  let ongoingCases = 2;
+
+  function updateCountersUI() {
+    pendingCountEl.innerText = pendingRequests;
+    ongoingCountEl.innerText = ongoingCases;
+    updatePendingAlert();
+  }
+
+  // Simulate real-time changes like onSnapshot (every 12 sec)
+  let intervalId = null;
+  function startLiveSimulation() {
+    if (intervalId) clearInterval(intervalId);
+    intervalId = setInterval(() => {
+      // Random fluctuations for pending
+      const deltaPending = Math.random() > 0.65 ? (Math.random() > 0.5 ? 1 : -1) : 0;
+      let newPending = pendingRequests + deltaPending;
+      if (newPending < 0) newPending = 0;
+      if (newPending > 7) newPending = 7;
+      pendingRequests = newPending;
+      
+      // Ongoing fluctuations
+      const deltaOngoing = Math.random() > 0.75 ? (Math.random() > 0.6 ? 1 : -1) : 0;
+      let newOngoing = ongoingCases + deltaOngoing;
+      if (newOngoing < 0) newOngoing = 0;
+      if (newOngoing > 5) newOngoing = 5;
+      ongoingCases = newOngoing;
+      
+      updateCountersUI();
+      if (deltaPending !== 0 && newPending > 0) {
+        showMessage(`📋 Pending requests updated: ${newPending} pending`);
+      }
+    }, 11000);
+  }
+
+  // ========== Profile Dropdown Logic ==========
   function toggleProfileDropdown() {
     profileDropdown.classList.toggle('active');
   }
-
-  // Close profile dropdown when clicking outside
   function closeProfileDropdown() {
     profileDropdown.classList.remove('active');
   }
-
-  // Profile button click
   profileBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     toggleProfileDropdown();
-    // Close more menu if open
     moreMenuOverlay.classList.remove('active');
   });
-
-  // Close dropdown when clicking anywhere else on the page
   document.addEventListener('click', (e) => {
     if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
       closeProfileDropdown();
     }
   });
 
-  // Tab switching function
+  // ========== Tab Switching (navigate to other pages for prototype) ==========
   function switchTab(tab) {
     const icons = ['dashboardIcon', 'appointmentsIcon', 'servicesIcon'];
     const labels = ['dashboardLabel', 'appointmentsLabel', 'servicesLabel'];
-    
     icons.forEach(icon => {
       const el = document.getElementById(icon);
       if (el) el.classList.remove('active');
@@ -653,90 +775,94 @@
       const el = document.getElementById(label);
       if (el) el.classList.remove('active');
     });
+    closeProfileDropdown();
+    moreMenuOverlay.classList.remove('active');
     
     if (tab === 'dashboard') {
       document.getElementById('dashboardIcon')?.classList.add('active');
       document.getElementById('dashboardLabel')?.classList.add('active');
-      window.location.href = "index.html";    
+      window.location.href = "index.html";
     } else if (tab === 'appointments') {
       document.getElementById('appointmentsIcon')?.classList.add('active');
       document.getElementById('appointmentsLabel')?.classList.add('active');
-      window.location.href = "appointments.html";    
+      window.location.href = "counselor-log.html";
     } else if (tab === 'services') {
       document.getElementById('servicesIcon')?.classList.add('active');
       document.getElementById('servicesLabel')?.classList.add('active');
-      window.location.href = "services.html";    
+      window.location.href = "services-analytics.html";
     }
-    closeProfileDropdown();
   }
-
-  // Tab click handlers
   document.querySelectorAll('.tab-item[data-tab]').forEach(item => {
     item.addEventListener('click', () => {
       const tab = item.getAttribute('data-tab');
       switchTab(tab);
-      moreMenuOverlay.classList.remove('active');
     });
   });
 
-  // Edit Profile action
+  // Edit Profile & Logout
   document.getElementById('editProfileItem').addEventListener('click', () => {
     closeProfileDropdown();
-	  window.location.href = "edit-profile.html";
+    window.location.href = "edit-profile.html";
   });
-
-  // Logout action
   document.getElementById('logoutItem').addEventListener('click', () => {
     closeProfileDropdown();
-    window.location.href = "login.html";    
+    window.location.href = "login.html";
   });
 
-  // More menu handlers
+  // More menu logic
   moreBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     moreMenuOverlay.classList.toggle('active');
     closeProfileDropdown();
   });
-
   moreMenuOverlay.addEventListener('click', (e) => {
     if (e.target === moreMenuOverlay) {
       moreMenuOverlay.classList.remove('active');
     }
   });
-
-  // Personnel menu item
   document.getElementById('personnelItem').addEventListener('click', () => {
     moreMenuOverlay.classList.remove('active');
-    window.location.href = "personnel.html";    
+    window.location.href = "personnel.html";
   });
-
-  // About menu item
   document.getElementById('aboutItem').addEventListener('click', () => {
     moreMenuOverlay.classList.remove('active');
-    window.location.href = "about.html";    
+    window.location.href = "about.html";
   });
 
-  // GAIA Chat with popup
-  document.getElementById('gaiaCard').addEventListener('click', () => {
-    window.location.href = "chatbot.html";
+  // ========== Dashboard Card Interactions ==========
+  // Pending card -> navigate to counselor-dashboard (pending requests)
+  pendingCard.addEventListener('click', () => {
+    window.location.href = "counselor-pending.html";
+  });
+  // Ongoing cases -> counselor-active cases view
+  ongoingCard.addEventListener('click', () => {
+    window.location.href = "counselor-ongoing.html";
+  });
+  // AI Chat Triage card (new feature) -> open AI triage assistant
+  aiTriageCard.addEventListener('click', () => {
+    window.location.href = "counselor-ai-triage.html";
+  });
+  // Tool tiles
+  availabilityTile.addEventListener('click', () => {
+    window.location.href = "counselor-availability.html";
+  });
+  supportServicesTile.addEventListener('click', () => {
+    window.location.href = "services.html";
   });
 
-  // Book Appointment with popup
-  document.getElementById('bookAppointmentBtn').addEventListener('click', () => {
-    window.location.href = "booking.html";    
-  });
-
-  // Explore Services with popup
-  document.getElementById('exploreServicesBtn').addEventListener('click', () => {
-    window.location.href = "services.html";    
-  });
-
-  // Smooth scroll behavior for iOS
+  // Smooth scrolling for iOS
   if (mainContent) {
     mainContent.style.webkitOverflowScrolling = 'touch';
   }
 
-  console.log('✅ GUIDE-Me Student Dashboard loaded | Dropdown menu stays inside phone frame');
+  // Initialize counters and start simulation
+  function init() {
+    updateCountersUI();
+    startLiveSimulation();
+  }
+  init();
+
+  console.log("✅ GUIDE-Me Counselor Dashboard | AI Chat Triage tile added, UI harmonized with student view");
 </script>
 </body>
 </html>

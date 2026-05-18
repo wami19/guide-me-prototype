@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>GUIDE-Me · Student Dashboard | VSU Isabel</title>
+  <title>GUIDE-Me · About | VSU Isabel</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * {
@@ -56,7 +56,7 @@
       border-radius: 4px;
     }
 
-    /* ========== GREEN HEADER (Full width, bleeds to edges) ========== */
+    /* ========== GREEN HEADER ========== */
     .green-header {
       background-color: #1B5E20;
       padding: 16px 20px 20px 20px;
@@ -65,18 +65,35 @@
       position: relative;
     }
 
-    /* Top row: Home label on left, STUDENT badge on right */
+    /* Top row: Back button + Profile menu */
     .header-top-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 24px;
     }
-    .home-label {
+    .back-button {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    .back-arrow {
       color: white;
       font-size: 16px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
+      font-weight: bold;
+    }
+    .back-text {
+      color: white;
+      font-size: 13px;
+      font-weight: 500;
     }
     .student-badge {
       background: rgba(255, 255, 255, 0.2);
@@ -103,7 +120,7 @@
       font-size: 16px;
     }
 
-    /* Profile Dropdown Menu - Positioned inside phone frame */
+    /* Profile Dropdown Menu */
     .profile-dropdown {
       position: absolute;
       top: 50px;
@@ -174,187 +191,132 @@
       font-weight: 600;
     }
 
-    /* Welcome section with logo */
-    .welcome-section {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .logo-wrapper {
-      width: 70px;
-      height: 70px;
-      background: #F9A825;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .welcome-text {
-      flex: 1;
-    }
-    .guide-me-title {
-      font-size: 28px;
-      font-weight: bold;
-      color: white;
-      margin-bottom: 4px;
-    }
-    .hello-student {
-      font-size: 14px;
-      color: #F9A825;
-      font-weight: 600;
-      margin-bottom: 6px;
-    }
-    .student-role {
-      background: #E8F5E9;
-      padding: 4px 12px;
-      border-radius: 20px;
-      display: inline-block;
-    }
-    .student-role span {
-      font-size: 11px;
-      font-weight: 600;
-      color: #1B5E20;
-    }
-
-    /* ========== DASHBOARD CONTENT ========== */
-    .dashboard-scroll {
-      padding: 20px;
-    }
-
-    /* GAIA AI Card */
-    .gaia-card {
-      background: #1B5E20;
-      border-radius: 20px;
-      padding: 24px;
-      margin-bottom: 16px;
-      box-shadow: 0 4px 12px rgba(27, 94, 32, 0.3);
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .gaia-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(27, 94, 32, 0.4);
-    }
-    .ai-badge {
-      background: rgba(249, 168, 37, 0.2);
-      border: 1px solid rgba(249, 168, 37, 0.5);
-      border-radius: 20px;
-      padding: 4px 12px;
-      display: inline-block;
-      margin-bottom: 12px;
-    }
-    .ai-badge span {
-      font-size: 10px;
-      color: #F9A825;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-    .gaia-title {
-      font-size: 22px;
-      font-weight: bold;
-      color: white;
-      margin-bottom: 8px;
-    }
-    .gaia-description {
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.85);
-      line-height: 1.5;
-      margin-bottom: 20px;
-    }
-    .gaia-cta {
-      background: #F9A825;
-      border-radius: 12px;
-      padding: 14px;
+    /* Page Header - Matching Personnel page */
+    .page-header {
+      background-color: #1B5E20;
+      padding: 30px;
       text-align: center;
     }
-    .gaia-cta span {
-      font-size: 14px;
+    .page-header h1 {
+      color: white;
+      font-size: 26px;
       font-weight: bold;
-      color: #1B5E20;
+      margin-bottom: 8px;
     }
-
-    /* Dignity Warning */
-    .dignity-box {
-      background: #E8F5E9;
-      border-left: 4px solid #2E7D32;
-      border-radius: 12px;
-      padding: 14px;
-      margin-bottom: 28px;
-    }
-    .dignity-text {
-      font-size: 12px;
-      color: #2E7D32;
+    .page-header p {
+      color: #A5D6A7;
+      font-size: 13px;
       line-height: 1.5;
+      margin-top: 8px;
     }
 
-    /* Section Header */
-    .section-header {
-      font-size: 18px;
+    /* Content Sections - Matching Personnel page */
+    .content-section {
+      padding: 16px;
+    }
+    .section-label {
+      font-size: 14px;
       font-weight: bold;
       color: #1B5E20;
       margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
-    /* Action Grid */
-    .action-grid {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 28px;
-    }
-    .action-card {
-      flex: 1;
+    /* Feature Cards - Matching Personnel card style */
+    .feature-card {
       background: white;
-      border: 1px solid #A5D6A7;
       border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #A5D6A7;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+      display: flex;
       padding: 16px;
-      cursor: pointer;
-      transition: all 0.2s;
+      gap: 15px;
+      align-items: flex-start;
     }
-    .action-card:hover {
+    .feature-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
     }
-    .action-icon {
-      font-size: 32px;
-      margin-bottom: 12px;
+    .feature-icon {
+      font-size: 28px;
+      min-width: 48px;
+      text-align: center;
     }
-    .action-label {
-      font-size: 14px;
-      font-weight: 600;
+    .feature-text {
+      flex: 1;
+    }
+    .feature-title {
+      font-size: 15px;
+      font-weight: bold;
       color: #1B5E20;
       margin-bottom: 6px;
     }
-    .action-desc {
-      font-size: 11px;
-      color: #777;
+    .feature-desc {
+      font-size: 12px;
+      color: #555;
       line-height: 1.4;
     }
 
-    /* Footer Sections */
-    .privacy-footer {
-      margin-top: 8px;
-      padding: 16px 0;
-      border-top: 1px solid #E8F5E9;
-      text-align: center;
+    /* Group Photo - Matching Personnel image style */
+    .group-photo-container {
+      width: 100%;
+      margin-bottom: 8px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #A5D6A7;
+      background-color: #E8F5E9;
     }
-    .privacy-footer p {
+    .group-photo {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      background-color: #E8F5E9;
+    }
+    .photo-caption {
       font-size: 11px;
       color: #777;
-    }
-    .footer-note {
       text-align: center;
-      padding: 16px 20px;
-      background: #F9FBF9;
-      border-radius: 12px;
       margin-top: 8px;
-    }
-    .footer-note p {
-      font-size: 10px;
-      color: #999;
+      font-style: italic;
     }
 
-    /* ========== BOTTOM TABS ========== */
+    /* Mission Box - Styled like a special card */
+    .mission-card {
+      background: #1B5E20;
+      border-radius: 16px;
+      margin: 16px;
+      padding: 25px;
+      text-align: center;
+      border: 1px solid #F9A825;
+    }
+    .mission-quote {
+      color: white;
+      font-style: italic;
+      text-align: center;
+      line-height: 22px;
+      font-size: 14px;
+    }
+    .mission-sub {
+      color: #F9A825;
+      font-size: 11px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    /* Body text styling */
+    .body-text {
+      font-size: 14px;
+      color: #555;
+      line-height: 22px;
+      margin-bottom: 20px;
+      padding: 0 4px;
+    }
+
+    /* Bottom Tabs */
     .bottom-tabs {
       background: white;
       border-top: 1px solid #E0E0E0;
@@ -363,10 +325,6 @@
       align-items: center;
       padding: 8px 16px 12px;
       height: 70px;
-	  position: sticky;
-	  bottom: 0;
-	  width: 100%;
-	  z-index: 10;
     }
     .tab-item {
       align-items: center;
@@ -384,17 +342,10 @@
       color: #777;
       margin-bottom: 4px;
     }
-    .tab-icon.active {
-      color: #1B5E20;
-    }
     .tab-label {
       font-size: 11px;
       color: #777;
       font-weight: 500;
-    }
-    .tab-label.active {
-      color: #1B5E20;
-      font-weight: 600;
     }
 
     /* More Menu Modal */
@@ -455,30 +406,29 @@
       color: #1B5E20;
       font-weight: 500;
     }
-
-    .hidden {
-      display: none;
-    }
   </style>
 </head>
 <body>
 <div class="phone-frame">
-  <!-- Green Header - bleeds to sides -->
+  <!-- Green Header -->
   <div class="green-header">
-    <!-- Top row: Home + STUDENT badge -->
+    <!-- Top row: Back button + Profile menu -->
     <div class="header-top-row">
-      <div class="home-label">Home</div>
+      <div class="back-button" id="backButton">
+        <span class="back-arrow">←</span>
+        <span class="back-text">Back</span>
+      </div>
       <div class="student-badge" id="profileBtn">
-        <span class="student-badge-text">Maria</span>
+        <span class="student-badge-text">Joebren</span>
         <span class="student-badge-icon">▼</span>
       </div>
     </div>
     
-    <!-- Profile Dropdown Menu - Inside phone frame -->
+    <!-- Profile Dropdown Menu -->
     <div id="profileDropdown" class="profile-dropdown">
       <div class="dropdown-header">
         <h4>GUIDE-Me · Account Menu</h4>
-        <p>Student</p>
+        <p>Guidance Counselor</p>
       </div>
       <div class="dropdown-item" id="editProfileItem">
         <span class="dropdown-icon">✏️</span>
@@ -489,97 +439,89 @@
         <span class="dropdown-text logout-text">Logout</span>
       </div>
     </div>
-    
-    <!-- Welcome section with logo -->
-    <div class="welcome-section">
-      <!-- <div class="logo-wrapper">
-        <svg width="45" height="45" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#1B5E20" stroke-width="1.2" fill="#F9A825"/>
-          <path d="M2 17L12 22L22 17" stroke="#1B5E20" stroke-width="1.2" fill="none"/>
-          <path d="M2 12L12 17L22 12" stroke="#1B5E20" stroke-width="1.2" fill="none"/>
-          <circle cx="12" cy="12" r="2" fill="#1B5E20"/>
-          <path d="M12 7L12 12L16 14" stroke="#1B5E20" stroke-width="1.2" fill="none"/>
-        </svg>
-      </div> -->
-	  
-	  <img src="../assets/guide_me_logo_icon_v2.png"
-      alt="Guide Me Logo"
-      width="70"
-      height="70"
-      style="object-fit: contain;">
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Page Header - Matching Personnel page -->
+    <div class="page-header">
+      <img src="../assets/guide_me_logo_icon_v2.png"
+        alt="Guide Me Logo"
+        width="100"
+        height="100"
+        style="object-fit: contain;">
+        
+      <h1>About GUIDE-Me</h1>
+      <p>Your companion for Guidance Counseling Scheduling & Management</p>
+    </div>
+
+    <!-- What is GUIDE-Me Section -->
+    <div class="content-section">
+      <div class="section-label">📖 Our Mission</div>
+      <div class="body-text">
+        GUIDE-Me is a mobile-first platform that digitizes the guidance counseling process at VSU Isabel, making it private, paperless, and easy to access for every student who needs support.
+      </div>
       
-	  <div class="welcome-text">
-        <div class="guide-me-title">GUIDE-Me</div>
-        <div class="hello-student">Hello, Maria Clara!</div>
-        <div class="student-role">
-          <span>Student</span>
+      <!-- Group Photo - Matching Personnel image style -->
+      <div class="group-photo-container">
+        <img src="../assets/team.jpg" 
+             alt="OSAS Team - Guidance Facilitators, Counsellor & Director"
+             class="group-photo">
+      </div>
+      <div class="photo-caption">Guidance Facilitators, Counsellor & Director of OSAS · VSU Isabel 💚</div>
+    </div>
+
+    <!-- Features for You Section -->
+    <div class="content-section">
+      <div class="section-label">✨ Features for You</div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <div class="feature-text">
+          <div class="feature-title">Smart Scheduler</div>
+          <div class="feature-desc">View the Guidance Counselor's availability and book a session instantly.</div>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-text">
+          <div class="feature-title">Private & Confidential</div>
+          <div class="feature-desc">Your records are securely stored and protected under RA 10173.</div>
+        </div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <div class="feature-text">
+          <div class="feature-title">Appointment Management</div>
+          <div class="feature-desc">Create, view, reschedule, or cancel your appointments with ease.</div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Main Scrollable Content -->
-  <div class="main-content">
-    <div class="dashboard-scroll">
-      <!-- GAIA AI Card -->
-      <div class="gaia-card" id="gaiaCard">
-        <div class="ai-badge">
-          <span>🤖 AI-POWERED</span>
-        </div>
-        <div class="gaia-title">Talk to GAIA</div>
-        <div class="gaia-description">
-          Your private AI companion. Share what's on your mind — no judgment, no records.
-        </div>
-        <div class="gaia-cta">
-          <span>Start a Private Chat →</span>
-        </div>
+    <!-- Closing Quote Section -->
+    <div class="mission-card">
+      <div class="mission-quote">
+        "Seeking help is not a sign of weakness, it is the first act of courage."
       </div>
-
-      <!-- Dignity Warning with heart -->
-      <div class="dignity-box">
-        <div class="dignity-text">
-          💚 GAIA is a bridge, not a replacement. A real counselor is always here for you.
-        </div>
-      </div>
-
-      <!-- Other Services -->
-      <div class="section-header">Other Services</div>
-      <div class="action-grid">
-        <div class="action-card" id="bookAppointmentBtn">
-          <div class="action-icon">📅</div>
-          <div class="action-label">Book Appointment</div>
-          <div class="action-desc">Schedule with a counselor or DBGF</div>
-        </div>
-        <div class="action-card" id="exploreServicesBtn">
-          <div class="action-icon">🗂️</div>
-          <div class="action-label">Explore Services</div>
-          <div class="action-desc">See what guidance offers you</div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <div class="privacy-footer">
-        <p>⚠️ Protected under the <strong>Data Privacy Act (RA 10173)</strong>.</p>
-      </div>
-      <div class="footer-note">
-        <p>VSU Isabel Guidance Office · AY 2025-2026</p>
-      </div>
+      <div class="mission-sub">- VSU Isabel Guidance Office</div>
     </div>
   </div>
 
   <!-- Bottom Tabs -->
   <div class="bottom-tabs">
     <div class="tab-item" data-tab="dashboard">
-      <div class="tab-icon active" id="dashboardIcon">🏠</div>
-      <div class="tab-label active" id="dashboardLabel">Home</div>
+      <div class="tab-icon">🏠</div>
+      <div class="tab-label">Home</div>
     </div>
     <div class="tab-item" data-tab="appointments">
-      <div class="tab-icon" id="appointmentsIcon">📅</div>
-      <div class="tab-label" id="appointmentsLabel">Appts</div>
+      <div class="tab-icon">📅</div>
+      <div class="tab-label">Appts</div>
     </div>
     <div class="tab-item" data-tab="services">
-      <div class="tab-icon" id="servicesIcon">🗂️</div>
-      <div class="tab-label" id="servicesLabel">Services</div>
+      <div class="tab-icon">🗂️</div>
+      <div class="tab-label">Services</div>
     </div>
     <div class="tab-item" id="moreBtn">
       <div class="tab-icon">☰</div>
@@ -605,22 +547,22 @@
 
 <script>
   // ============================================================
-  // GUIDE-Me Student Dashboard | Mobile-style dropdown inside frame
+  // GUIDE-Me About Page | Matching Personnel Page Style
+  // Features: Mission, Features, Roadmap, and Quote sections
   // ============================================================
 
   // DOM Elements
   const profileDropdown = document.getElementById('profileDropdown');
   const profileBtn = document.getElementById('profileBtn');
+  const backButton = document.getElementById('backButton');
   const moreMenuOverlay = document.getElementById('moreMenuOverlay');
   const moreBtn = document.getElementById('moreBtn');
-  const mainContent = document.querySelector('.main-content');
 
-  // Toggle profile dropdown (stays inside phone frame)
+  // Toggle profile dropdown
   function toggleProfileDropdown() {
     profileDropdown.classList.toggle('active');
   }
 
-  // Close profile dropdown when clicking outside
   function closeProfileDropdown() {
     profileDropdown.classList.remove('active');
   }
@@ -629,66 +571,49 @@
   profileBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     toggleProfileDropdown();
-    // Close more menu if open
     moreMenuOverlay.classList.remove('active');
   });
 
-  // Close dropdown when clicking anywhere else on the page
+  // Close dropdown when clicking outside
   document.addEventListener('click', (e) => {
     if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
       closeProfileDropdown();
     }
   });
 
-  // Tab switching function
-  function switchTab(tab) {
-    const icons = ['dashboardIcon', 'appointmentsIcon', 'servicesIcon'];
-    const labels = ['dashboardLabel', 'appointmentsLabel', 'servicesLabel'];
-    
-    icons.forEach(icon => {
-      const el = document.getElementById(icon);
-      if (el) el.classList.remove('active');
-    });
-    labels.forEach(label => {
-      const el = document.getElementById(label);
-      if (el) el.classList.remove('active');
-    });
-    
-    if (tab === 'dashboard') {
-      document.getElementById('dashboardIcon')?.classList.add('active');
-      document.getElementById('dashboardLabel')?.classList.add('active');
-      window.location.href = "index.html";    
-    } else if (tab === 'appointments') {
-      document.getElementById('appointmentsIcon')?.classList.add('active');
-      document.getElementById('appointmentsLabel')?.classList.add('active');
-      window.location.href = "appointments.html";    
-    } else if (tab === 'services') {
-      document.getElementById('servicesIcon')?.classList.add('active');
-      document.getElementById('servicesLabel')?.classList.add('active');
-      window.location.href = "services.html";    
-    }
-    closeProfileDropdown();
-  }
+  // ========== NAVIGATION INTEGRATION ==========
 
-  // Tab click handlers
+  // Back button handler - Go back to dashboard
+  backButton.addEventListener('click', () => {
+    window.location.href = "index.html";
+  });
+
+  // Tab click handlers - Navigate to different pages
   document.querySelectorAll('.tab-item[data-tab]').forEach(item => {
     item.addEventListener('click', () => {
       const tab = item.getAttribute('data-tab');
-      switchTab(tab);
+      if (tab === 'dashboard') {
+        window.location.href = "index.html";
+      } else if (tab === 'appointments') {
+        window.location.href = "appointments.html";
+      } else if (tab === 'services') {
+        window.location.href = "services.html";
+      }
       moreMenuOverlay.classList.remove('active');
+      closeProfileDropdown();
     });
   });
 
   // Edit Profile action
   document.getElementById('editProfileItem').addEventListener('click', () => {
     closeProfileDropdown();
-	  window.location.href = "edit-profile.html";
+    window.location.href = "edit-profile.html";
   });
 
   // Logout action
   document.getElementById('logoutItem').addEventListener('click', () => {
     closeProfileDropdown();
-    window.location.href = "login.html";    
+    window.location.href = "login.html";
   });
 
   // More menu handlers
@@ -707,36 +632,24 @@
   // Personnel menu item
   document.getElementById('personnelItem').addEventListener('click', () => {
     moreMenuOverlay.classList.remove('active');
-    window.location.href = "personnel.html";    
+    window.location.href = "personnel.html";
   });
 
-  // About menu item
+  // About menu item (refresh current page or stay)
   document.getElementById('aboutItem').addEventListener('click', () => {
     moreMenuOverlay.classList.remove('active');
-    window.location.href = "about.html";    
+    window.location.href = "about.html";
   });
 
-  // GAIA Chat with popup
-  document.getElementById('gaiaCard').addEventListener('click', () => {
-    window.location.href = "chatbot.html";
+  // Close modals with Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeProfileDropdown();
+      moreMenuOverlay.classList.remove('active');
+    }
   });
 
-  // Book Appointment with popup
-  document.getElementById('bookAppointmentBtn').addEventListener('click', () => {
-    window.location.href = "booking.html";    
-  });
-
-  // Explore Services with popup
-  document.getElementById('exploreServicesBtn').addEventListener('click', () => {
-    window.location.href = "services.html";    
-  });
-
-  // Smooth scroll behavior for iOS
-  if (mainContent) {
-    mainContent.style.webkitOverflowScrolling = 'touch';
-  }
-
-  console.log('✅ GUIDE-Me Student Dashboard loaded | Dropdown menu stays inside phone frame');
+  console.log('✅ GUIDE-Me About page loaded | Navigation fully integrated');
 </script>
 </body>
 </html>

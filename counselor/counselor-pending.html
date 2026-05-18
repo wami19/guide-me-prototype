@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>GUIDE-Me · Counselor Pending Requests | VSU Isabel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #000000;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .phone-frame {
+      width: 100%;
+      max-width: 430px;
+      height: 932px;
+      margin: 0 auto;
+      background-color: #F5F5F5;
+      border-radius: 44px;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .main-content::-webkit-scrollbar {
+      width: 4px;
+    }
+    .main-content::-webkit-scrollbar-track {
+      background: #E8F5E9;
+      border-radius: 4px;
+    }
+    .main-content::-webkit-scrollbar-thumb {
+      background: #F9A825;
+      border-radius: 4px;
+    }
+
+    /* Green Header (matching booking/services pages) */
+    .green-header {
+      background-color: #1B5E20;
+      padding: 16px 20px 20px 20px;
+      border-top-left-radius: 44px;
+      border-top-right-radius: 44px;
+      position: relative;
+    }
+
+    .header-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .back-button {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    .back-arrow { color: white; font-size: 16px; font-weight: bold; }
+    .back-text { color: white; font-size: 13px; font-weight: 500; }
+    .counselor-badge {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+    }
+    .counselor-badge-text { color: white; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; }
+    .counselor-badge-icon { color: white; font-size: 16px; }
+
+    /* Profile Dropdown */
+    .profile-dropdown {
+      position: absolute;
+      top: 50px;
+      right: 20px;
+      background: white;
+      width: 240px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      z-index: 100;
+      display: none;
+      overflow: hidden;
+      animation: slideDown 0.2s ease;
+    }
+    .profile-dropdown.active { display: block; }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .dropdown-header { background: #F9A825; padding: 16px; text-align: center; }
+    .dropdown-header h4 { color: #1B5E20; font-size: 14px; font-weight: bold; }
+    .dropdown-header p { color: #1B5E20; font-size: 11px; opacity: 0.8; }
+    .dropdown-item { padding: 14px 16px; border-bottom: 1px solid #F0F0F0; cursor: pointer; display: flex; align-items: center; gap: 12px; }
+    .dropdown-item:hover { background: #F5F5F5; }
+    .dropdown-text { font-size: 14px; color: #333; flex: 1; }
+    .logout-text { color: #C62828; font-weight: 600; }
+
+    /* Welcome section */
+    .welcome-section {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .logo-wrapper {
+      width: 70px;
+      height: 70px;
+      background: #F9A825;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .welcome-text { flex: 1; }
+    .guide-me-title { font-size: 28px; font-weight: bold; color: white; margin-bottom: 4px; }
+    .hello-counselor { font-size: 14px; color: #F9A825; font-weight: 600; margin-bottom: 6px; }
+    .counselor-role-badge {
+      background: #E8F5E9;
+      padding: 4px 12px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+    .counselor-role-badge span { font-size: 11px; font-weight: 600; color: #1B5E20; }
+
+    /* Page Header */
+    .page-header {
+      background-color: #1B5E20;
+      padding: 24px;
+      text-align: center;
+    }
+    .page-header h1 { color: white; font-size: 20px; font-weight: bold; }
+    .page-header p { color: #A5D6A7; font-size: 11px; margin-top: 4px; }
+
+    /* Stats Bar */
+    .stats-bar {
+      background: #E8F5E9;
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #A5D6A7;
+    }
+    .stat-item {
+      text-align: center;
+      flex: 1;
+    }
+    .stat-number {
+      font-size: 24px;
+      font-weight: 800;
+      color: #1B5E20;
+    }
+    .stat-label {
+      font-size: 11px;
+      color: #555;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    /* Filter Tabs */
+    .filter-tabs {
+      background: white;
+      padding: 12px 16px;
+      border-bottom: 1px solid #E8F5E9;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .filter-chip {
+      padding: 6px 16px;
+      border-radius: 20px;
+      background: #F5F5F5;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 13px;
+      font-weight: 500;
+      color: #666;
+    }
+    .filter-chip.active {
+      background: #1B5E20;
+      color: white;
+    }
+    .filter-chip:hover {
+      background: #A5D6A7;
+      color: #1B5E20;
+    }
+
+    /* Requests Container */
+    .requests-container {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    /* Request Card */
+    .request-card {
+      background: white;
+      border-radius: 20px;
+      padding: 16px;
+      border: 1px solid #E8F5E9;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s;
+    }
+    .request-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+      border-color: #F9A825;
+    }
+
+    /* Service Badge */
+    .service-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+      background: #E8F5E9;
+      color: #2E7D32;
+    }
+
+    .student-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: #1B5E20;
+      margin-bottom: 6px;
+    }
+    .service-detail {
+      font-size: 13px;
+      color: #F9A825;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .date-info {
+      font-size: 12px;
+      color: #2E7D32;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    /* Referral Box */
+    .referral-box {
+      background: #FFF8E1;
+      border-radius: 10px;
+      padding: 10px;
+      margin-top: 8px;
+      border: 1px solid #F9A825;
+    }
+    .referral-tag {
+      font-size: 12px;
+      color: #795548;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .referral-reason {
+      font-size: 11px;
+      color: #5D4037;
+      font-style: italic;
+    }
+
+    /* Add Notes Section */
+    .notes-section {
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px dashed #E8F5E9;
+    }
+    .notes-preview {
+      background: #F9FBF9;
+      padding: 8px 10px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    .notes-label {
+      font-size: 10px;
+      color: #888;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .notes-text {
+      font-size: 12px;
+      color: #555;
+      line-height: 1.4;
+      font-style: italic;
+    }
+    .btn-add-note {
+      background: #E8F5E9;
+      padding: 10px;
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-add-note span {
+      color: #1B5E20;
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .btn-add-note:hover {
+      background: #A5D6A7;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .btn-approve {
+      flex: 1;
+      background: #2E7D32;
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-approve:hover {
+      background: #1B5E20;
+    }
+    .btn-approve span {
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .btn-decline {
+      flex: 1;
+      background: #C62828;
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-decline:hover {
+      background: #B71C1C;
+    }
+    .btn-decline span {
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .empty-emoji { font-size: 48px; margin-bottom: 12px; }
+    .empty-title { font-size: 16px; font-weight: bold; color: #1B5E20; margin-bottom: 6px; }
+    .empty-text { font-size: 13px; color: #888; }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-container {
+      background: white;
+      width: 90%;
+      max-width: 340px;
+      border-radius: 24px;
+      padding: 24px;
+      transform: scale(0.95);
+      transition: transform 0.2s;
+    }
+    .modal-overlay.active .modal-container {
+      transform: scale(1);
+    }
+    .modal-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1B5E20;
+      margin-bottom: 8px;
+    }
+    .modal-student {
+      font-size: 13px;
+      color: #F9A825;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .modal-textarea {
+      width: 100%;
+      border: 1px solid #DDD;
+      border-radius: 12px;
+      padding: 12px;
+      font-family: inherit;
+      font-size: 14px;
+      min-height: 100px;
+      resize: vertical;
+      margin-bottom: 20px;
+    }
+    .modal-textarea:focus {
+      outline: none;
+      border-color: #F9A825;
+    }
+    .modal-buttons {
+      display: flex;
+      gap: 12px;
+    }
+    .modal-cancel {
+      flex: 1;
+      background: #EEEEEE;
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 600;
+      color: #555;
+    }
+    .modal-save {
+      flex: 2;
+      background: #1B5E20;
+      padding: 12px;
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 600;
+      color: white;
+    }
+
+    /* Toast */
+    .toast-msg {
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #1B5E20;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-size: 13px;
+      font-weight: 500;
+      z-index: 2000;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Bottom Tabs */
+    .bottom-tabs {
+      background: white;
+      border-top: 1px solid #E0E0E0;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 8px 16px 12px;
+      height: 70px;
+    }
+    .tab-item { align-items: center; cursor: pointer; flex: 1; display: flex; flex-direction: column; }
+    .tab-icon { font-size: 22px; color: #777; margin-bottom: 4px; }
+    .tab-icon.active { color: #1B5E20; }
+    .tab-label { font-size: 11px; color: #777; font-weight: 500; }
+    .tab-label.active { color: #1B5E20; font-weight: 600; }
+
+    /* More Menu */
+    .more-menu-overlay {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1001;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .more-menu-overlay.active { display: flex; }
+    .more-menu-panel {
+      background: white;
+      width: 100%;
+      max-width: 430px;
+      border-top-left-radius: 28px;
+      border-top-right-radius: 28px;
+      padding: 24px;
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .more-menu-title { font-size: 18px; font-weight: bold; color: #1B5E20; margin-bottom: 20px; }
+    .more-menu-item { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid #F0F0F0; cursor: pointer; }
+    .more-menu-item:hover { opacity: 0.7; }
+  </style>
+</head>
+<body>
+<div class="phone-frame">
+  <div class="green-header">
+    <div class="header-top-row">
+      <div class="back-button" id="backButton"><span class="back-arrow">←</span><span class="back-text">Back</span></div>
+      <div class="counselor-badge" id="profileBtn">
+        <span class="counselor-badge-text">Joebren</span>
+        <span class="counselor-badge-icon">▼</span>
+      </div>
+    </div>
+    <div id="profileDropdown" class="profile-dropdown">
+      <div class="dropdown-header"><h4>GUIDE-Me · Account Menu</h4><p>Guidance Counselor</p></div>
+      <div class="dropdown-item" id="editProfileItem"><span class="dropdown-icon">✏️</span><span class="dropdown-text">Edit Profile</span></div>
+      <div class="dropdown-item" id="logoutItem"><span class="dropdown-icon">🚪</span><span class="dropdown-text logout-text">Logout</span></div>
+    </div>    
+  </div>
+
+  <div class="main-content">
+    <div class="page-header">
+      <h1>Pending Requests</h1>
+      <p>Review and manage student appointment requests</p>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar">
+      <div class="stat-item"><div class="stat-number" id="totalPending">0</div><div class="stat-label">Total Pending</div></div>
+      <div class="stat-item"><div class="stat-number" id="counselingCount">0</div><div class="stat-label">Counseling</div></div>
+      <div class="stat-item"><div class="stat-number" id="consultCount">0</div><div class="stat-label">Consultation</div></div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="filter-tabs" id="filterTabs">
+      <div class="filter-chip active" data-filter="all">All Requests</div>
+      <div class="filter-chip" data-filter="counseling">Counseling</div>
+      <div class="filter-chip" data-filter="consultation">Consultation</div>
+      <div class="filter-chip" data-filter="referrals">Referrals</div>
+    </div>
+
+    <!-- Requests Container -->
+    <div class="requests-container" id="requestsContainer"></div>
+  </div>
+
+  <div class="bottom-tabs">
+    <div class="tab-item" data-tab="dashboard"><div class="tab-icon">🏠</div><div class="tab-label">Home</div></div>
+    <div class="tab-item" data-tab="appointments"><div class="tab-icon">📅</div><div class="tab-label">Appts</div></div>
+    <div class="tab-item" data-tab="services"><div class="tab-icon">🗂️</div><div class="tab-label">Services</div></div>
+    <div class="tab-item" id="moreBtn"><div class="tab-icon">☰</div><div class="tab-label">More</div></div>
+  </div>
+</div>
+
+<div id="moreMenuOverlay" class="more-menu-overlay">
+  <div class="more-menu-panel">
+    <div class="more-menu-title">GUIDE-Me Menu</div>
+    <div class="more-menu-item" id="personnelItem"><span class="more-menu-icon">👥</span><span class="more-menu-text">Personnel</span></div>
+    <div class="more-menu-item" id="aboutItem"><span class="more-menu-icon">ℹ️</span><span class="more-menu-text">About GUIDE-Me</span></div>
+  </div>
+</div>
+
+<!-- Notes Modal -->
+<div id="notesModal" class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-title">📝 Add Note</div>
+    <div class="modal-student" id="modalStudentName"></div>
+    <textarea id="notesTextarea" class="modal-textarea" placeholder="Add your internal notes about this request..."></textarea>
+    <div class="modal-buttons">
+      <div class="modal-cancel" id="cancelNotesBtn">Cancel</div>
+      <div class="modal-save" id="saveNotesBtn">Save Note</div>
+    </div>
+  </div>
+</div>
+
+<!-- Decline Modal -->
+<div id="declineModal" class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-title">Reason for Decline</div>
+    <textarea id="declineReason" class="modal-textarea" placeholder="e.g. Schedule conflict, please rebook for next week…"></textarea>
+    <div class="modal-buttons">
+      <div class="modal-cancel" id="cancelDeclineBtn">Cancel</div>
+      <div class="modal-save" id="confirmDeclineBtn" style="background:#C62828;">Confirm Decline</div>
+    </div>
+  </div>
+</div>
+
+<div id="toastMsg" class="toast-msg"></div>
+
+<script>
+  // ============================================================
+  // Counselor Pending Requests Page (No severity/priority levels)
+  // Based on services from booking page: Counseling, Consultation
+  // Features: Add Notes, Approve/Decline with reason
+  // ============================================================
+
+  // Mock pending requests data (based on services from booking page)
+  let pendingRequests = [
+    {
+      id: "R001",
+      studentName: "Maria Santos",
+      category: "Counseling",
+      service: "Overcoming Grief",
+      dateRequested: "2026-05-18T09:30:00",
+      preferredDate: "2026-05-22T10:00:00",
+      notes: "",
+      isReferral: false,
+      referredBy: null,
+      referralReason: null
+    },
+    {
+      id: "R002",
+      studentName: "John Dela Cruz",
+      category: "Consultation",
+      service: "Study Strategies",
+      dateRequested: "2026-05-18T10:15:00",
+      preferredDate: "2026-05-23T14:30:00",
+      notes: "Student struggling with time management",
+      isReferral: false,
+      referredBy: null,
+      referralReason: null
+    },
+    {
+      id: "R003",
+      studentName: "Andrea Reyes",
+      category: "Counseling",
+      service: "Managing Worries",
+      dateRequested: "2026-05-17T13:00:00",
+      preferredDate: "2026-05-21T09:00:00",
+      notes: "",
+      isReferral: true,
+      referredBy: "DBGF - College of Arts",
+      referralReason: "Student expressed difficulty coping with academic pressure; recommended for professional counseling."
+    },
+    {
+      id: "R004",
+      studentName: "Mark Villanueva",
+      category: "Consultation",
+      service: "Career Options",
+      dateRequested: "2026-05-18T11:45:00",
+      preferredDate: "2026-05-24T13:00:00",
+      notes: "Interested in engineering vs IT",
+      isReferral: false,
+      referredBy: null,
+      referralReason: null
+    }
+  ];
+
+  let currentFilter = "all";
+  let currentRequestId = null;
+  let currentDeclineId = null;
+
+  function showToast(msg) {
+    const toast = document.getElementById('toastMsg');
+    toast.textContent = msg;
+    toast.style.opacity = '1';
+    setTimeout(() => { toast.style.opacity = '0'; }, 2000);
+  }
+
+  function formatDate(dateStr) {
+    const d = new Date(dateStr);
+    return d.toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true });
+  }
+
+  function formatRequestDate(dateStr) {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ' at ' + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+  }
+
+  function getCategoryIcon(category) {
+    if (category === 'Counseling') return '💬';
+    if (category === 'Consultation') return '🤝';
+    return '📋';
+  }
+
+  // Update stats
+  function updateStats() {
+    const total = pendingRequests.length;
+    const counseling = pendingRequests.filter(r => r.category === 'Counseling').length;
+    const consultation = pendingRequests.filter(r => r.category === 'Consultation').length;
+    document.getElementById('totalPending').innerText = total;
+    document.getElementById('counselingCount').innerText = counseling;
+    document.getElementById('consultCount').innerText = consultation;
+  }
+
+  // Render requests
+  function renderRequests() {
+    const container = document.getElementById('requestsContainer');
+    let filtered = [...pendingRequests];
+    
+    if (currentFilter === 'counseling') {
+      filtered = filtered.filter(r => r.category === 'Counseling');
+    } else if (currentFilter === 'consultation') {
+      filtered = filtered.filter(r => r.category === 'Consultation');
+    } else if (currentFilter === 'referrals') {
+      filtered = filtered.filter(r => r.isReferral === true);
+    }
+    
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-emoji">🍃</div>
+          <div class="empty-title">No pending requests</div>
+          <div class="empty-text">All caught up! Check back later for new requests.</div>
+        </div>
+      `;
+      return;
+    }
+    
+    container.innerHTML = filtered.map(req => `
+      <div class="request-card" data-id="${req.id}">
+        <div class="service-badge">
+          ${getCategoryIcon(req.category)} ${req.category}
+        </div>
+        <div class="student-name">${escapeHtml(req.studentName)}</div>
+        <div class="service-detail">${escapeHtml(req.service)}</div>
+        <div class="date-info">📅 Preferred: ${formatDate(req.preferredDate)}</div>
+        <div class="date-info" style="color:#888; font-size:11px;">📨 Requested: ${formatRequestDate(req.dateRequested)}</div>
+        
+        ${req.isReferral ? `
+          <div class="referral-box">
+            <div class="referral-tag">📨 Referred by ${escapeHtml(req.referredBy || 'DBGF')}</div>
+            <div class="referral-reason">${escapeHtml(req.referralReason || 'No additional reason provided.')}</div>
+          </div>
+        ` : ''}
+        
+        <!-- Notes Section -->
+        <div class="notes-section">
+          ${req.notes ? `
+            <div class="notes-preview">
+              <div class="notes-label">📝 Internal Note:</div>
+              <div class="notes-text">${escapeHtml(req.notes)}</div>
+            </div>
+          ` : ''}
+          <div class="btn-add-note" data-id="${req.id}" data-action="note">
+            <span>${req.notes ? '✏️ Edit Note' : '+ Add Note'}</span>
+          </div>
+        </div>
+        
+        <div class="action-buttons">
+          <div class="btn-approve" data-id="${req.id}" data-action="approve">
+            <span>Approve</span>
+          </div>
+          <div class="btn-decline" data-id="${req.id}" data-action="decline">
+            <span>Decline</span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+    
+    // Add event listeners
+    document.querySelectorAll('.btn-add-note').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = btn.getAttribute('data-id');
+        openNotesModal(id);
+      });
+    });
+    
+    document.querySelectorAll('.btn-approve').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = btn.getAttribute('data-id');
+        handleApprove(id);
+      });
+    });
+    
+    document.querySelectorAll('.btn-decline').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = btn.getAttribute('data-id');
+        openDeclineModal(id);
+      });
+    });
+  }
+  
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
+    });
+  }
+  
+  function openNotesModal(requestId) {
+    const request = pendingRequests.find(r => r.id === requestId);
+    if (request) {
+      currentRequestId = requestId;
+      document.getElementById('modalStudentName').innerHTML = `<span style="color:#1B5E20;">${escapeHtml(request.studentName)}</span> · ${escapeHtml(request.service)}`;
+      document.getElementById('notesTextarea').value = request.notes || '';
+      document.getElementById('notesModal').classList.add('active');
+    }
+  }
+  
+  function saveNotes() {
+    if (currentRequestId) {
+      const notes = document.getElementById('notesTextarea').value;
+      const requestIndex = pendingRequests.findIndex(r => r.id === currentRequestId);
+      if (requestIndex !== -1) {
+        pendingRequests[requestIndex].notes = notes;
+        showToast(`📝 Note saved for ${pendingRequests[requestIndex].studentName}`);
+        renderRequests();
+      }
+      closeNotesModal();
+    }
+  }
+  
+  function closeNotesModal() {
+    document.getElementById('notesModal').classList.remove('active');
+    currentRequestId = null;
+  }
+  
+  function handleApprove(requestId) {
+    const request = pendingRequests.find(r => r.id === requestId);
+    if (request) {
+      showToast(`✅ Approved: ${request.studentName}'s appointment`);
+      pendingRequests = pendingRequests.filter(r => r.id !== requestId);
+      updateStats();
+      renderRequests();
+    }
+  }
+  
+  function openDeclineModal(requestId) {
+    currentDeclineId = requestId;
+    document.getElementById('declineReason').value = '';
+    document.getElementById('declineModal').classList.add('active');
+  }
+  
+  function closeDeclineModal() {
+    document.getElementById('declineModal').classList.remove('active');
+    currentDeclineId = null;
+  }
+  
+  function submitDecline() {
+    const reason = document.getElementById('declineReason').value.trim();
+    if (!reason) {
+      showToast('Please provide a reason for declining');
+      return;
+    }
+    if (currentDeclineId) {
+      const request = pendingRequests.find(r => r.id === currentDeclineId);
+      if (request) {
+        showToast(`❌ Declined: ${request.studentName}'s appointment`);
+        pendingRequests = pendingRequests.filter(r => r.id !== currentDeclineId);
+        updateStats();
+        renderRequests();
+      }
+      closeDeclineModal();
+    }
+  }
+  
+  // Filter handlers
+  function setupFilters() {
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        currentFilter = chip.getAttribute('data-filter');
+        renderRequests();
+      });
+    });
+  }
+  
+  // Navigation
+  function setupNavigation() {
+    const profileDropdown = document.getElementById('profileDropdown');
+    const profileBtn = document.getElementById('profileBtn');
+    const backButton = document.getElementById('backButton');
+    const moreMenuOverlay = document.getElementById('moreMenuOverlay');
+    const moreBtn = document.getElementById('moreBtn');
+    
+    backButton.addEventListener('click', () => { window.location.href = "index.html"; });
+    
+    profileBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      profileDropdown.classList.toggle('active');
+    });
+    document.addEventListener('click', (e) => {
+      if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+        profileDropdown.classList.remove('active');
+      }
+    });
+    
+    document.getElementById('editProfileItem')?.addEventListener('click', () => {
+      profileDropdown.classList.remove('active');
+      window.location.href = "edit-profile.html";
+    });
+    document.getElementById('logoutItem')?.addEventListener('click', () => {
+      profileDropdown.classList.remove('active');
+      window.location.href = "login.html";
+    });
+    
+    moreBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      moreMenuOverlay.classList.toggle('active');
+      profileDropdown.classList.remove('active');
+    });
+    moreMenuOverlay.addEventListener('click', (e) => {
+      if (e.target === moreMenuOverlay) moreMenuOverlay.classList.remove('active');
+    });
+    document.getElementById('personnelItem')?.addEventListener('click', () => {
+      moreMenuOverlay.classList.remove('active');
+      window.location.href = "personnel.html";
+    });
+    document.getElementById('aboutItem')?.addEventListener('click', () => {
+      moreMenuOverlay.classList.remove('active');
+      window.location.href = "about.html";
+    });
+    
+    document.querySelectorAll('.tab-item[data-tab]').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabName = tab.getAttribute('data-tab');
+        if (tabName === 'dashboard') window.location.href = "index.html";
+        else if (tabName === 'appointments') window.location.href = "counselor-log.html";
+        else if (tabName === 'services') window.location.href = "services-analytics.html";
+        moreMenuOverlay.classList.remove('active');
+      });
+    });
+    
+    // Modal handlers
+    document.getElementById('cancelNotesBtn')?.addEventListener('click', closeNotesModal);
+    document.getElementById('saveNotesBtn')?.addEventListener('click', saveNotes);
+    document.getElementById('notesModal')?.addEventListener('click', (e) => {
+      if (e.target === document.getElementById('notesModal')) closeNotesModal();
+    });
+    
+    document.getElementById('cancelDeclineBtn')?.addEventListener('click', closeDeclineModal);
+    document.getElementById('confirmDeclineBtn')?.addEventListener('click', submitDecline);
+    document.getElementById('declineModal')?.addEventListener('click', (e) => {
+      if (e.target === document.getElementById('declineModal')) closeDeclineModal();
+    });
+  }
+  
+  // Initialize
+  updateStats();
+  renderRequests();
+  setupFilters();
+  setupNavigation();
+  console.log('✅ Counselor Pending Requests page loaded | No severity levels | Add Notes feature active');
+</script>
+</body>
+</html>
