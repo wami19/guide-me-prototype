@@ -133,6 +133,34 @@
     .page-header h1 { color: white; font-size: 20px; font-weight: bold; }
     .page-header p { color: #A5D6A7; font-size: 12px; margin-top: 4px; }
 
+    /* Scope Legend */
+    .scope-legend {
+      background: #FFF8E1;
+      margin: 12px 16px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border-left: 4px solid #F9A825;
+    }
+    .scope-legend p {
+      font-size: 11px;
+      color: #5D4037;
+      line-height: 1.5;
+    }
+    .scope-legend strong {
+      color: #1B5E20;
+    }
+    .scope-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: 600;
+      margin: 0 4px;
+    }
+    .scope-counselor { background: #1B5E20; color: white; }
+    .scope-dbgf { background: #F9A825; color: #1B5E20; }
+    .scope-both { background: #A5D6A7; color: #1B5E20; }
+
     /* Category Tabs */
     .tabs-container {
       background: white;
@@ -215,6 +243,30 @@
       color: #888;
       line-height: 1.4;
     }
+    .badge-container {
+      display: flex;
+      gap: 6px;
+      margin-top: 6px;
+      flex-wrap: wrap;
+    }
+    .provider-badge {
+      font-size: 9px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+    .provider-badge.counselor {
+      background: #1B5E20;
+      color: white;
+    }
+    .provider-badge.dbgf {
+      background: #F9A825;
+      color: #1B5E20;
+    }
+    .provider-badge.both {
+      background: #A5D6A7;
+      color: #1B5E20;
+    }
     .book-icon {
       width: 32px;
       height: 32px;
@@ -283,6 +335,26 @@
     }
     .more-menu-title { font-size: 18px; font-weight: bold; color: #1B5E20; margin-bottom: 20px; }
     .more-menu-item { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid #F0F0F0; cursor: pointer; }
+
+    /* Toast message */
+    .toast-msg {
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #1B5E20;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-size: 13px;
+      font-weight: 500;
+      z-index: 2000;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
   </style>
 </head>
 <body>
@@ -306,6 +378,15 @@
     <div class="page-header">
       <h1>Support Catalog</h1>
       <p>VSU Isabel · How Can We Help?</p>
+    </div>
+
+    <!-- Scope Legend - Explains who provides each service -->
+    <div class="scope-legend">
+      <p>📋 <strong>Service Provider Guide:</strong><br>
+      <span class="scope-badge scope-counselor">👩‍⚕️ Counselor Only</span> — Licensed professional (counseling, crisis)<br>
+      <span class="scope-badge scope-dbgf">🏫 DBGF Only</span> — Academic/peer support (unlicensed facilitator)<br>
+      <span class="scope-badge scope-both">✓ Both</span> — Available from either provider<br><br>
+      💡 <strong>Tip:</strong> For mental health concerns (anxiety, grief, trauma), please book with a <strong>Guidance Counselor</strong>.</p>
     </div>
 
     <!-- Category Tabs -->
@@ -333,41 +414,61 @@
   </div>
 </div>
 
+<div id="toastMsg" class="toast-msg"></div>
+
 <script>
   // ============================================================
-  // GUIDE-Me Services Page | Hick's Law Compliant
-  // Clean, scannable categories & services matching booking page
+  // GUIDE-Me Services Page (Student View)
+  // Shows ALL services with provider indicators
+  // Matches booking.html service definitions
   // ============================================================
 
-  // Categories and Services (matching booking page)
+  // Categories and Services (matching booking.html exactly)
   const categories = [
     { id: 'counseling', title: 'Counseling', icon: '💬' },
     { id: 'consultation', title: 'Consultation', icon: '🤝' },
-    { id: 'crisis', title: 'Crisis', icon: '🆘' }
+    { id: 'crisis', title: 'Crisis Support', icon: '🆘' }
   ];
 
+  // Service definitions with provider information
+  // This matches exactly what's in booking.html
   const services = {
     counseling: [
-      { id: 's1', title: 'Self-awareness', icon: '🪞', desc: 'Understand yourself better' },
-      { id: 's2', title: 'Overcoming Grief', icon: '💔', desc: 'Navigate loss and healing' },
-      { id: 's3', title: 'Goal-Setting', icon: '🎯', desc: 'Plan your personal growth' },
-      { id: 's4', title: 'Managing Worries', icon: '😟', desc: 'Anxiety & stress management' }
+      { id: 's1', title: 'Self-awareness', icon: '🪞', desc: 'Understand yourself better', providers: ['counselor'] },
+      { id: 's2', title: 'Overcoming Grief', icon: '💔', desc: 'Navigate loss and healing', providers: ['counselor'] },
+      { id: 's3', title: 'Goal-Setting', icon: '🎯', desc: 'Plan your personal growth', providers: ['counselor'] },
+      { id: 's4', title: 'Managing Worries', icon: '😟', desc: 'Anxiety & stress management', providers: ['counselor'] }
     ],
     consultation: [
-      { id: 's5', title: 'Career Options', icon: '💼', desc: 'Explore your future path' },
-      { id: 's6', title: 'Program Shifting', icon: '🔄', desc: 'Change your program' },
-      { id: 's7', title: 'Academic Monitoring', icon: '📊', desc: 'Track your progress' },
-      { id: 's8', title: 'Study Strategies', icon: '📚', desc: 'Learn effective methods' },
-      { id: 's9', title: 'Peer Relations', icon: '👥', desc: 'Build healthy connections' }
+      { id: 's5', title: 'Career Options', icon: '💼', desc: 'Explore your future path', providers: ['counselor', 'dbgf'] },
+      { id: 's6', title: 'Program Shifting', icon: '🔄', desc: 'Change your academic program', providers: ['counselor', 'dbgf'] },
+      { id: 's7', title: 'Academic Monitoring', icon: '📊', desc: 'Track your academic progress', providers: ['counselor', 'dbgf'] },
+      { id: 's8', title: 'Study Strategies', icon: '📚', desc: 'Learn effective study methods', providers: ['counselor', 'dbgf'] },
+      { id: 's9', title: 'Peer Relations', icon: '👥', desc: 'Build healthy connections with peers', providers: ['counselor', 'dbgf'] }
     ],
     crisis: [
-      { id: 's10', title: 'Suicide Attempt', icon: '🆘', desc: 'Immediate crisis support' },
-      { id: 's11', title: 'Traumatic Event', icon: '🌪️', desc: 'Process trauma safely' },
-      { id: 's12', title: 'Sudden Loss', icon: '💫', desc: 'Cope with unexpected grief' }
+      { id: 's10', title: 'Suicide Attempt', icon: '🆘', desc: 'Immediate crisis intervention', providers: ['counselor'] },
+      { id: 's11', title: 'Traumatic Event', icon: '🌪️', desc: 'Process trauma safely', providers: ['counselor'] },
+      { id: 's12', title: 'Sudden Death of Loved One', icon: '💫', desc: 'Cope with unexpected loss', providers: ['counselor'] }
     ]
   };
 
   let activeCategory = 'counseling';
+
+  // Helper: Get provider badge HTML
+  function getProviderBadges(providers) {
+    const badges = [];
+    if (providers.includes('counselor')) {
+      badges.push('<span class="provider-badge counselor">👩‍⚕️ Licensed Counselor</span>');
+    }
+    if (providers.includes('dbgf')) {
+      badges.push('<span class="provider-badge dbgf">🏫 DBGF (Academic Support)</span>');
+    }
+    if (providers.length === 2) {
+      badges.push('<span class="provider-badge both">✓ Both Providers Available</span>');
+    }
+    return badges.join('');
+  }
 
   // DOM Elements
   const profileDropdown = document.getElementById('profileDropdown');
@@ -375,6 +476,15 @@
   const backButton = document.getElementById('backButton');
   const moreMenuOverlay = document.getElementById('moreMenuOverlay');
   const moreBtn = document.getElementById('moreBtn');
+  const toastMsg = document.getElementById('toastMsg');
+
+  function showToast(message) {
+    toastMsg.textContent = message;
+    toastMsg.style.opacity = '1';
+    setTimeout(() => {
+      toastMsg.style.opacity = '0';
+    }, 2000);
+  }
 
   // Toggle profile dropdown
   function toggleProfileDropdown() { profileDropdown.classList.toggle('active'); }
@@ -403,7 +513,7 @@
     } else if (tab === 'appointments') {
       window.location.href = "appointments.html";    
     } else if (tab === 'services') {
-      window.location.href = "services.html";    
+      showToast("📋 You're already on the Services page");
     }
     closeProfileDropdown();
   }
@@ -496,23 +606,48 @@
     }
 
     container.innerHTML = serviceList.map(service => `
-      <div class="service-card" data-service="${service.id}" data-title="${service.title}">
+      <div class="service-card" data-service="${service.id}" data-title="${service.title}" data-providers='${JSON.stringify(service.providers)}'>
         <div class="service-icon">${service.icon}</div>
         <div class="service-info">
-          <div class="service-title">${service.title}</div>
-          <div class="service-desc">${service.desc}</div>
+          <div class="service-title">${escapeHtml(service.title)}</div>
+          <div class="service-desc">${escapeHtml(service.desc)}</div>
+          <div class="badge-container">
+            ${getProviderBadges(service.providers)}
+          </div>
         </div>
         <div class="book-icon">📖</div>
       </div>
     `).join('');
 
-    // Add click handlers to service cards - Navigate to booking with service info
+    // Add click handlers to service cards - Navigate to booking
     document.querySelectorAll('.service-card').forEach(card => {
-      card.addEventListener('click', () => {
+      card.addEventListener('click', (e) => {
+        // Don't trigger if clicking on book icon? Actually whole card is clickable
         const serviceTitle = card.getAttribute('data-title');
-        // Navigate to booking page (you can pass service info via URL params in production)
+        const providers = JSON.parse(card.getAttribute('data-providers'));
+        
+        // Show helpful toast based on provider type
+        if (providers.length === 1 && providers[0] === 'counselor') {
+          showToast(`📖 "${serviceTitle}" — Provided by Licensed Counselor only`);
+        } else if (providers.length === 1 && providers[0] === 'dbgf') {
+          showToast(`📖 "${serviceTitle}" — Provided by DBGF (Academic Support)`);
+        } else {
+          showToast(`📖 "${serviceTitle}" — Available from both Counselor and DBGF`);
+        }
+        
+        // Navigate to booking page
         window.location.href = "booking.html";
       });
+    });
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+      if (m === '&') return '&amp;';
+      if (m === '<') return '&lt;';
+      if (m === '>') return '&gt;';
+      return m;
     });
   }
 
@@ -527,7 +662,10 @@
   // Initialize
   renderTabs();
   renderServices();
-  console.log('✅ Services page loaded | Navigation fully integrated');
+  console.log('✅ Services page loaded (Student View) | Full service catalog with provider indicators');
+  console.log('   Counseling: 4 services (Counselor only)');
+  console.log('   Consultation: 5 services (Counselor + DBGF)');
+  console.log('   Crisis: 3 services (Counselor only)');
 </script>
 </body>
 </html>

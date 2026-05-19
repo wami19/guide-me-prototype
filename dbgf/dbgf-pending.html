@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>GUIDE-Me · Counselor Pending Requests | VSU Isabel</title>
+  <title>GUIDE-Me · DBGF Pending Requests | VSU Isabel</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * {
@@ -83,7 +83,7 @@
     }
     .back-arrow { color: white; font-size: 16px; font-weight: bold; }
     .back-text { color: white; font-size: 13px; font-weight: 500; }
-    .counselor-badge {
+    .dbgf-badge {
       background: rgba(255, 255, 255, 0.2);
       padding: 6px 14px;
       border-radius: 20px;
@@ -93,8 +93,8 @@
       gap: 8px;
       position: relative;
     }
-    .counselor-badge-text { color: white; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; }
-    .counselor-badge-icon { color: white; font-size: 16px; }
+    .dbgf-badge-text { color: white; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; }
+    .dbgf-badge-icon { color: white; font-size: 16px; }
 
     .profile-dropdown {
       position: absolute;
@@ -130,19 +130,36 @@
     .page-header h1 { color: white; font-size: 20px; font-weight: bold; }
     .page-header p { color: #A5D6A7; font-size: 11px; margin-top: 4px; }
 
+    .scope-banner {
+      background: #FFF8E1;
+      border-left: 4px solid #F9A825;
+      padding: 12px 16px;
+      margin: 12px 16px;
+      border-radius: 12px;
+    }
+    .scope-banner p {
+      font-size: 11px;
+      color: #5D4037;
+      line-height: 1.5;
+    }
+    .scope-banner strong {
+      color: #1B5E20;
+    }
+
     .stats-bar {
       background: #E8F5E9;
       padding: 14px 20px;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       border-bottom: 1px solid #A5D6A7;
     }
     .stat-item {
       text-align: center;
       flex: 1;
+      max-width: 200px;
     }
     .stat-number {
-      font-size: 24px;
+      font-size: 28px;
       font-weight: 800;
       color: #1B5E20;
     }
@@ -151,33 +168,6 @@
       color: #555;
       font-weight: 500;
       margin-top: 2px;
-    }
-
-    .filter-tabs {
-      background: white;
-      padding: 12px 16px;
-      border-bottom: 1px solid #E8F5E9;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .filter-chip {
-      padding: 6px 16px;
-      border-radius: 20px;
-      background: #F5F5F5;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-size: 13px;
-      font-weight: 500;
-      color: #666;
-    }
-    .filter-chip.active {
-      background: #1B5E20;
-      color: white;
-    }
-    .filter-chip:hover {
-      background: #A5D6A7;
-      color: #1B5E20;
     }
 
     .requests-container {
@@ -211,8 +201,8 @@
       font-weight: 700;
       letter-spacing: 0.5px;
       margin-bottom: 12px;
-      background: #E8F5E9;
-      color: #2E7D32;
+      background: #F9A825;
+      color: #1B5E20;
     }
 
     .student-name {
@@ -238,24 +228,13 @@
       color: #999;
       margin-bottom: 8px;
     }
-
-    .referral-box {
-      background: #FFF8E1;
-      border-radius: 10px;
-      padding: 10px;
-      margin-top: 8px;
-      border: 1px solid #F9A825;
-    }
-    .referral-tag {
+    .dept-info {
       font-size: 11px;
-      color: #795548;
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-    .referral-reason {
-      font-size: 10px;
-      color: #5D4037;
-      font-style: italic;
+      color: #777;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .notes-section {
@@ -501,13 +480,13 @@
   <div class="green-header">
     <div class="header-top-row">
       <div class="back-button" id="backButton"><span class="back-arrow">←</span><span class="back-text">Back</span></div>
-      <div class="counselor-badge" id="profileBtn">
-        <span class="counselor-badge-text">Joebren</span>
-        <span class="counselor-badge-icon">▼</span>
+      <div class="dbgf-badge" id="profileBtn">
+        <span class="dbgf-badge-text">Jose</span>
+        <span class="dbgf-badge-icon">▼</span>
       </div>
     </div>
     <div id="profileDropdown" class="profile-dropdown">
-      <div class="dropdown-header"><h4>GUIDE-Me · Account Menu</h4><p>Guidance Counselor</p></div>
+      <div class="dropdown-header"><h4>GUIDE-Me · Account Menu</h4><p>Department-Based Guidance Facilitator</p></div>
       <div class="dropdown-item" id="editProfileItem"><span class="dropdown-icon">✏️</span><span class="dropdown-text">Edit Profile</span></div>
       <div class="dropdown-item" id="logoutItem"><span class="dropdown-icon">🚪</span><span class="dropdown-text logout-text">Logout</span></div>
     </div>    
@@ -516,20 +495,19 @@
   <div class="main-content">
     <div class="page-header">
       <h1>Pending Requests</h1>
-      <p>Review and manage student appointment requests</p>
+      <p>Department of Information Technology (DIT)</p>
+    </div>
+
+    <div class="scope-banner">
+      <p>📋 <strong>DBGF Scope:</strong> Academic advising, study support, and peer relations only.<br>
+      For mental health concerns (anxiety, grief, trauma, crisis), please direct students to book with a <strong>Guidance Counselor</strong>.</p>
     </div>
 
     <div class="stats-bar">
-      <div class="stat-item"><div class="stat-number" id="totalPending">0</div><div class="stat-label">Total Pending</div></div>
-      <div class="stat-item"><div class="stat-number" id="counselingCount">0</div><div class="stat-label">Counseling</div></div>
-      <div class="stat-item"><div class="stat-number" id="consultCount">0</div><div class="stat-label">Consultation</div></div>
-    </div>
-
-    <div class="filter-tabs" id="filterTabs">
-      <div class="filter-chip active" data-filter="all">All Requests</div>
-      <div class="filter-chip" data-filter="counseling">Counseling</div>
-      <div class="filter-chip" data-filter="consultation">Consultation</div>
-      <div class="filter-chip" data-filter="referrals">Referrals</div>
+      <div class="stat-item">
+        <div class="stat-number" id="totalPending">0</div>
+        <div class="stat-label">Pending Requests</div>
+      </div>
     </div>
 
     <div class="requests-container" id="requestsContainer"></div>
@@ -578,62 +556,64 @@
 
 <script>
   // ============================================================
-  // Counselor Pending Requests Page
+  // DBGF Pending Requests Page - Consultation Only
   // Single date/time slot (what student booked)
+  // Actions: Approve or Decline only
   // ============================================================
 
   let pendingRequests = [
     {
-      id: "R001",
+      id: "D001",
       studentName: "Maria Santos",
-      category: "Counseling",
-      service: "Overcoming Grief",
+      studentDept: "Department of Information Technology (DIT)",
+      service: "Study Strategies",
       submittedDate: "2026-05-18T09:30:00",
       appointmentDate: "2026-05-22T10:00:00",
       notes: "",
-      isReferral: false,
-      referredBy: null,
-      referralReason: null
+      status: "pending"
     },
     {
-      id: "R002",
+      id: "D002",
       studentName: "John Dela Cruz",
-      category: "Consultation",
-      service: "Study Strategies",
+      studentDept: "Department of Information Technology (DIT)",
+      service: "Academic Monitoring",
       submittedDate: "2026-05-18T10:15:00",
       appointmentDate: "2026-05-23T14:30:00",
-      notes: "Student struggling with time management",
-      isReferral: false,
-      referredBy: null,
-      referralReason: null
+      notes: "Student has failing grades in 2 subjects",
+      status: "pending"
     },
     {
-      id: "R003",
+      id: "D003",
       studentName: "Andrea Reyes",
-      category: "Counseling",
-      service: "Managing Worries",
+      studentDept: "College of Arts and Sciences (CAS)",
+      service: "Program Shifting",
       submittedDate: "2026-05-17T13:00:00",
       appointmentDate: "2026-05-21T09:00:00",
       notes: "",
-      isReferral: true,
-      referredBy: "DBGF - College of Arts",
-      referralReason: "Student expressed difficulty coping with academic pressure; recommended for professional counseling."
+      status: "pending"
     },
     {
-      id: "R004",
+      id: "D004",
       studentName: "Mark Villanueva",
-      category: "Consultation",
-      service: "Career Options",
+      studentDept: "Department of Information Technology (DIT)",
+      service: "Peer Relations",
       submittedDate: "2026-05-18T11:45:00",
       appointmentDate: "2026-05-24T13:00:00",
-      notes: "Interested in engineering vs IT",
-      isReferral: false,
-      referredBy: null,
-      referralReason: null
+      notes: "Group project conflict",
+      status: "pending"
+    },
+    {
+      id: "D005",
+      studentName: "Kristine Lopez",
+      studentDept: "Department of Information Technology (DIT)",
+      service: "Career Options",
+      submittedDate: "2026-05-19T08:00:00",
+      appointmentDate: "2026-05-25T11:00:00",
+      notes: "",
+      status: "pending"
     }
   ];
 
-  let currentFilter = "all";
   let currentRequestId = null;
   let currentDeclineId = null;
 
@@ -654,60 +634,46 @@
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true });
   }
 
-  function getCategoryIcon(category) {
-    if (category === 'Counseling') return '💬';
-    if (category === 'Consultation') return '🤝';
-    return '📋';
+  function getServiceIcon(service) {
+    const icons = {
+      'Academic Monitoring': '📊',
+      'Study Strategies': '📚',
+      'Program Shifting': '🔄',
+      'Peer Relations': '👥',
+      'Career Options': '💼'
+    };
+    return icons[service] || '🤝';
   }
 
   function updateStats() {
     const total = pendingRequests.length;
-    const counseling = pendingRequests.filter(r => r.category === 'Counseling').length;
-    const consultation = pendingRequests.filter(r => r.category === 'Consultation').length;
     document.getElementById('totalPending').innerText = total;
-    document.getElementById('counselingCount').innerText = counseling;
-    document.getElementById('consultCount').innerText = consultation;
   }
 
   function renderRequests() {
     const container = document.getElementById('requestsContainer');
-    let filtered = [...pendingRequests];
     
-    if (currentFilter === 'counseling') {
-      filtered = filtered.filter(r => r.category === 'Counseling');
-    } else if (currentFilter === 'consultation') {
-      filtered = filtered.filter(r => r.category === 'Consultation');
-    } else if (currentFilter === 'referrals') {
-      filtered = filtered.filter(r => r.isReferral === true);
-    }
-    
-    if (filtered.length === 0) {
+    if (pendingRequests.length === 0) {
       container.innerHTML = `
         <div class="empty-state">
           <div class="empty-emoji">🍃</div>
           <div class="empty-title">No pending requests</div>
-          <div class="empty-text">All caught up! Check back later for new requests.</div>
+          <div class="empty-text">All caught up! Check back later for new consultation requests.</div>
         </div>
       `;
       return;
     }
     
-    container.innerHTML = filtered.map(req => `
+    container.innerHTML = pendingRequests.map(req => `
       <div class="request-card" data-id="${req.id}">
         <div class="service-badge">
-          ${getCategoryIcon(req.category)} ${req.category}
+          ${getServiceIcon(req.service)} Consultation
         </div>
         <div class="student-name">${escapeHtml(req.studentName)}</div>
         <div class="service-detail">${escapeHtml(req.service)}</div>
+        <div class="dept-info">🏫 ${escapeHtml(req.studentDept)}</div>
         <div class="appointment-date">📅 ${formatDate(req.appointmentDate)}</div>
         <div class="submitted-date">📨 Submitted: ${formatSubmittedDate(req.submittedDate)}</div>
-        
-        ${req.isReferral ? `
-          <div class="referral-box">
-            <div class="referral-tag">📨 Referred by ${escapeHtml(req.referredBy || 'DBGF')}</div>
-            <div class="referral-reason">${escapeHtml(req.referralReason || 'No additional reason provided.')}</div>
-          </div>
-        ` : ''}
         
         <div class="notes-section">
           ${req.notes ? `
@@ -723,10 +689,10 @@
         
         <div class="action-buttons">
           <div class="btn-approve" data-id="${req.id}" data-action="approve">
-            <span>Approve</span>
+            <span>✅ Approve</span>
           </div>
           <div class="btn-decline" data-id="${req.id}" data-action="decline">
-            <span>Decline</span>
+            <span>❌ Decline</span>
           </div>
         </div>
       </div>
@@ -798,7 +764,7 @@
   function handleApprove(requestId) {
     const request = pendingRequests.find(r => r.id === requestId);
     if (request) {
-      showToast(`✅ Approved: ${request.studentName}'s appointment on ${formatDate(request.appointmentDate)}`);
+      showToast(`✅ Approved: ${request.studentName}'s consultation on ${formatDate(request.appointmentDate)}`);
       pendingRequests = pendingRequests.filter(r => r.id !== requestId);
       updateStats();
       renderRequests();
@@ -825,24 +791,13 @@
     if (currentDeclineId) {
       const request = pendingRequests.find(r => r.id === currentDeclineId);
       if (request) {
-        showToast(`❌ Declined: ${request.studentName}'s appointment`);
+        showToast(`❌ Declined: ${request.studentName}'s consultation request`);
         pendingRequests = pendingRequests.filter(r => r.id !== currentDeclineId);
         updateStats();
         renderRequests();
       }
       closeDeclineModal();
     }
-  }
-  
-  function setupFilters() {
-    document.querySelectorAll('.filter-chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-        currentFilter = chip.getAttribute('data-filter');
-        renderRequests();
-      });
-    });
   }
   
   function setupNavigation() {
@@ -894,7 +849,7 @@
       tab.addEventListener('click', () => {
         const tabName = tab.getAttribute('data-tab');
         if (tabName === 'dashboard') window.location.href = "index.html";
-        else if (tabName === 'appointments') window.location.href = "counselor-log.html";
+        else if (tabName === 'appointments') window.location.href = "dbgf-log.html";
         else if (tabName === 'services') window.location.href = "services-analytics.html";
         moreMenuOverlay.classList.remove('active');
       });
@@ -915,9 +870,8 @@
   
   updateStats();
   renderRequests();
-  setupFilters();
   setupNavigation();
-  console.log('✅ Counselor Pending Requests | Single date/time slot aligned with booking');
+  console.log('✅ DBGF Pending Requests | Single date/time slot aligned with booking | Approve/Decline only');
 </script>
 </body>
 </html>

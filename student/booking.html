@@ -127,11 +127,28 @@
     /* Page Header */
     .page-header {
       background-color: #1B5E20;
-      padding: 24px;
+      padding: 20px;
       text-align: center;
     }
     .page-header h1 { color: white; font-size: 20px; font-weight: bold; }
     .page-header p { color: #A5D6A7; font-size: 11px; margin-top: 4px; }
+
+    /* Scope Disclaimer */
+    .scope-disclaimer {
+      background: #FFF8E1;
+      border-left: 4px solid #F9A825;
+      padding: 12px 16px;
+      margin: 12px 16px;
+      border-radius: 12px;
+    }
+    .scope-disclaimer p {
+      font-size: 11px;
+      color: #5D4037;
+      line-height: 1.5;
+    }
+    .scope-disclaimer strong {
+      color: #1B5E20;
+    }
 
     /* Form Container */
     .form-container { padding: 20px; padding-bottom: 100px; }
@@ -259,6 +276,57 @@
     }
     .more-menu-title { font-size: 18px; font-weight: bold; color: #1B5E20; margin-bottom: 20px; }
     .more-menu-item { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid #F0F0F0; cursor: pointer; }
+
+    /* Custom Modal */
+    .custom-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.2s;
+    }
+    .custom-modal.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .modal-content {
+      background: white;
+      width: 300px;
+      border-radius: 28px;
+      padding: 24px 20px;
+      text-align: center;
+    }
+    .modal-content h3 {
+      font-size: 18px;
+      font-weight: bold;
+      color: #1B5E20;
+      margin-bottom: 12px;
+    }
+    .modal-content p {
+      font-size: 13px;
+      color: #555;
+      line-height: 1.5;
+      margin: 12px 0;
+    }
+    .modal-ok {
+      background: #F9A825;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 40px;
+      font-weight: bold;
+      color: #1B5E20;
+      cursor: pointer;
+      margin-top: 8px;
+    }
   </style>
 </head>
 <body>
@@ -278,19 +346,24 @@
   <div class="main-content">
     <div class="page-header"><h1>Book Appointment</h1><p>VSU Isabel · Secure & Confidential Support</p></div>
 
+    <!-- Scope Disclaimer - Important notice for students -->
+    <div class="scope-disclaimer" id="scopeDisclaimer" style="display: none;">
+      <p>⚠️ <strong>Important Notice:</strong> Department-Based Guidance Facilitators (DBGFs) provide <strong>academic advising, study support, and peer relations guidance only</strong>. For mental health concerns (anxiety, grief, trauma, crisis), please select <strong>Guidance Counselor</strong> for licensed professional support.</p>
+    </div>
+
     <div class="form-container">
       <!-- Step 1: Select Support Level -->
       <div class="section-header">1. Select Support Level</div>
       <div class="provider-row">
         <div class="provider-card" data-provider="dbgf">
           <div class="provider-emoji">🏫</div>
-          <div class="provider-title">Dept. Facilitator</div>
-          <div class="provider-sub">Academic advice & basic triage</div>
+          <div class="provider-title">Dept. Facilitator (DBGF)</div>
+          <div class="provider-sub">Academic advice, study support, peer guidance</div>
         </div>
         <div class="provider-card" data-provider="counselor">
           <div class="provider-emoji">🩺</div>
           <div class="provider-title">Guidance Counselor</div>
-          <div class="provider-sub">In-depth counseling & crisis</div>
+          <div class="provider-sub">Counseling, crisis intervention, mental health support</div>
         </div>
       </div>
 
@@ -336,24 +409,57 @@
   </div>
 </div>
 
+<!-- Custom Modal -->
+<div id="customModal" class="custom-modal">
+  <div class="modal-content">
+    <h3 id="modalTitle">Confirm Appointment</h3>
+    <p id="modalMessage">Appointment details will appear here.</p>
+    <button class="modal-ok" id="modalOkBtn">OK</button>
+  </div>
+</div>
+
 <script>
   // ============================================================
-  // GUIDE-Me Booking Page | Full Filtering Functionality
-  // Services filter based on selected provider (DBGF vs Counselor)
+  // GUIDE-Me Booking Page | WITH PROPER SCOPE LIMITATIONS
+  // 
+  // DBGF Scope (Unlicensed Instructor):
+  //   ✅ Consultation only (Academic Monitoring, Study Strategies, Program Shifting, Peer Relations)
+  //   ❌ NO Counseling services (Self-awareness, Grief, Goal-Setting, Managing Worries)
+  //   ❌ NO Crisis services (Suicide, Trauma, Sudden Death)
+  //
+  // Counselor Scope (Licensed Professional):
+  //   ✅ All services (Counseling, Consultation, Crisis)
   // ============================================================
 
-  // Service definitions based on provider type
+  // Service definitions - SCOPED APPROPRIATELY
   const COUNSELOR_SERVICES = {
     'Counseling': ['Self-awareness', 'Overcoming Grief', 'Goal-Setting', 'Managing Worries'],
-    'Consultation': ['Career Options', 'Program Shifting', 'Academic Monitoring', 'Study Strategies'],
+    'Consultation': ['Career Options', 'Program Shifting', 'Academic Monitoring', 'Study Strategies', 'Peer Relations'],
     'Crisis': ['Suicide Attempt', 'Traumatic Event', 'Sudden Death of Loved One']
   };
 
+  // DBGF can ONLY do Consultation (academic/peer support, NOT therapeutic)
   const DBGF_SERVICES = {
     'Consultation': ['Academic Monitoring', 'Study Strategies', 'Program Shifting', 'Peer Relations']
   };
 
-  // Generate mock time slots for the next 14 days (Monday-Friday, 8 AM - 5 PM, hourly)
+  // Descriptions for tooltips
+  const SERVICE_DESCRIPTIONS = {
+    'Self-awareness': 'Explore your personality, values, and emotional patterns with a licensed counselor',
+    'Overcoming Grief': 'Navigate loss and healing through professional grief counseling',
+    'Goal-Setting': 'Plan your personal growth and life direction with professional guidance',
+    'Managing Worries': 'Learn coping strategies for anxiety and stress from a licensed counselor',
+    'Career Options': 'Explore career paths aligned with your skills and interests',
+    'Program Shifting': 'Get guidance on changing your academic program',
+    'Academic Monitoring': 'Track your academic progress and identify areas for improvement',
+    'Study Strategies': 'Learn effective study techniques and time management',
+    'Peer Relations': 'Build healthy relationships and resolve conflicts with peers',
+    'Suicide Attempt': 'IMMEDIATE CRISIS - Professional intervention required',
+    'Traumatic Event': 'Trauma-informed care from licensed counselor',
+    'Sudden Death of Loved One': 'Bereavement counseling for unexpected loss'
+  };
+
+  // Generate mock time slots
   function generateMockSlots() {
     const slots = [];
     const today = new Date();
@@ -363,20 +469,18 @@
       date.setDate(today.getDate() + i);
       const dayOfWeek = date.getDay();
       
-      // Monday through Friday (1-5)
-      if (dayOfWeek >= 2 && dayOfWeek <= 4) {
-        // Generate slots from 8 AM to 4 PM
-        for (let hour = 10; hour <= 11; hour++) {
-          const slotTime = new Date(date);
-          slotTime.setHours(hour, 0, 0, 0);
-          
-          if (slotTime > new Date()) {
-            slots.push(slotTime);
+      if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+        for (let hour = 9; hour <= 16; hour++) {
+          if (hour !== 12) {
+            const slotTime = new Date(date);
+            slotTime.setHours(hour, 0, 0, 0);
+            if (slotTime > new Date()) {
+              slots.push(slotTime);
+            }
           }
         }
       }
     }
-    
     return slots.sort((a, b) => a.getTime() - b.getTime());
   }
 
@@ -395,10 +499,28 @@
   const slotsContainer = document.getElementById('slotsContainer');
   const submitSection = document.getElementById('submitSection');
   const submitBtn = document.getElementById('submitBtn');
+  const scopeDisclaimer = document.getElementById('scopeDisclaimer');
 
-  // Helper: Show popup explanation
+  // Custom modal
+  const modal = document.getElementById('customModal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalMessage = document.getElementById('modalMessage');
+  const modalOkBtn = document.getElementById('modalOkBtn');
+
+  function showModal(title, message, onClose) {
+    modalTitle.innerText = title;
+    modalMessage.innerText = message;
+    modal.classList.add('active');
+    const closeHandler = () => {
+      modal.classList.remove('active');
+      modalOkBtn.removeEventListener('click', closeHandler);
+      if (onClose) onClose();
+    };
+    modalOkBtn.addEventListener('click', closeHandler, { once: true });
+  }
+
   function showPopup(title, message) {
-    alert(`${title}\n\n${message}`);
+    showModal(title, message, null);
   }
 
   // Get current service object based on selected provider
@@ -439,7 +561,9 @@
       serviceList.forEach(service => {
         const chip = document.createElement('div');
         chip.className = 'sub-chip';
+        const desc = SERVICE_DESCRIPTIONS[service] || 'Professional support available';
         chip.innerHTML = `<span class="sub-chip-text">${service}</span>`;
+        chip.title = desc;
         chip.onclick = () => {
           document.querySelectorAll('#servicesContainer .sub-chip').forEach(c => c.classList.remove('active'));
           chip.classList.add('active');
@@ -459,7 +583,7 @@
   function renderSlots() {
     slotsContainer.innerHTML = '';
     if (availableSlots.length === 0) {
-      slotsContainer.innerHTML = '<div class="empty-slots"><p>No available schedules for the next 14 days.</p></div>';
+      slotsContainer.innerHTML = '<div class="empty-slots"><p>No available schedules for the next 7 days.</p></div>';
     } else {
       availableSlots.forEach(slot => {
         const slotCard = document.createElement('div');
@@ -487,7 +611,7 @@
     submitBtn.classList.add('disabled');
   }
 
-  // Provider selection handler
+  // Provider selection handler with scope update
   document.querySelectorAll('.provider-card').forEach(card => {
     card.onclick = () => {
       const provider = card.getAttribute('data-provider');
@@ -497,6 +621,13 @@
       selectedCategory = null;
       selectedService = null;
       selectedSlot = null;
+      
+      // Show/hide scope disclaimer based on selection
+      if (provider === 'dbgf') {
+        scopeDisclaimer.style.display = 'block';
+      } else {
+        scopeDisclaimer.style.display = 'none';
+      }
       
       dynamicContent.style.display = 'block';
       renderCategories();
@@ -510,7 +641,7 @@
     };
   });
 
-  // Submit booking
+  // Submit booking with scope-appropriate messaging
   submitBtn.onclick = () => {
     if (!selectedProvider || !selectedCategory || !selectedService || !selectedSlot) {
       showPopup('Incomplete Selection', 
@@ -518,9 +649,15 @@
       return;
     }
     
-    const providerName = selectedProvider === 'dbgf' ? 'Department Facilitator' : 'Guidance Counselor';
+    const providerName = selectedProvider === 'dbgf' ? 'Department Facilitator (DBGF)' : 'Guidance Counselor';
     const dateStr = selectedSlot.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
     const timeStr = selectedSlot.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    
+    // Add scope-appropriate message
+    let scopeNote = '';
+    if (selectedProvider === 'dbgf') {
+      scopeNote = '\n\n📌 Note: DBGFs provide academic advising and peer support. For mental health concerns, please schedule with a Guidance Counselor.';
+    }
     
     showPopup('Confirm Appointment ✓', 
       `Appointment Details:\n\n` +
@@ -530,13 +667,11 @@
       `Date: ${dateStr}\n` +
       `Time: ${timeStr}\n\n` +
       `✓ Request sent to ${providerName}\n` +
-      `✓ Pending approval\n\n` +
-      `(Prototype demonstration - to be integrated later)`);
+      `✓ Pending approval` +
+      scopeNote);
   };
 
   // ========== NAVIGATION INTEGRATION ==========
-
-  // Profile dropdown handlers
   const profileDropdown = document.getElementById('profileDropdown');
   const profileBtn = document.getElementById('profileBtn');
   const backButton = document.getElementById('backButton');
@@ -549,7 +684,6 @@
   profileBtn.addEventListener('click', (e) => { e.stopPropagation(); toggleProfileDropdown(); moreMenuOverlay.classList.remove('active'); });
   document.addEventListener('click', (e) => { if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) closeProfileDropdown(); });
 
-  // Tab navigation
   document.querySelectorAll('.tab-item[data-tab]').forEach(item => {
     item.addEventListener('click', () => {
       const tab = item.getAttribute('data-tab');
@@ -565,24 +699,20 @@
     });
   });
 
-  // Edit Profile action
   document.getElementById('editProfileItem').addEventListener('click', () => {
     closeProfileDropdown();
     window.location.href = "edit-profile.html";
   });
 
-  // Logout action
   document.getElementById('logoutItem').addEventListener('click', () => {
     closeProfileDropdown();
     window.location.href = "login.html";
   });
 
-  // Back button handler
   backButton.addEventListener('click', () => {
     window.location.href = "index.html";
   });
 
-  // More menu handlers
   moreBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     moreMenuOverlay.classList.toggle('active');
@@ -595,26 +725,19 @@
     }
   });
 
-  // Personnel menu item
   document.getElementById('personnelItem').addEventListener('click', () => {
     moreMenuOverlay.classList.remove('active');
     window.location.href = "personnel.html";
   });
 
-  // About menu item
   document.getElementById('aboutItem').addEventListener('click', () => {
     moreMenuOverlay.classList.remove('active');
     window.location.href = "about.html";
   });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeProfileDropdown();
-      moreMenuOverlay.classList.remove('active');
-    }
-  });
-
-  console.log('✅ Booking page loaded | Navigation fully integrated | FULL filtering active');
+  console.log('✅ Booking page loaded | Scope limitations properly enforced');
+  console.log('   DBGF: Consultation only (Academic Monitoring, Study Strategies, Program Shifting, Peer Relations)');
+  console.log('   Counselor: All services (Counseling, Consultation, Crisis)');
 </script>
 </body>
 </html>

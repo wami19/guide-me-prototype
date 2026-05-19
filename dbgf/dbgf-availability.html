@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>GUIDE-Me · DBGF Department Schedule | VSU Isabel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #000000;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .phone-frame {
+      width: 100%;
+      max-width: 430px;
+      height: 932px;
+      margin: 0 auto;
+      background-color: #F5F5F5;
+      border-radius: 44px;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.6);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .main-content {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .main-content::-webkit-scrollbar {
+      width: 4px;
+    }
+    .main-content::-webkit-scrollbar-track {
+      background: #E8F5E9;
+      border-radius: 4px;
+    }
+    .main-content::-webkit-scrollbar-thumb {
+      background: #F9A825;
+      border-radius: 4px;
+    }
+
+    /* Green Header */
+    .green-header {
+      background-color: #1B5E20;
+      padding: 16px 20px 20px 20px;
+      border-top-left-radius: 44px;
+      border-top-right-radius: 44px;
+      position: relative;
+    }
+
+    .header-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .back-button {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 12px;
+      border-radius: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    .back-arrow { color: white; font-size: 16px; font-weight: bold; }
+    .back-text { color: white; font-size: 13px; font-weight: 500; }
+    .dbgf-badge {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      position: relative;
+    }
+    .dbgf-badge-text { color: white; font-size: 12px; font-weight: 600; letter-spacing: 0.5px; }
+    .dbgf-badge-icon { color: white; font-size: 16px; }
+
+    /* Profile Dropdown */
+    .profile-dropdown {
+      position: absolute;
+      top: 50px;
+      right: 20px;
+      background: white;
+      width: 240px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      z-index: 100;
+      display: none;
+      overflow: hidden;
+      animation: slideDown 0.2s ease;
+    }
+    .profile-dropdown.active { display: block; }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .dropdown-header { background: #F9A825; padding: 16px; text-align: center; }
+    .dropdown-header h4 { color: #1B5E20; font-size: 14px; font-weight: bold; }
+    .dropdown-header p { color: #1B5E20; font-size: 11px; opacity: 0.8; }
+    .dropdown-item { padding: 14px 16px; border-bottom: 1px solid #F0F0F0; cursor: pointer; display: flex; align-items: center; gap: 12px; }
+    .dropdown-item:hover { background: #F5F5F5; }
+    .dropdown-text { font-size: 14px; color: #333; flex: 1; }
+    .logout-text { color: #C62828; font-weight: 600; }
+
+    /* Page Header */
+    .page-header {
+      background-color: #1B5E20;
+      padding: 20px;
+      text-align: center;
+    }
+    .page-header h1 { color: white; font-size: 20px; font-weight: bold; }
+    .page-header p { color: #A5D6A7; font-size: 11px; margin-top: 4px; }
+
+    /* Scope Banner */
+    .scope-banner {
+      background: #FFF8E1;
+      border-left: 4px solid #F9A825;
+      padding: 12px 16px;
+      margin: 12px 16px;
+      border-radius: 12px;
+    }
+    .scope-banner p {
+      font-size: 11px;
+      color: #5D4037;
+      line-height: 1.5;
+    }
+    .scope-banner strong {
+      color: #1B5E20;
+    }
+
+    /* Content */
+    .content {
+      padding: 16px;
+    }
+
+    /* Card */
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      border: 1px solid #E8F5E9;
+    }
+    .section-label {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1B5E20;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Day Selection */
+    .day-selector {
+      margin-bottom: 16px;
+    }
+    .input-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #777;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .day-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .day-btn {
+      padding: 8px 16px;
+      border-radius: 30px;
+      background: #F5F5F5;
+      border: 1px solid #E0E0E0;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 13px;
+      font-weight: 500;
+      color: #666;
+    }
+    .day-btn.active {
+      background: #1B5E20;
+      border-color: #1B5E20;
+      color: white;
+    }
+    .day-btn:hover {
+      background: #A5D6A7;
+      color: #1B5E20;
+    }
+
+    /* Time Row */
+    .time-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .time-select {
+      flex: 1;
+    }
+    .custom-select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #E8F5E9;
+      border-radius: 12px;
+      background: #F9FBF9;
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      color: #333;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .custom-select:focus {
+      outline: none;
+      border-color: #F9A825;
+    }
+
+    /* Add Button */
+    .add-btn {
+      background: #2E7D32;
+      padding: 14px;
+      border-radius: 14px;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .add-btn:hover {
+      background: #1B5E20;
+    }
+    .add-btn span {
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    /* List Header */
+    .list-header {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1B5E20;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding-left: 4px;
+    }
+
+    /* Slot Card */
+    .slot-card {
+      background: white;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-left: 4px solid #F9A825;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+      transition: all 0.2s;
+    }
+    .slot-card:hover {
+      transform: translateX(2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    }
+    .slot-info {
+      flex: 1;
+    }
+    .slot-day {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1B5E20;
+    }
+    .slot-time {
+      font-size: 12px;
+      color: #888;
+      margin-top: 2px;
+    }
+    .delete-btn {
+      background: none;
+      border: none;
+      color: #C62828;
+      font-weight: 700;
+      font-size: 12px;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: background 0.2s;
+    }
+    .delete-btn:hover {
+      background: #FFEBEE;
+    }
+
+    /* Empty State */
+    .empty-text {
+      text-align: center;
+      padding: 30px;
+      color: #888;
+      font-style: italic;
+      font-size: 13px;
+      background: white;
+      border-radius: 16px;
+      border: 1px solid #E8F5E9;
+    }
+
+    /* Toast */
+    .toast-msg {
+      position: fixed;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #1B5E20;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 40px;
+      font-size: 13px;
+      font-weight: 500;
+      z-index: 2000;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+      white-space: nowrap;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* Bottom Tabs */
+    .bottom-tabs {
+      background: white;
+      border-top: 1px solid #E0E0E0;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 8px 16px 12px;
+      height: 70px;
+    }
+    .tab-item { align-items: center; cursor: pointer; flex: 1; display: flex; flex-direction: column; }
+    .tab-icon { font-size: 22px; color: #777; margin-bottom: 4px; }
+    .tab-label { font-size: 11px; color: #777; font-weight: 500; }
+
+    /* More Menu */
+    .more-menu-overlay {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1001;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .more-menu-overlay.active { display: flex; }
+    .more-menu-panel {
+      background: white;
+      width: 100%;
+      max-width: 430px;
+      border-top-left-radius: 28px;
+      border-top-right-radius: 28px;
+      padding: 24px;
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .more-menu-title { font-size: 18px; font-weight: bold; color: #1B5E20; margin-bottom: 20px; }
+    .more-menu-item { display: flex; align-items: center; gap: 16px; padding: 16px 0; border-bottom: 1px solid #F0F0F0; cursor: pointer; }
+    .more-menu-item:hover { opacity: 0.7; }
+  </style>
+</head>
+<body>
+<div class="phone-frame">
+  <div class="green-header">
+    <div class="header-top-row">
+      <div class="back-button" id="backButton"><span class="back-arrow">←</span><span class="back-text">Back</span></div>
+      <div class="dbgf-badge" id="profileBtn">
+        <span class="dbgf-badge-text">Jose</span>
+        <span class="dbgf-badge-icon">▼</span>
+      </div>
+    </div>
+    <div id="profileDropdown" class="profile-dropdown">
+      <div class="dropdown-header"><h4>GUIDE-Me · Account Menu</h4><p>Department-Based Guidance Facilitator</p></div>
+      <div class="dropdown-item" id="editProfileItem"><span class="dropdown-icon">✏️</span><span class="dropdown-text">Edit Profile</span></div>
+      <div class="dropdown-item" id="logoutItem"><span class="dropdown-icon">🚪</span><span class="dropdown-text logout-text">Logout</span></div>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="page-header">
+      <h1>Department Schedule</h1>
+      <p>Department of Information Technology (DIT)</p>
+    </div>
+
+    <!-- Scope Banner -->
+    <div class="scope-banner">
+      <p>📋 <strong>DBGF Scope:</strong> Set your recurring weekly availability for <strong>consultation services</strong> (academic advising, study support, peer relations, career options, program shifting).<br>
+      Each time slot represents a <strong>1-hour consultation session</strong>.</p>
+    </div>
+
+    <div class="content">
+      <!-- Add Availability Card -->
+      <div class="card">
+        <div class="section-label">➕ Add Recurring Availability</div>
+        
+        <!-- Day Selection -->
+        <div class="day-selector">
+          <div class="input-label">Select Day</div>
+          <div class="day-buttons" id="dayButtons">
+            <div class="day-btn" data-day="Monday">Monday</div>
+            <div class="day-btn" data-day="Tuesday">Tuesday</div>
+            <div class="day-btn" data-day="Wednesday">Wednesday</div>
+            <div class="day-btn" data-day="Thursday">Thursday</div>
+            <div class="day-btn" data-day="Friday">Friday</div>
+          </div>
+        </div>
+
+        <!-- Time Range Selection -->
+        <div class="time-row">
+          <div class="time-select">
+            <div class="input-label">Start Time</div>
+            <select id="startTime" class="custom-select">
+              <option value="08:00">08:00</option>
+              <option value="09:00">09:00</option>
+              <option value="10:00">10:00</option>
+              <option value="11:00">11:00</option>
+              <option value="12:00">12:00</option>
+              <option value="13:00">13:00</option>
+              <option value="14:00">14:00</option>
+              <option value="15:00">15:00</option>
+              <option value="16:00">16:00</option>
+            </select>
+          </div>
+          <div class="time-select">
+            <div class="input-label">End Time</div>
+            <select id="endTime" class="custom-select">
+              <option value="09:00">09:00</option>
+              <option value="10:00">10:00</option>
+              <option value="11:00">11:00</option>
+              <option value="12:00">12:00</option>
+              <option value="13:00">13:00</option>
+              <option value="14:00">14:00</option>
+              <option value="15:00">15:00</option>
+              <option value="16:00">16:00</option>
+              <option value="17:00">17:00</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="add-btn" id="addSlotBtn">
+          <span>Open Consultation Hours →</span>
+        </div>
+      </div>
+
+      <!-- Active Slots List -->
+      <div class="list-header">📋 Available Consultation Hours</div>
+      <div id="slotsContainer"></div>
+    </div>
+  </div>
+
+  <div class="bottom-tabs">
+    <div class="tab-item" data-tab="dashboard"><div class="tab-icon">🏠</div><div class="tab-label">Home</div></div>
+    <div class="tab-item" data-tab="appointments"><div class="tab-icon">📅</div><div class="tab-label">Appts</div></div>
+    <div class="tab-item" data-tab="services"><div class="tab-icon">🗂️</div><div class="tab-label">Services</div></div>
+    <div class="tab-item" id="moreBtn"><div class="tab-icon">☰</div><div class="tab-label">More</div></div>
+  </div>
+</div>
+
+<div id="moreMenuOverlay" class="more-menu-overlay">
+  <div class="more-menu-panel">
+    <div class="more-menu-title">GUIDE-Me Menu</div>
+    <div class="more-menu-item" id="personnelItem"><span class="more-menu-icon">👥</span><span class="more-menu-text">Personnel</span></div>
+    <div class="more-menu-item" id="aboutItem"><span class="more-menu-icon">ℹ️</span><span class="more-menu-text">About GUIDE-Me</span></div>
+  </div>
+</div>
+
+<div id="toastMsg" class="toast-msg"></div>
+
+<script>
+  // ============================================================
+  // DBGF Availability Manager
+  // Manage recurring weekly 1-hour consultation appointment slots
+  // Days: Monday-Friday | Hours: 8:00 AM - 5:00 PM
+  // Department: DIT (Department of Information Technology)
+  // ============================================================
+
+  // Available times for slot generation
+  const TIME_SLOTS = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'];
+  const DAYS_ORDER = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+
+  // Mock slots stored in localStorage for persistence across refreshes
+  let dbgfSlots = [];
+
+  function loadSlotsFromStorage() {
+    const stored = localStorage.getItem('dbgf_availability_slots');
+    if (stored) {
+      dbgfSlots = JSON.parse(stored);
+    } else {
+      // Default demo slots for DBGF
+      dbgfSlots = [
+        { id: "slot_1", day: "Monday", startTime: "09:00" },
+        { id: "slot_2", day: "Monday", startTime: "10:00" },
+        { id: "slot_3", day: "Tuesday", startTime: "13:00" },
+        { id: "slot_4", day: "Wednesday", startTime: "14:00" },
+        { id: "slot_5", day: "Thursday", startTime: "11:00" },
+        { id: "slot_6", day: "Friday", startTime: "09:00" },
+        { id: "slot_7", day: "Friday", startTime: "10:00" }
+      ];
+      saveSlotsToStorage();
+    }
+  }
+
+  function saveSlotsToStorage() {
+    localStorage.setItem('dbgf_availability_slots', JSON.stringify(dbgfSlots));
+  }
+
+  // Generate unique ID
+  function generateId() {
+    return Date.now().toString(36) + Math.random().toString(36).substr(2);
+  }
+
+  // Sort slots by day order then by time
+  function sortSlots(slots) {
+    return [...slots].sort((a, b) => {
+      const dayCompare = DAYS_ORDER.indexOf(a.day) - DAYS_ORDER.indexOf(b.day);
+      if (dayCompare !== 0) return dayCompare;
+      return a.startTime.localeCompare(b.startTime);
+    });
+  }
+
+  // Format time display
+  function formatTimeRange(startTime) {
+    return `${startTime} — 1 Hour Consultation`;
+  }
+
+  // Format day display
+  function formatDay(day) {
+    return `${day}s`;
+  }
+
+  // Show toast message
+  function showToast(msg, isError = false) {
+    const toast = document.getElementById('toastMsg');
+    toast.textContent = msg;
+    toast.style.backgroundColor = isError ? '#C62828' : '#1B5E20';
+    toast.style.opacity = '1';
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.backgroundColor = '#1B5E20';
+    }, 2000);
+  }
+
+  // Check if a specific slot already exists
+  function slotExists(day, startTime) {
+    return dbgfSlots.some(slot => slot.day === day && slot.startTime === startTime);
+  }
+
+  // Add new slots from a time range
+  function addTimeRange(day, startHour, endHour) {
+    if (startHour >= endHour) {
+      showToast('Invalid Time Range: End Time must be later than Start Time', true);
+      return false;
+    }
+
+    const newSlots = [];
+    for (let hour = startHour; hour < endHour; hour++) {
+      const timeStr = `${hour.toString().padStart(2, '0')}:00`;
+      if (!slotExists(day, timeStr)) {
+        newSlots.push({
+          id: generateId(),
+          day: day,
+          startTime: timeStr
+        });
+      }
+    }
+
+    if (newSlots.length === 0) {
+      showToast('All slots within this time range are already open');
+      return false;
+    }
+
+    dbgfSlots.push(...newSlots);
+    saveSlotsToStorage();
+    showToast(`✅ Opened ${newSlots.length} consultation slot(s) for ${day}s`);
+    renderSlots();
+    return true;
+  }
+
+  // Remove a slot
+  function removeSlot(slotId) {
+    const slotToRemove = dbgfSlots.find(s => s.id === slotId);
+    if (slotToRemove && confirm(`Close ${slotToRemove.day} at ${slotToRemove.startTime} consultation slot?`)) {
+      dbgfSlots = dbgfSlots.filter(s => s.id !== slotId);
+      saveSlotsToStorage();
+      showToast(`✅ Closed ${slotToRemove.day} ${slotToRemove.startTime} consultation slot`);
+      renderSlots();
+    }
+  }
+
+  // Render the list of active slots
+  function renderSlots() {
+    const container = document.getElementById('slotsContainer');
+    const sortedSlots = sortSlots(dbgfSlots);
+
+    if (sortedSlots.length === 0) {
+      container.innerHTML = `<div class="empty-text">No consultation hours set yet.<br>Use the form above to add your availability for student appointments.</div>`;
+      return;
+    }
+
+    container.innerHTML = sortedSlots.map(slot => `
+      <div class="slot-card" data-id="${slot.id}">
+        <div class="slot-info">
+          <div class="slot-day">${formatDay(slot.day)}</div>
+          <div class="slot-time">${formatTimeRange(slot.startTime)}</div>
+        </div>
+        <button class="delete-btn" data-id="${slot.id}">Delete</button>
+      </div>
+    `).join('');
+
+    // Attach delete handlers
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = btn.getAttribute('data-id');
+        removeSlot(id);
+      });
+    });
+  }
+
+  // Day selection state
+  let selectedDay = 'Monday';
+
+  function setupDaySelection() {
+    const dayBtns = document.querySelectorAll('.day-btn');
+    dayBtns.forEach(btn => {
+      const day = btn.getAttribute('data-day');
+      if (day === selectedDay) {
+        btn.classList.add('active');
+      }
+      btn.addEventListener('click', () => {
+        dayBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        selectedDay = btn.getAttribute('data-day');
+      });
+    });
+  }
+
+  function getHourFromTime(timeStr) {
+    return parseInt(timeStr.split(':')[0]);
+  }
+
+  function setupAddSlot() {
+    const addBtn = document.getElementById('addSlotBtn');
+    const startTimeSelect = document.getElementById('startTime');
+    const endTimeSelect = document.getElementById('endTime');
+
+    addBtn.addEventListener('click', () => {
+      const startTime = startTimeSelect.value;
+      const endTime = endTimeSelect.value;
+      const startHour = getHourFromTime(startTime);
+      const endHour = getHourFromTime(endTime);
+      
+      addTimeRange(selectedDay, startHour, endHour);
+    });
+  }
+
+  // ========== NAVIGATION INTEGRATION ==========
+  function setupNavigation() {
+    const profileDropdown = document.getElementById('profileDropdown');
+    const profileBtn = document.getElementById('profileBtn');
+    const backButton = document.getElementById('backButton');
+    const moreMenuOverlay = document.getElementById('moreMenuOverlay');
+    const moreBtn = document.getElementById('moreBtn');
+
+    backButton.addEventListener('click', () => { window.location.href = "index.html"; });
+
+    profileBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      profileDropdown.classList.toggle('active');
+    });
+    document.addEventListener('click', (e) => {
+      if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+        profileDropdown.classList.remove('active');
+      }
+    });
+
+    document.getElementById('editProfileItem')?.addEventListener('click', () => {
+      profileDropdown.classList.remove('active');
+      window.location.href = "edit-profile.html";
+    });
+    document.getElementById('logoutItem')?.addEventListener('click', () => {
+      profileDropdown.classList.remove('active');
+      window.location.href = "login.html";
+    });
+
+    moreBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      moreMenuOverlay.classList.toggle('active');
+      profileDropdown.classList.remove('active');
+    });
+    moreMenuOverlay.addEventListener('click', (e) => {
+      if (e.target === moreMenuOverlay) moreMenuOverlay.classList.remove('active');
+    });
+    document.getElementById('personnelItem')?.addEventListener('click', () => {
+      moreMenuOverlay.classList.remove('active');
+      window.location.href = "personnel.html";
+    });
+    document.getElementById('aboutItem')?.addEventListener('click', () => {
+      moreMenuOverlay.classList.remove('active');
+      window.location.href = "about.html";
+    });
+
+    document.querySelectorAll('.tab-item[data-tab]').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tabName = tab.getAttribute('data-tab');
+        if (tabName === 'dashboard') window.location.href = "index.html";
+        else if (tabName === 'appointments') window.location.href = "dbgf-log.html";
+        else if (tabName === 'services') window.location.href = "services-analytics.html";
+        moreMenuOverlay.classList.remove('active');
+      });
+    });
+  }
+
+  // Initialize
+  loadSlotsFromStorage();
+  renderSlots();
+  setupDaySelection();
+  setupAddSlot();
+  setupNavigation();
+  
+  console.log('✅ DBGF Availability Manager loaded | Recurring weekly consultation slots (1-hour sessions) | Department: DIT');
+</script>
+</body>
+</html>

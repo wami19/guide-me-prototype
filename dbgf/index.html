@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>GUIDE-Me · Counselor Dashboard | VSU Isabel</title>
+  <title>GUIDE-Me · DBGF Dashboard | VSU Isabel</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * {
@@ -22,7 +22,7 @@
       padding: 20px;
     }
 
-    /* iPhone 15 Pro Max frame (same as student view) */
+    /* iPhone 15 Pro Max frame */
     .phone-frame {
       width: 100%;
       max-width: 430px;
@@ -56,7 +56,7 @@
       border-radius: 4px;
     }
 
-    /* ========== GREEN HEADER (Full width, bleeds to edges) ========== */
+    /* ========== GREEN HEADER ========== */
     .green-header {
       background-color: #1B5E20;
       padding: 16px 20px 20px 20px;
@@ -65,7 +65,6 @@
       position: relative;
     }
 
-    /* Top row: Home label on left, COUNSELOR badge on right */
     .header-top-row {
       display: flex;
       justify-content: space-between;
@@ -78,7 +77,7 @@
       font-weight: 600;
       letter-spacing: 0.5px;
     }
-    .counselor-badge {
+    .dbgf-badge {
       background: rgba(255, 255, 255, 0.2);
       padding: 6px 14px;
       border-radius: 20px;
@@ -89,21 +88,21 @@
       gap: 8px;
       position: relative;
     }
-    .counselor-badge:hover {
+    .dbgf-badge:hover {
       background: rgba(255, 255, 255, 0.3);
     }
-    .counselor-badge-text {
+    .dbgf-badge-text {
       color: white;
       font-size: 12px;
       font-weight: 600;
       letter-spacing: 0.5px;
     }
-    .counselor-badge-icon {
+    .dbgf-badge-icon {
       color: white;
       font-size: 16px;
     }
 
-    /* Profile Dropdown Menu - Positioned inside phone frame */
+    /* Profile Dropdown Menu */
     .profile-dropdown {
       position: absolute;
       top: 50px;
@@ -174,7 +173,7 @@
       font-weight: 600;
     }
 
-    /* Welcome section with logo */
+    /* Welcome section */
     .welcome-section {
       display: flex;
       align-items: center;
@@ -199,19 +198,19 @@
       color: white;
       margin-bottom: 4px;
     }
-    .hello-counselor {
+    .hello-dbgf {
       font-size: 14px;
       color: #F9A825;
       font-weight: 600;
       margin-bottom: 6px;
     }
-    .counselor-role-badge {
+    .dept-badge {
       background: #E8F5E9;
       padding: 4px 12px;
       border-radius: 20px;
       display: inline-block;
     }
-    .counselor-role-badge span {
+    .dept-badge span {
       font-size: 11px;
       font-weight: 600;
       color: #1B5E20;
@@ -230,8 +229,20 @@
       margin-bottom: 16px;
       letter-spacing: -0.2px;
     }
+    .dept-header {
+      background: #E8F5E9;
+      padding: 8px 12px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+    .dept-header span {
+      font-size: 13px;
+      font-weight: 600;
+      color: #2E7D32;
+    }
 
-    /* Stats Row - 3 cards (Pending, Ongoing, AI Chat Triage) */
+    /* Stats Row - only 2 cards now (simpler) */
     .stats-row {
       display: flex;
       gap: 12px;
@@ -253,7 +264,7 @@
       transform: translateY(-2px);
       box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
     }
-    /* Alert state for Pending card (gold background when count > 0) */
+    /* Alert state for Pending card */
     .stat-card.alert-card {
       background-color: #F9A825;
       border: none;
@@ -290,16 +301,8 @@
       color: #555;
       margin-top: 6px;
     }
-    /* Special styling for AI Chat Triage card */
-    .triage-card {
-      background: linear-gradient(145deg, #FEF9E6, #FFF7E8);
-      border-left: 3px solid #F9A825;
-    }
-    .triage-card .icon-wrapper {
-      background-color: #FDEBB3;
-    }
 
-    /* Tools Grid (2 tiles) */
+    /* Tools Grid - only 2 tiles now (simpler) */
     .tools-grid {
       display: flex;
       flex-direction: column;
@@ -354,7 +357,25 @@
       font-size: 16px;
     }
 
-    /* Footer Sections */
+    /* Info Banner - DBGF Role Explanation */
+    .info-banner {
+      background: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 100%);
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      border-left: 4px solid #F9A825;
+    }
+    .info-banner p {
+      font-size: 12px;
+      color: #1B5E20;
+      line-height: 1.5;
+      font-weight: 500;
+    }
+    .info-banner strong {
+      color: #2E7D32;
+    }
+
+    /* Footer */
     .privacy-footer {
       margin-top: 8px;
       padding: 16px 0;
@@ -377,7 +398,7 @@
       color: #999;
     }
 
-    /* ========== BOTTOM TABS (same as student view) ========== */
+    /* Bottom Tabs */
     .bottom-tabs {
       background: white;
       border-top: 1px solid #E0E0E0;
@@ -479,7 +500,7 @@
       font-weight: 500;
     }
 
-    /* Toast message for demo */
+    /* Toast message */
     .toast-msg {
       position: fixed;
       bottom: 90px;
@@ -502,22 +523,22 @@
 </head>
 <body>
 <div class="phone-frame">
-  <!-- Green Header - bleeds to sides -->
+  <!-- Green Header -->
   <div class="green-header">
-    <!-- Top row: Home + COUNSELOR badge -->
+    <!-- Top row: Home + Jose badge -->
     <div class="header-top-row">
       <div class="home-label">Home</div>
-      <div class="counselor-badge" id="profileBtn">
-        <span class="counselor-badge-text">Joebren</span>
-        <span class="counselor-badge-icon">▼</span>
+      <div class="dbgf-badge" id="profileBtn">
+        <span class="dbgf-badge-text">Jose</span>
+        <span class="dbgf-badge-icon">▼</span>
       </div>
     </div>
     
-    <!-- Profile Dropdown Menu - Inside phone frame -->
+    <!-- Profile Dropdown Menu -->
     <div id="profileDropdown" class="profile-dropdown">
       <div class="dropdown-header">
         <h4>GUIDE-Me · Account Menu</h4>
-        <p>Guidance Counselor</p>
+        <p>Department-Based Guidance Facilitator</p>
       </div>
       <div class="dropdown-item" id="editProfileItem">
         <span class="dropdown-icon">✏️</span>
@@ -529,8 +550,9 @@
       </div>
     </div>
     
-    <!-- Welcome section with logo (matches student view style) -->
+    <!-- Welcome section with logo -->
     <div class="welcome-section">
+      <!-- Logo placeholder -->
       <img src="../assets/guide_me_logo_icon_v2.png"
         alt="Guide Me Logo"
         width="70"
@@ -538,9 +560,9 @@
         style="object-fit: contain;">
       <div class="welcome-text">
         <div class="guide-me-title">GUIDE-Me</div>
-        <div class="hello-counselor">Hello, Joebren Herrera!</div>
-        <div class="counselor-role-badge">
-          <span>Guidance Counselor</span>
+        <div class="hello-dbgf">Hello, Jose Rizal!</div>
+        <div class="dept-badge">
+          <span>🏫 Department of Information Technology (DIT) · DBGF</span>
         </div>
       </div>
     </div>
@@ -549,15 +571,27 @@
   <!-- Main Scrollable Content -->
   <div class="main-content">
     <div class="dashboard-scroll">
-      <!-- Counselor Dashboard · Case Management Section -->
-      <div class="section-header">Counselor Dashboard · Case Management</div>
+      <!-- Info Banner explaining DBGF role -->
+      <div class="info-banner">
+        <p>🏫 <strong>Department-Based Guidance Facilitator (DBGF)</strong><br>
+        You serve as the department-specific bridge between students and the Guidance Counselor. 
+        Manage department appointments, coordinate faculty availability, and provide first-line support for your students.</p>
+      </div>
+
+      <!-- Department Header with official department name -->
+      <div class="dept-header">
+        <span>💻 Department of Information Technology (DIT) Dashboard</span>
+      </div>
       
-      <!-- Stats Row: Pending Requests | Ongoing Cases | AI Chat Triage (NEW) -->
+      <!-- DBGF Dashboard Title -->
+      <div class="section-header">DBGF Dashboard · Department Case Management</div>
+      
+      <!-- Stats Row: Pending Requests | Ongoing Cases (simplified - removed Dept Students) -->
       <div class="stats-row">
         <!-- Pending Requests card (alert style dynamic) -->
         <div class="stat-card" id="pendingCard">
           <div class="icon-wrapper">
-            <span class="stat-icon">📋</span>
+            <span class="stat-icon">🏫</span>
           </div>
           <div class="stat-value" id="pendingCount">0</div>
           <div class="stat-label">Pending Requests</div>
@@ -570,54 +604,46 @@
           <div class="stat-value" id="ongoingCount">0</div>
           <div class="stat-label">Ongoing Cases</div>
         </div>
-        <!-- AI Chat Triage card (distinctive) -->
-        <div class="stat-card triage-card" id="aiTriageCard">
-          <div class="icon-wrapper">
-            <span class="stat-icon">🤖✨</span>
-          </div>
-          <div class="stat-value" style="font-size: 22px; margin-top: 6px;">Triage</div>
-          <div class="stat-label">AI Chat Triage</div>
-        </div>
       </div>
 
-      <!-- Counselor Tools · Office Schedule -->
-      <div class="section-header">Counselor Tools · Office Schedule</div>
+      <!-- Facilitator Tools (simplified - removed Student Roster) -->
+      <div class="section-header">Facilitator Tools · Availability & Services</div>
       <div class="tools-grid">
-        <!-- Set Availability tile -->
-        <div class="tool-tile" id="availabilityTile">
+        <!-- Manage Department Schedule tile -->
+        <div class="tool-tile" id="scheduleTile">
           <div class="tile-icon-bg">
             <span style="font-size: 26px;">📅</span>
           </div>
           <div class="tile-text">
             <div class="tile-label">Set Availability</div>
-            <div class="tile-sub">Define your available hours</div>
+            <div class="tile-sub">Define your available hours per week</div>
           </div>
           <div class="chevron">→</div>
         </div>
-        <!-- Support Services tile -->
+        <!-- Student Support Services tile -->
         <div class="tool-tile" id="supportServicesTile">
           <div class="tile-icon-bg">
             <span style="font-size: 26px;">🗂️</span>
           </div>
           <div class="tile-text">
             <div class="tile-label">Student Support Services</div>
-            <div class="tile-sub">See the list of guidance services offered</div>
+            <div class="tile-sub">See what you can do to help our students and licensed counselor</div>
           </div>
           <div class="chevron">→</div>
         </div>
       </div>
 
-      <!-- Footer (same as student view) -->
+      <!-- Footer -->
       <div class="privacy-footer">
-        <p>⚠️ Protected under the <strong>Data Privacy Act (RA 10173)</strong>.</p>
+        <p>🔒 Protected under the <strong>Data Privacy Act (RA 10173)</strong>. All student records are confidential.</p>
       </div>
       <div class="footer-note">
-        <p>VSU Isabel Guidance Office · AY 2025-2026</p>
+        <p>VSU Isabel Guidance Office · Department-Based Facilitation · AY 2025-2026</p>
       </div>
     </div>
   </div>
 
-  <!-- Bottom Tabs (identical to student view for consistency) -->
+  <!-- Bottom Tabs -->
   <div class="bottom-tabs">
     <div class="tab-item" data-tab="dashboard">
       <div class="tab-icon active" id="dashboardIcon">🏠</div>
@@ -649,18 +675,24 @@
     <div class="more-menu-item" id="aboutItem">
       <span class="more-menu-icon">ℹ️</span>
       <span class="more-menu-text">About GUIDE-Me</span>
-    </div>
+    </div>    
   </div>
 </div>
 
-<!-- Toast message for demo interactions -->
+<!-- Toast message -->
 <div id="toastMsg" class="toast-msg">✨ Demo interaction</div>
 
 <script>
   // ============================================================
-  // GUIDE-Me Counselor Dashboard | Harmonized with Student UI
-  // Features: pending/ongoing live counters, AI Chat Triage card,
-  // alert styling, dropdown menu, bottom tabs, tool tiles.
+  // GUIDE-Me DBGF Dashboard | Department-Based Guidance Facilitator
+  // Official Departments from signup.html:
+  // - Department of Information Technology (DIT)
+  // - Department of Business Management (DBM)
+  // - Department of Civil Engineering (DCE)
+  // - Department of Mechanical Engineering (DME)
+  // - Department of Industrial Engineering (DIE)
+  // - Department of Arts and Sciences (DAS)
+  // - Department of Teacher Education (DTE)
   // ============================================================
 
   // DOM Elements
@@ -673,11 +705,14 @@
   const ongoingCountEl = document.getElementById('ongoingCount');
   const pendingCard = document.getElementById('pendingCard');
   const ongoingCard = document.getElementById('ongoingCard');
-  const aiTriageCard = document.getElementById('aiTriageCard');
-  const availabilityTile = document.getElementById('availabilityTile');
+  const scheduleTile = document.getElementById('scheduleTile');
   const supportServicesTile = document.getElementById('supportServicesTile');
   const toastMsg = document.getElementById('toastMsg');
 
+  // Department info (using official DIT department as example)
+  const departmentName = "Department of Information Technology (DIT)";
+  const departmentCode = "DIT";
+  
   // Helper: show temporary toast message
   function showMessage(msg) {
     toastMsg.textContent = msg;
@@ -699,9 +734,9 @@
     }
   }
 
-  // Simulate live Firestore counts (pending and ongoing)
-  let pendingRequests = 3;   // starting with 3 to show gold alert (Von Restorff effect)
-  let ongoingCases = 2;
+  // Simulate live Firestore counts filtered by department
+  let pendingRequests = 2;   // Starting with 2 to demonstrate gold alert
+  let ongoingCases = 1;
 
   function updateCountersUI() {
     pendingCountEl.innerText = pendingRequests;
@@ -709,30 +744,31 @@
     updatePendingAlert();
   }
 
-  // Simulate real-time changes like onSnapshot (every 12 sec)
+  // Simulate real-time changes like onSnapshot (every 15 seconds)
   let intervalId = null;
   function startLiveSimulation() {
     if (intervalId) clearInterval(intervalId);
     intervalId = setInterval(() => {
-      // Random fluctuations for pending
-      const deltaPending = Math.random() > 0.65 ? (Math.random() > 0.5 ? 1 : -1) : 0;
+      // Random fluctuations for pending (department-specific)
+      const deltaPending = Math.random() > 0.7 ? (Math.random() > 0.5 ? 1 : -1) : 0;
       let newPending = pendingRequests + deltaPending;
       if (newPending < 0) newPending = 0;
-      if (newPending > 7) newPending = 7;
+      if (newPending > 8) newPending = 8;
       pendingRequests = newPending;
       
       // Ongoing fluctuations
-      const deltaOngoing = Math.random() > 0.75 ? (Math.random() > 0.6 ? 1 : -1) : 0;
+      const deltaOngoing = Math.random() > 0.8 ? (Math.random() > 0.6 ? 1 : -1) : 0;
       let newOngoing = ongoingCases + deltaOngoing;
       if (newOngoing < 0) newOngoing = 0;
-      if (newOngoing > 5) newOngoing = 5;
+      if (newOngoing > 6) newOngoing = 6;
       ongoingCases = newOngoing;
       
       updateCountersUI();
-      if (deltaPending !== 0 && newPending > 0) {
-        showMessage(`📋 Pending requests updated: ${newPending} pending`);
+      
+      if (deltaPending !== 0) {
+        showMessage(`📋 ${departmentCode} pending requests: ${newPending}`);
       }
-    }, 11000);
+    }, 15000);
   }
 
   // ========== Profile Dropdown Logic ==========
@@ -753,7 +789,7 @@
     }
   });
 
-  // ========== Tab Switching (navigate to other pages for prototype) ==========
+  // ========== Tab Switching ==========
   function switchTab(tab) {
     const icons = ['dashboardIcon', 'appointmentsIcon', 'servicesIcon'];
     const labels = ['dashboardLabel', 'appointmentsLabel', 'servicesLabel'];
@@ -771,11 +807,11 @@
     if (tab === 'dashboard') {
       document.getElementById('dashboardIcon')?.classList.add('active');
       document.getElementById('dashboardLabel')?.classList.add('active');
-      window.location.href = "index.html";
+      showMessage("🏠 Dashboard (current page)");
     } else if (tab === 'appointments') {
       document.getElementById('appointmentsIcon')?.classList.add('active');
       document.getElementById('appointmentsLabel')?.classList.add('active');
-      window.location.href = "counselor-log.html";
+      window.location.href = "dbgf-log.html";
     } else if (tab === 'services') {
       document.getElementById('servicesIcon')?.classList.add('active');
       document.getElementById('servicesLabel')?.classList.add('active');
@@ -796,7 +832,10 @@
   });
   document.getElementById('logoutItem').addEventListener('click', () => {
     closeProfileDropdown();
-    window.location.href = "login.html";
+    showMessage("👋 Logging out...");
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 500);
   });
 
   // More menu logic
@@ -820,22 +859,21 @@
   });
 
   // ========== Dashboard Card Interactions ==========
-  // Pending card -> navigate to counselor-dashboard (pending requests)
+  // Pending card -> navigate to dbgf-dashboard (pending requests filtered by department)
   pendingCard.addEventListener('click', () => {
-    window.location.href = "counselor-pending.html";
+    window.location.href = "dbgf-pending.html";
   });
-  // Ongoing cases -> counselor-active cases view
+  
+  // Ongoing cases -> dbgf-active cases view
   ongoingCard.addEventListener('click', () => {
-    window.location.href = "counselor-ongoing.html";
+    window.location.href = "dbgf-ongoing.html";
   });
-  // AI Chat Triage card (new feature) -> open AI triage assistant
-  aiTriageCard.addEventListener('click', () => {
-    window.location.href = "counselor-ai-triage.html";
-  });
+  
   // Tool tiles
-  availabilityTile.addEventListener('click', () => {
-    window.location.href = "counselor-availability.html";
+  scheduleTile.addEventListener('click', () => {
+    window.location.href = "dbgf-availability.html";
   });
+  
   supportServicesTile.addEventListener('click', () => {
     window.location.href = "services.html";
   });
@@ -852,7 +890,8 @@
   }
   init();
 
-  console.log("✅ GUIDE-Me Counselor Dashboard | AI Chat Triage tile added, UI harmonized with student view");
+  console.log("✅ GUIDE-Me DBGF Dashboard | Department: " + departmentName);
+  console.log("⚡ Live counter simulation active | Department-scoped appointments only");
 </script>
 </body>
 </html>

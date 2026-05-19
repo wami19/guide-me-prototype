@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>GUIDE-Me · VSU Isabel | Sign Up (IGA Secured)</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #000000;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    /* main container */
+    .signup-container {
+      width: 100%;
+      max-width: 430px;
+	  height: 932px;
+      margin: 0 auto;
+      background-color: #1B5E20;
+      border-radius: 40px;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+    }
+
+	.scroll-area {
+	  flex: 1;
+	  overflow-y: auto;
+	  padding-bottom: 24px;
+	  scroll-behavior: smooth;
+	}
+
+    .scroll-area::-webkit-scrollbar {
+      width: 4px;
+    }
+    .scroll-area::-webkit-scrollbar-track {
+      background: #2E7D32;
+      border-radius: 4px;
+    }
+    .scroll-area::-webkit-scrollbar-thumb {
+      background: #F9A825;
+      border-radius: 4px;
+    }
+
+    /* Header branding */
+    .brand-header {
+      text-align: center;
+      padding: 36px 20px 20px;
+    }
+    .logo-badge {
+      width: 80px;
+      height: 80px;
+      background: #F9A825;
+      border-radius: 28px;
+      margin: 0 auto 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+    }
+    .logo-badge svg {
+      width: 52px;
+      height: 52px;
+    }
+    .main-heading {
+      font-size: 26px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.3px;
+    }
+    .vsu-tag {
+      font-size: 13px;
+      color: #A5D6A7;
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    /* White card */
+    .form-card {
+      background: white;
+      margin: 8px 16px 20px;
+      border-radius: 28px;
+      padding: 28px 24px 32px;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Progress indicators */
+    .progress-steps {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .step-dot {
+      flex: 1;
+      height: 6px;
+      background: #E0E0E0;
+      border-radius: 6px;
+      transition: all 0.25s ease;
+    }
+    .step-dot.active {
+      background: #F9A825;
+    }
+
+    /* Step headers */
+    .step-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #1B5E20;
+      margin-bottom: 22px;
+    }
+
+    /* Form fields */
+    .input-group {
+      margin-bottom: 20px;
+    }
+    .input-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1B5E20;
+      margin-bottom: 8px;
+      display: block;
+      letter-spacing: 0.3px;
+    }
+    .input-field {
+      width: 100%;
+      background: #F9FBF9;
+      border: 1.5px solid #A5D6A7;
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-family: 'Inter', monospace;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .input-field:focus {
+      border-color: #F9A825;
+      box-shadow: 0 0 0 2px rgba(249, 168, 37, 0.2);
+      background: white;
+    }
+    .input-error-field {
+      border-color: #C62828;
+      background: #FFEBEE;
+    }
+    .error-message {
+      font-size: 11px;
+      color: #C62828;
+      margin-top: 5px;
+      font-style: italic;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .hint-note {
+      font-size: 11px;
+      color: #777;
+      margin-top: 5px;
+      font-style: italic;
+    }
+
+    /* Department chips */
+    .chips-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+    .dept-chip {
+      background: #E8F5E9;
+      border: 1.5px solid #A5D6A7;
+      padding: 6px 14px;
+      border-radius: 40px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #2E7D32;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .dept-chip.selected {
+      background: #1B5E20;
+      border-color: #1B5E20;
+      color: white;
+    }
+
+    /* Checkbox (custom) */
+    .consent-row {
+      display: flex;
+      gap: 12px;
+      margin: 18px 0 12px;
+      align-items: flex-start;
+    }
+    .custom-checkbox {
+      width: 20px;
+      height: 20px;
+      border: 2px solid #2E7D32;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .custom-checkbox.checked {
+      background: #2E7D32;
+    }
+    .check-tick {
+      color: white;
+      font-size: 13px;
+      font-weight: bold;
+    }
+    .policy-text {
+      font-size: 12px;
+      color: #444;
+      line-height: 1.4;
+    }
+    .policy-link-highlight {
+      color: #2E7D32;
+      font-weight: 700;
+    }
+
+    /* Navigation buttons */
+    .action-buttons {
+      display: flex;
+      gap: 14px;
+      margin-top: 28px;
+    }
+    .btn-back {
+      flex: 1;
+      background: #E0E0E0;
+      border: none;
+      padding: 14px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 14px;
+      color: #555;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-next, .btn-submit {
+      flex: 1;
+      background: #2E7D32;
+      border: none;
+      padding: 14px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 14px;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .btn-submit {
+      background: #F9A825;
+      color: #1B5E20;
+    }
+    .btn-back:hover, .btn-next:hover, .btn-submit:hover {
+      opacity: 0.85;
+      transform: scale(0.98);
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .spinner-icon {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #1B5E20;
+      border-top-color: #F9A825;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Footer & login integration note */
+    .login-redirect {
+      text-align: center;
+      margin: 10px 0 20px;
+    }
+    .login-message {
+      font-size: 13px;
+      color: #A5D6A7;
+      background: rgba(0, 0, 0, 0.2);
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 60px;
+    }
+	.login-link {
+      font-size: 13px;
+      font-weight: 700;
+      color: #E8F5E9;
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .integration-note {
+      background: #E8F5E9;
+      margin: 0 16px 16px;
+      padding: 10px 14px;
+      border-radius: 60px;
+      text-align: center;
+      font-size: 11px;
+      color: #1B5E20;
+      font-weight: 600;
+    }
+
+    /* Modal alert (demo friendly) */
+    .modal-mask {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.2s;
+    }
+    .modal-mask.active {
+      visibility: visible;
+      opacity: 1;
+    }
+    .modal-dialog {
+      background: white;
+      width: 280px;
+      border-radius: 32px;
+      padding: 24px 20px;
+      text-align: center;
+    }
+    .modal-dialog h3 {
+      font-weight: 800;
+      font-size: 18px;
+      color: #1B5E20;
+      margin-bottom: 12px;
+    }
+    .modal-dialog p {
+      margin: 16px 0;
+      font-size: 14px;
+      color: #1A1A1A;
+    }
+    .modal-ok-btn {
+      background: #F9A825;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 40px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div class="signup-container">
+  <div class="scroll-area">
+    <!-- Header -->
+    <div class="brand-header">
+      <div class="logo-badge">
+        <!-- <svg width="52" height="52" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#1B5E20" stroke-width="1.2" fill="#F9A825"/>
+          <path d="M2 17L12 22L22 17" stroke="#1B5E20" stroke-width="1.2" fill="none"/>
+          <path d="M2 12L12 17L22 12" stroke="#1B5E20" stroke-width="1.2" fill="none"/>
+          <circle cx="12" cy="12" r="2" fill="#1B5E20"/>
+          <path d="M12 7L12 12L16 14" stroke="#1B5E20" stroke-width="1.2" fill="none"/>
+        </svg>
+		-->
+		<img src="../assets/guide_me_logo_icon_v2.png"
+				 alt="Guide Me Logo"
+				 width="100"
+				 height="100"
+				 style="object-fit: contain;">
+      </div>
+      <div class="main-heading">Account Registration</div>
+      <div class="vsu-tag">GUIDE-Me · VSU Isabel · IGA Secured</div>
+    </div>
+
+    <!-- Main Card -->
+    <div class="form-card">
+      <!-- Progress Bar -->
+      <div class="progress-steps">
+        <div id="step1Dot" class="step-dot active"></div>
+        <div id="step2Dot" class="step-dot"></div>
+      </div>
+
+      <!-- STEP 1 - Personal Details -->
+      <div id="step1Container">
+        <div class="step-title">Step 1: Personal Details</div>
+        <div class="input-group">
+          <label class="input-label">Full Name</label>
+          <input type="text" id="fullName" class="input-field" placeholder="e.g. Juan Dela Cruz">
+          <div id="fullNameError" class="error-message" style="display: none;"></div>
+        </div>
+        <div class="input-group">
+          <label class="input-label">ID Number</label>
+          <input type="text" id="idNumber" class="input-field" placeholder="e.g. 21-1-00123 or EMP-042">
+          <div id="idNumberError" class="error-message" style="display: none;"></div>
+          <div class="hint-note">Your student or employee ID</div>
+        </div>
+        <div class="input-group">
+          <label class="input-label">My Department is...</label>
+          <div id="deptChipsContainer" class="chips-wrapper"></div>
+          <div id="deptError" class="error-message" style="display: none;"></div>
+        </div>
+      </div>
+
+      <!-- STEP 2 - Account Security (initially hidden) -->
+      <div id="step2Container" style="display: none;">
+        <div class="step-title">Step 2: Account Security</div>
+        <div class="input-group">
+          <label class="input-label">Email Address</label>
+          <input type="email" id="signupEmail" class="input-field" placeholder="e.g. juan@vsu.edu.ph">
+          <div id="signupEmailError" class="error-message" style="display: none;"></div>
+        </div>
+        <div class="input-group">
+          <label class="input-label">Password</label>
+          <input type="password" id="signupPassword" class="input-field" placeholder="At least 8 characters">
+          <div id="signupPwdError" class="error-message" style="display: none;"></div>
+        </div>
+        <div class="input-group">
+          <label class="input-label">Confirm Password</label>
+          <input type="password" id="confirmPassword" class="input-field" placeholder="Re-enter your password">
+          <div id="confirmError" class="error-message" style="display: none;"></div>
+        </div>
+        <div class="consent-row">
+          <div id="consentCheckbox" class="custom-checkbox"></div>
+          <div class="policy-text">
+            I agree to the <span class="policy-link-highlight">Data Privacy Policy</span> and consent to the collection of my personal data for guidance services.
+          </div>
+        </div>
+        <div id="agreeError" class="error-message" style="display: none;"></div>
+      </div>
+
+      <!-- Action Buttons (Next/Back/Submit) -->
+      <div class="action-buttons">
+        <button id="backButton" class="btn-back" style="display: none;">Back</button>
+        <button id="nextButton" class="btn-next">Next</button>
+        <button id="submitButton" class="btn-submit" style="display: none;">Sign Up</button>
+      </div>
+    </div>
+
+    <!-- Login integration placeholder (to be linked later) -->
+    <div class="login-redirect">
+      <div class="login-message">
+        🔗 Already have an account? 
+		<!-- <strong>To be integrated with login later.</strong> -->
+		<a href="login.html">
+			<button id="loginLinkBtn" class="login-link">Log In</button>
+		</a>
+      </div>
+    </div>
+    <div class="integration-note">
+      ⚡ UI/UX Prototype — Registration flow (pending approval simulation). No Firebase connection.
+    </div>
+  </div>
+</div>
+
+<!-- Custom Modal Alert Component -->
+<div id="globalAlert" class="modal-mask">
+  <div class="modal-dialog">
+    <h3 id="alertTitle">Alert</h3>
+    <p id="alertMessage">Message</p>
+    <button id="alertConfirmBtn" class="modal-ok-btn">OK</button>
+  </div>
+</div>
+
+<script>
+  // ============================================================
+  // GUIDE-Me Signup Screen (Standalone) | UI/UX Prototype
+  // Simulates the exact flow from signup.tsx without Firebase.
+  // Features: multi-step, validation, department chips, mock account creation,
+  // "pending approval" state, email simulation, and full interaction.
+  // Login link placeholder included for later integration.
+  // ============================================================
+
+  // ---------- Departments list (matching original) ----------
+  const DEPARTMENTS = [
+    'Department of Information Technology (DIT)',
+    'Department of Business Management (DBM)',
+    'Department of Civil Engineering (DCE)',
+    'Department of Mechanical Engineering (DME)',
+    'Department of Industrial Engineering (DIE)',
+    'Department of Arts and Sciences (DAS)',
+    'Department of Teacher Education (DTE)',
+  ];
+
+  // Mock "database" for users (localStorage to persist demo users across refreshes)
+  let mockUsers = JSON.parse(localStorage.getItem('guideMe_mockUsers_Signup') || '[]');
+
+  // ---------- DOM Elements ----------
+  const step1Container = document.getElementById('step1Container');
+  const step2Container = document.getElementById('step2Container');
+  const step1Dot = document.getElementById('step1Dot');
+  const step2Dot = document.getElementById('step2Dot');
+  const nextBtn = document.getElementById('nextButton');
+  const backBtn = document.getElementById('backButton');
+  const submitBtn = document.getElementById('submitButton');
+
+  // Inputs
+  const fullNameInput = document.getElementById('fullName');
+  const idNumberInput = document.getElementById('idNumber');
+  const signupEmail = document.getElementById('signupEmail');
+  const signupPassword = document.getElementById('signupPassword');
+  const confirmPassword = document.getElementById('confirmPassword');
+  const deptChipsContainer = document.getElementById('deptChipsContainer');
+  const consentCheckboxDiv = document.getElementById('consentCheckbox');
+
+  // Error spans
+  const fullNameErr = document.getElementById('fullNameError');
+  const idNumberErr = document.getElementById('idNumberError');
+  const deptErr = document.getElementById('deptError');
+  const signupEmailErr = document.getElementById('signupEmailError');
+  const signupPwdErr = document.getElementById('signupPwdError');
+  const confirmErr = document.getElementById('confirmError');
+  const agreeErr = document.getElementById('agreeError');
+
+  // State variables
+  let currentStep = 1;
+  let selectedDepartment = '';
+  let privacyChecked = false;
+
+  // ---------- Helper: Custom Alert (cross-platform style) ----------
+  function showAlert(title, message, onCloseCallback) {
+    const modal = document.getElementById('globalAlert');
+    document.getElementById('alertTitle').innerText = title;
+    document.getElementById('alertMessage').innerText = message;
+    modal.classList.add('active');
+    const confirmBtn = document.getElementById('alertConfirmBtn');
+    const closeHandler = () => {
+      modal.classList.remove('active');
+      confirmBtn.removeEventListener('click', closeHandler);
+      if (onCloseCallback) onCloseCallback();
+    };
+    confirmBtn.addEventListener('click', closeHandler, { once: true });
+  }
+
+  // ---------- Render department chips ----------
+  function renderDepartmentChips() {
+    deptChipsContainer.innerHTML = '';
+    DEPARTMENTS.forEach((dept) => {
+      const chip = document.createElement('div');
+      chip.className = 'dept-chip';
+      if (selectedDepartment === dept) chip.classList.add('selected');
+      const shortCode = dept.match(/\(([^)]+)\)/)?.[1] ?? dept.split(' ')[0];
+      chip.innerText = shortCode;
+      chip.addEventListener('click', () => {
+        selectedDepartment = dept;
+        renderDepartmentChips();
+        if (deptErr) deptErr.style.display = 'none';
+      });
+      deptChipsContainer.appendChild(chip);
+    });
+  }
+
+  // ---------- Checkbox UI update ----------
+  function updateCheckboxUI() {
+    consentCheckboxDiv.innerHTML = '';
+    if (privacyChecked) {
+      consentCheckboxDiv.classList.add('checked');
+      const tickSpan = document.createElement('span');
+      tickSpan.className = 'check-tick';
+      tickSpan.innerText = '✓';
+      consentCheckboxDiv.appendChild(tickSpan);
+    } else {
+      consentCheckboxDiv.classList.remove('checked');
+    }
+  }
+  consentCheckboxDiv.addEventListener('click', () => {
+    privacyChecked = !privacyChecked;
+    updateCheckboxUI();
+    if (agreeErr) agreeErr.style.display = 'none';
+  });
+
+  // ---------- Clear all error highlights ----------
+  function clearErrors() {
+    const errorDivs = [fullNameErr, idNumberErr, deptErr, signupEmailErr, signupPwdErr, confirmErr, agreeErr];
+    errorDivs.forEach(err => { if (err) err.style.display = 'none'; });
+    const inputFields = [fullNameInput, idNumberInput, signupEmail, signupPassword, confirmPassword];
+    inputFields.forEach(inp => inp.classList.remove('input-error-field'));
+  }
+
+  // ---------- Step 1 validation ----------
+  function validateStep1() {
+    let isValid = true;
+    const fullName = fullNameInput.value.trim();
+    const idNum = idNumberInput.value.trim();
+
+    if (!fullName) {
+      fullNameErr.innerText = 'Full name is required.';
+      fullNameErr.style.display = 'block';
+      fullNameInput.classList.add('input-error-field');
+      isValid = false;
+    } else {
+      fullNameErr.style.display = 'none';
+      fullNameInput.classList.remove('input-error-field');
+    }
+
+    if (!idNum) {
+      idNumberErr.innerText = 'ID number is required.';
+      idNumberErr.style.display = 'block';
+      idNumberInput.classList.add('input-error-field');
+      isValid = false;
+    } else {
+      idNumberErr.style.display = 'none';
+      idNumberInput.classList.remove('input-error-field');
+    }
+
+    if (!selectedDepartment) {
+      deptErr.innerText = 'Please select your department.';
+      deptErr.style.display = 'block';
+      isValid = false;
+    } else {
+      deptErr.style.display = 'none';
+    }
+    return isValid;
+  }
+
+  // ---------- Step 2 validation ----------
+  function validateStep2() {
+    let isValid = true;
+    const email = signupEmail.value.trim();
+    const pwd = signupPassword.value;
+    const confirm = confirmPassword.value;
+
+    if (!email) {
+      signupEmailErr.innerText = 'Email address is required.';
+      signupEmailErr.style.display = 'block';
+      signupEmail.classList.add('input-error-field');
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      signupEmailErr.innerText = 'Enter a valid email address.';
+      signupEmailErr.style.display = 'block';
+      signupEmail.classList.add('input-error-field');
+      isValid = false;
+    } else {
+      signupEmailErr.style.display = 'none';
+      signupEmail.classList.remove('input-error-field');
+    }
+
+    if (!pwd) {
+      signupPwdErr.innerText = 'Password is required.';
+      signupPwdErr.style.display = 'block';
+      signupPassword.classList.add('input-error-field');
+      isValid = false;
+    } else if (pwd.length < 8) {
+      signupPwdErr.innerText = 'Password must be at least 8 characters.';
+      signupPwdErr.style.display = 'block';
+      signupPassword.classList.add('input-error-field');
+      isValid = false;
+    } else {
+      signupPwdErr.style.display = 'none';
+      signupPassword.classList.remove('input-error-field');
+    }
+
+    if (!confirm) {
+      confirmErr.innerText = 'Please confirm your password.';
+      confirmErr.style.display = 'block';
+      confirmPassword.classList.add('input-error-field');
+      isValid = false;
+    } else if (pwd !== confirm) {
+      confirmErr.innerText = 'Passwords do not match.';
+      confirmErr.style.display = 'block';
+      confirmPassword.classList.add('input-error-field');
+      isValid = false;
+    } else {
+      confirmErr.style.display = 'none';
+      confirmPassword.classList.remove('input-error-field');
+    }
+
+    if (!privacyChecked) {
+      agreeErr.innerText = 'You must agree to the Data Privacy Policy.';
+      agreeErr.style.display = 'block';
+      isValid = false;
+    } else {
+      agreeErr.style.display = 'none';
+    }
+    return isValid;
+  }
+
+  // ---------- Step navigation UI ----------
+  function updateStepUI() {
+    if (currentStep === 1) {
+      step1Container.style.display = 'block';
+      step2Container.style.display = 'none';
+      nextBtn.style.display = 'block';
+      backBtn.style.display = 'none';
+      submitBtn.style.display = 'none';
+      step1Dot.classList.add('active');
+      step2Dot.classList.remove('active');
+    } else {
+      step1Container.style.display = 'none';
+      step2Container.style.display = 'block';
+      nextBtn.style.display = 'none';
+      backBtn.style.display = 'block';
+      submitBtn.style.display = 'block';
+      step1Dot.classList.remove('active');
+      step2Dot.classList.add('active');
+    }
+    clearErrors();
+  }
+
+  function goToNextStep() {
+    if (validateStep1()) {
+      currentStep = 2;
+      updateStepUI();
+    }
+  }
+
+  function goToPreviousStep() {
+    currentStep = 1;
+    updateStepUI();
+  }
+
+  // ---------- Signup Submission (mock account creation, pending approval) ----------
+  let isSubmitting = false;
+  async function submitRegistration() {
+    if (!validateStep2()) return;
+    if (isSubmitting) return;
+    isSubmitting = true;
+    // show loading effect on button
+    const originalBtnText = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="spinner-icon"></span> Creating...';
+
+    const email = signupEmail.value.trim().toLowerCase();
+    const existingUser = mockUsers.find(u => u.email === email);
+    if (existingUser) {
+      showAlert('Sign Up Failed', 'This email is already registered.', () => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+        isSubmitting = false;
+      });
+      return;
+    }
+
+    // Simulate async Firestore write
+    await new Promise(resolve => setTimeout(resolve, 800));
+
+    // Create new user object with 'pending' status (zero-trust)
+    const newUser = {
+      uid: 'user_' + Date.now() + Math.random().toString(36).substr(2, 6),
+      email: email,
+      displayName: fullNameInput.value.trim(),
+      role: 'student',
+      status: 'pending',           // 🔐 Requires admin approval (zero-trust)
+      studentId: idNumberInput.value.trim(),
+      department: selectedDepartment,
+      createdAt: new Date().toISOString(),
+    };
+    mockUsers.push(newUser);
+    localStorage.setItem('guideMe_mockUsers_Signup', JSON.stringify(mockUsers));
+
+    // Simulate sending email notification (mock)
+    console.log(`📧 Mock email sent to ${email}: Account pending approval`);
+
+    // Success feedback with redirect placeholder (login integration will be linked later)
+    showAlert(
+      'Registration Successful 🎉',
+      '✅ Account created, pending admin approval.',
+    );
+	setTimeout(() => {
+        window.location.href = "login.html";
+      }, 1200);
+  }
+
+  function resetFormToInitial() {
+    fullNameInput.value = '';
+    idNumberInput.value = '';
+    signupEmail.value = '';
+    signupPassword.value = '';
+    confirmPassword.value = '';
+    selectedDepartment = '';
+    privacyChecked = false;
+    currentStep = 1;
+    updateCheckboxUI();
+    renderDepartmentChips();
+    updateStepUI();
+    clearErrors();
+  }
+
+  // ---------- Event binding ----------
+  nextBtn.addEventListener('click', goToNextStep);
+  backBtn.addEventListener('click', goToPreviousStep);
+  submitBtn.addEventListener('click', submitRegistration);
+
+  // ---------- Helper for hint cleanup on input ----------
+  function attachLiveValidation() {
+    const inputs = [fullNameInput, idNumberInput, signupEmail, signupPassword, confirmPassword];
+    inputs.forEach(inp => {
+      inp.addEventListener('input', () => {
+        inp.classList.remove('input-error-field');
+        const relatedErr = {
+          [fullNameInput]: fullNameErr,
+          [idNumberInput]: idNumberErr,
+          [signupEmail]: signupEmailErr,
+          [signupPassword]: signupPwdErr,
+          [confirmPassword]: confirmErr,
+        }[inp];
+        if (relatedErr) relatedErr.style.display = 'none';
+      });
+    });
+  }
+
+  // Initial render
+  renderDepartmentChips();
+  updateCheckboxUI();
+  updateStepUI();
+  attachLiveValidation();
+
+  // Demo seeded user note: ensure UI is ready (no auto seed interfering)
+  if (!mockUsers.some(u => u.email === 'demo-pending@vsu.edu.ph')) {
+    // Optionally add a dummy pending user for demo but not needed
+  }
+</script>
+</body>
+</html>
